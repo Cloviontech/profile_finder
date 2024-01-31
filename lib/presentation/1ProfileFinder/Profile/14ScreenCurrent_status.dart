@@ -99,8 +99,8 @@ class _SixteenCurrentStatusState extends State<SixteenCurrentStatus> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ColorConstant.whiteA700,
-        appBar: ClAppbarLeadGridSuffHeart(
-            testingNextPage: WhereIsTheSanFourtyThreeScreen()),
+        appBar:  ClAppbarLeadArrowBackSuffNo(
+          title: '',),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),

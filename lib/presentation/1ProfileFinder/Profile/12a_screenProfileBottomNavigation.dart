@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:profile_finder/core/utils/image_constant.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/Complaints/WriteYourComplaintPfScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/HappyCouplesUI/HappyCouplesPackagesThirtySixScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/every_male_fourty_nine_screen/EveryMaleFourtyNineScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/AllInvestigatorThirtyEightScreen.dart';
@@ -329,6 +330,25 @@ class _ProfileBottomNavigationScreenState
                       child: Text(
                         "Account Settings",
                         style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    GestureDetector(
+
+                      onTap: () {
+                         Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return  WriteYourComplaintPfScreen(private_investicator_id_ques: userUid,);
+                          }),
+                        );
+                        
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "Complaints",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                     const Padding(

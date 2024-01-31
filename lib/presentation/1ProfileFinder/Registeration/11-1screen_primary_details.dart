@@ -363,20 +363,122 @@ class _ThirteenScreenPrimaryDetailsState
     // final file4 = filee;
     // final file5 = filee;
 
-    request.fields['marital_status'] =
-        preferences.getString("maritalStatusPrimaryDetails").toString();
-    request.fields['physical_mental_status'] =
-        preferences.getString("physical_mental_status").toString();
-    request.fields['primary_email'] =
-        preferences.getString("emailPrimaryDetails").toString();
-    request.fields['primary_phone_number'] =
-        preferences.getString("phoneNumberPrimaryDetails").toString();
+    
+    // request.fields['marital_status'] = 'maritalStatusPrimaryDetails';
+    // request.fields['physical_mental_status'] = 'physical_mental_status';
+    
+    // request.fields['primary_email'] = 'emailPrimaryDetails@gmail.com';
+       
+    // request.fields['primary_phone_number'] ='phoneNumberPrimaryDetails';
+      
 
-    // request.fields['dob'] = dob;
+
+    // // request.fields['dob'] = 'dateofBirthPrimary';
+       
+    // request.fields['why_marry'] = 'whyShouldMarry';
+       
+    // request.fields['behind_decision'] = 'exactReason';
+       
+    // request.fields['education_school'] = 'school';
+      
+    // request.fields['education_year'] = 'schoolYearOfCompletion';
+      
+    // request.fields['education_course'] = 'schoolCourse';
+        
+    // request.fields['education_major'] = 'schoolMajor';
+      
+    // request.fields['are_you_working_now'] = 'areYouWorkingNow';
+       
+    // request.fields['company_name'] = 'companyName';
+       
+    // request.fields['position'] = 'Position';
+    // request.fields['profession'] =
+    //     'schoolYearOfCompletion';
+
+    // request.fields['salary_range'] =
+    //    'salaryRange';
+
+    // request.fields['your_intrest'] =
+    //     'yourInterest';
+    // // request.fields['your_intrest'] =
+    // //     preferences.getString('schoolYearOfCompletion').toString();
+    // // request.fields['your_intrest'] =
+    // //     preferences.getString('schoolYearOfCompletion').toString();
+
+    // request.fields['non_intrest'] =
+    //     'nonInterest';
+    // // request.fields['non_intrest'] =
+    // //     preferences.getString('schoolYearOfCompletion').toString();
+
+    // request.fields['complexion'] =
+    //     'complexion';
+    // request.fields['food_taste'] =
+    //     'foodTasteVegOrNon';
+    // // request.fields['food_taste'] =
+    // //     preferences.getString('schoolYearOfCompletion').toString();
+
+    // request.fields['daily_diet_plan'] =
+    //     'dietPlan';
+    // request.fields['carriying_after_marriage'] =
+    //    'carryingAfterMarriage';
+    // request.fields['tobacco'] = 'useTobacco';
+    // request.fields['alcohol'] =
+    //     'consumeAlcohol';
+    // request.fields['drugs'] = 'useDrugs';
+    // request.fields['criminal_offence'] =
+    //    'criminalOffenses';
+    // request.fields['primary_country'] =
+    //    'schoolYearOfCompletion';
+
+    // request.files
+    //     .add(await http.MultipartFile.fromPath('selfie', headsizeFile!.path));
+
+    // request.files.add(await http.MultipartFile.fromPath(
+    //     'full_size_image', fullsizeFile!.path));
+
+    // request.files.add(await http.MultipartFile.fromPath(
+    //     'family_image', familyGroupPhotoFile!.path));
+
+    // request.files
+    //     .add(await http.MultipartFile.fromPath('gallery', filee!.path));
+//
+//
+//
+
+    // for (var i = 0; i < selectedImages.length; i++) {
+    //   request.files.add(
+    //       await http.MultipartFile.fromPath('gallery', selectedImages[i].path));
+    // }
+
+    // request.files.add(
+    //     await http.MultipartFile.fromPath('horoscope', horoscopeFile!.path));
+
+    // request.fields['profile_tag'] =
+    //     'profileTagline';
+    // request.fields['treet_mypartner'] =
+    //     'treatMyPartner';
+    // request.fields['treet_their_side'] =
+    //    'treatFromTheirSide';
+    // request.fields['orphan'] ='orphan';
+    // request.fields['disable'] ='disable';
+    // request.fields['whichorgan'] = 'disable';
+
+    // 38
+
+    request.fields['marital_status'] =
+        preferences.getString('maritalStatusPrimaryDetails').toString();
+    request.fields['physical_mental_status'] =
+        preferences.getString('physical_mental_status').toString();
+    request.fields['primary_email'] =
+        preferences.getString('emailPrimaryDetails').toString();
+    request.fields['primary_phone_number'] =
+        preferences.getString('phoneNumberPrimaryDetails').toString();
+
+//     // request.fields['dob'] = dob;
     //  request.fields['dob'] = '1999-05-08';
 
     request.fields['dob'] =
-        preferences.getString("dateofBirthPrimary").toString();
+        preferences.getString('dateofBirthPrimary').toString();
     request.fields['why_marry'] =
         preferences.getString("whyShouldMarry").toString();
     request.fields['behind_decision'] =
@@ -443,9 +545,9 @@ class _ThirteenScreenPrimaryDetailsState
 
     // request.files
     //     .add(await http.MultipartFile.fromPath('gallery', filee!.path));
-//
-//
-//
+// //
+// //
+// //
 
     for (var i = 0; i < selectedImages.length; i++) {
       request.files.add(
@@ -465,6 +567,20 @@ class _ThirteenScreenPrimaryDetailsState
     request.fields['disable'] = preferences.getString("disable").toString();
     request.fields['whichorgan'] = preferences.getString("disable").toString();
 
+
+
+
+
+for (var element in request.fields.entries) {
+  print('${element.key} : ${element.value}');
+}
+
+for (var element in request.files) {
+  print(element.filename);
+  
+}
+// print(request.fields.entries);
+// print(request.files);
     try {
       final send = await request.send();
       final response = await http.Response.fromStream(send);

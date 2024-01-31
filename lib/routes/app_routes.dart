@@ -185,9 +185,9 @@ class AppRoutes {
     eightUploadIDScreen: (context) => EightUploadTheIDScreen(),
 
     nineThisProfileForWhomScreen: (context) => NineThisProfileForWhomScreen(),
-    tenFillTheFormScreen: (context) => TenFillTheFormScreen(),
+    tenFillTheFormScreen: (context) => TenFillTheFormScreen(registerForWhomm: '',),
     // iphone1313ProTenScreen: (context) => Iphone1313ProTenScreen(),
-    ElevenPrimaryDetailsScreen: (context) => ThirteenScreen(),
+    ElevenPrimaryDetailsScreen: (context) => ThirteenScreen(registerForWhom: '',),
     TwelveFamilyDetailsScreen: (context) =>
         Thirteen_Screen_Family_DetailsScreen(),
 
@@ -197,8 +197,8 @@ class AppRoutes {
     // iphone1313ProFifteenScreen: (context) => Iphone1313ProFifteenScreen(),
 
     WidgetTextAndTextformFieldTwelveScreenscr: (context) =>
-        TenFillTheFormScreen(),
-    ThirteenScreenscr: (context) => ThirteenScreen(),
+        TenFillTheFormScreen(registerForWhomm: '',),
+    ThirteenScreenscr: (context) => ThirteenScreen(registerForWhom: '',),
 
     Thirteen_Screen_Family_DetailsScreenScr: (context) =>
         Thirteen_Screen_Family_DetailsScreen(),

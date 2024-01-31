@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../widgets/UploadDocument.dart';
 
 class TenFillTheFormScreen extends StatefulWidget {
+
+
+  final String registerForWhomm;
+
+  const TenFillTheFormScreen({super.key, required this.registerForWhomm});
+
+
   @override
   State<TenFillTheFormScreen> createState() => _TenFillTheFormScreenState();
 }
@@ -130,7 +136,7 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
 
   Uint8List? fileBytes;
 
-  var collection = FirebaseFirestore.instance.collection('ProfileInfo');
+  // var collection = FirebaseFirestore.instance.collection('ProfileInfo');
 
   PlatformFile? pickedFile;
 
@@ -206,7 +212,7 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
 
   String? valueChoose;
 
-  Future uploadDataAbijith() async {
+  Future uploadDataFilltheform() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     uidUser = preferences.getString("uid2").toString();
@@ -216,6 +222,7 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
     final url =
         Uri.parse("http://${ApiService.ipAddress}/profileform/$uidUser");
     final request = http.MultipartRequest('POST', url);
+     Navigator.pushNamed(context, AppRoutes.ThirteenScreenscr); // temperory
     // final file = File('/home/abijith/Pictures/flower.jpeg');
     // request.files.add(await http.MultipartFile.fromPath('id_card_2', file.path));
     // request.fields['name'] = 'Abijith';
@@ -258,8 +265,12 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
         preferences.getString("nameOfapplicant").toString();
     request.fields['address'] =
         preferences.getString("addressOfapplicant").toString();
-    request.fields['height'] = height.toString();
-    request.fields['weight'] = weight.toString();
+    request.fields['height'] = 
+    // height.toString();
+    "155";
+    request.fields['weight'] = 
+    // weight.toString();
+    '55';
     request.fields['marital'] = marital.toString();
     request.fields['physical'] = physical.toString();
     request.fields['religion'] = religion.toString();
@@ -298,6 +309,7 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
       final response = await http.Response.fromStream(send);
       print(response.statusCode);
       print(response.body);
+      
       if (response.statusCode == 200) {
         Navigator.pushNamed(context, AppRoutes.ThirteenScreenscr);
       }
@@ -378,10 +390,10 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
                   // textFieldController: controller[0] ,
 
                   onChanged: (newValue) {
-                    // print("controller value is ${controller[0].value}");
-                    // setState(() {
-                    //   height=newValue;
-                    // });
+                    print("controller value is ${controller[0].value}");
+                    setState(() {
+                      height=newValue;
+                    });
                     saveToSharedPrefferences("height", newValue);
                   },
                 ),
@@ -391,9 +403,9 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
                   textFieldTitle: "Weight in KGLB*",
                   // textFieldController: controller[1] ,
                   onChanged: (newValue) {
-                    // setState(() {
-                    //    weight=newValue;
-                    // });
+                    setState(() {
+                       weight=newValue;
+                    });
                     saveToSharedPrefferences("weight", newValue);
                   },
                 ),
@@ -424,10 +436,10 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
                   DdbHint: "Select",
                   DbdItems: religionSts,
                   onChanged: (newValue) {
-                    // setState(() {
-                    //   dropdownValue = newValue!;
-                    //   religion=newValue;
-                    // });
+                    setState(() {
+                      dropdownValue = newValue!;
+                      religion=newValue;
+                    });
 
                     saveToSharedPrefferences("religion", newValue);
                   },
@@ -437,9 +449,9 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
                   textFieldTitle: "Age*",
                   // textFieldController: controller[2],
                   onChanged: (newValue) {
-                    // setState(() {
-                    //    age=newValue;
-                    // });
+                    setState(() {
+                       age=newValue;
+                    });
 
                     saveToSharedPrefferences("age", newValue);
                   },
@@ -977,7 +989,7 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
                       onPressed: () {
                         print("Uploading Data to aws");
 
-                        uploadDataAbijith();
+                        uploadDataFilltheform();
 
                         // Navigator.pushNamed(
                         //     context, AppRoutes.ThirteenScreenscr);

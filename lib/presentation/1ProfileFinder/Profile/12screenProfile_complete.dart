@@ -206,16 +206,20 @@ class _FourteenProfileCompletenessState
                                     decoration: const BoxDecoration(
                                         // borderRadius: BorderRadius.circular(10),
                                         shape: BoxShape.circle),
-                                    child: _users.selfie!.isEmpty
-                                        ? const Image(
-                                            image: AssetImage(
-                                                'assets/images/img_maskgroup.png'))
-                                        : SizedBox(
+                                    child:
+                                    //  _users.profilePicture!.isEmpty
+                                    //     ? const Image(
+                                    //         image: AssetImage(
+                                    //             'assets/images/img_maskgroup.png'))
+                                    //     : 
+                                        SizedBox(
                                             // height: 100,
                                             width: 100,
                                             child: CircleAvatar(
                                               backgroundImage: NetworkImage(
-                                                  _users.profilePicture.toString()),
+                                                  _users.profilePicture.toString(),
+                                                  ),
+                                              // child: Image.network( _users.profilePicture.toString(),),
                                             ),
                                           ),
                                   ),

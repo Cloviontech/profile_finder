@@ -108,7 +108,7 @@ class ColorConstant {
   static Color clTextFormfieldFilledColor = fromHex('#f4f4f4');
   static Color clContainerFilledColorgrey = fromHex('#d8e4eb');
 
-  static Color clElevatedButtonColor = fromHex('#7b61ff');
+  static Color clElevatedButtonColor = fromHex('#7b61ff'); 
   static Color clElevatedButtonColor2 = fromHex('#f2efff');
   static Color clElevatedButtonFontColor = fromHex('#9680ff');
 

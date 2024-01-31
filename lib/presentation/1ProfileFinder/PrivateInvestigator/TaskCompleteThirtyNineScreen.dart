@@ -3,9 +3,14 @@ import 'package:profile_finder/core/utils/size_utils.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/PaymentOfInvestigatorFourtyScreen.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomClAll.dart';
 
-class TaskCompleteThirtyNineScreen extends StatelessWidget {
+class TaskCompleteThirtyNineScreen extends StatefulWidget {
   const TaskCompleteThirtyNineScreen({super.key});
 
+  @override
+  State<TaskCompleteThirtyNineScreen> createState() => _TaskCompleteThirtyNineScreenState();
+}
+
+class _TaskCompleteThirtyNineScreenState extends State<TaskCompleteThirtyNineScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

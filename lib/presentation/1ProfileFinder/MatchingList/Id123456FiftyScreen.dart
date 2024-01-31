@@ -67,6 +67,8 @@ class _Id123456FiftyScreenState extends State<Id123456FiftyScreen> {
 
   static late List<UserModel>? _userModel = [];
 
+  // List _maleUsers
+
   @override
   void initState() {
     _getData();
@@ -177,40 +179,58 @@ class _Id123456FiftyScreenState extends State<Id123456FiftyScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  height: DeviceSize.itemHeight / 6,
+                                  // height: DeviceSize.itemHeight / 6,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: ColorConstant.clPurple05),
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                      // 'ID:123456',
-                                      "ID  :  " +
-                                          _userModel![widget.userUidMaLi]
-                                              .uid
-                                              .toString(),
-                                      // "ID  : ${widget.userUidMaLi}",
-                                      // getIndex(widget.userUidMaLi.toString()).toString(),
-                                      // getIndex("JJ30LIE1RVQ"),
-                                      // "test",
-
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: DeviceSize.itemHeight / 15),
+                                    child: Center(
+                                      child: Text(
+                                        // 'ID:123456',
+                                        "ID  :  " +
+                                            _userModel![widget.userUidMaLi]
+                                                .uid
+                                                .toString(),
+                                        // "ID  : ${widget.userUidMaLi}",
+                                        // getIndex(widget.userUidMaLi.toString()).toString(),
+                                        // getIndex("JJ30LIE1RVQ"),
+                                        // "test",
+                                      
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: DeviceSize.itemHeight / 15),
+                                      ),
                                     ),
                                   ),
                                 ),
-                                Text(
-                                  checkContains("uid").toString(),
-                                  // "test",
-                                  // StringUtils.capitalize(
-                                  //     _userModel![widget.userUidMaLi]
-                                  //         .address
-                                  //         .toString()),
-                                  style: TextStyle(
-                                    // fontWeight: FontWeight.bold,
-                                    fontSize: DeviceSize.itemHeight / 15,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      // checkContains("uid").toString(),
+                                      // "test",
+                                      // StringUtils.capitalize(
+                                          _userModel![widget.userUidMaLi]
+                                              .birthCity
+                                              .toString(),
+                                      style: TextStyle(
+                                        // fontWeight: FontWeight.bold,
+                                        fontSize: DeviceSize.itemHeight / 15,
+                                      ),
+                                    ),
+                                    Text(' , '),
+                                      Text(
+                                      
+                                      // StringUtils.capitalize(
+                                          _userModel![widget.userUidMaLi]
+                                              .rCountry
+                                              .toString(),
+                                      style: TextStyle(
+                                       
+                                        fontSize: DeviceSize.itemHeight / 15,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 Text(
                                   // 'Life is full of possibility',
@@ -989,8 +1009,10 @@ class _Id123456FiftyScreenState extends State<Id123456FiftyScreen> {
                       // imageWord2: _userModel![1].address.toString(),
                       imageWord3: "Life is full of Possibility",
                       imageWord4: "Online",
-                      listLength: _userModel!.length,
-                      imageAddress: _userModel![0].selfie.toString(),
+                      // listLength: _userModel!.length,
+                      listLength:widget.userUidMaLi,
+                      //  _userModel![widget.userUidMaLi].selfie.toString(),
+                      imageAddress: _userModel![widget.userUidMaLi].selfie.toString(),
                       listType: 'Related List',
                     ),
 

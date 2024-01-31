@@ -13,6 +13,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../MatchingList/1screen_advertisement.dart';
 
+
+
+
+
+class ApiServices {
+  static const String ipAddress2 = "10.0.2.2:8000";
+}
+
 class ThreeSigninScreen extends StatefulWidget {
   const ThreeSigninScreen({super.key});
 
@@ -99,7 +107,7 @@ class _ThreeSigninScreenState extends State<ThreeSigninScreen> {
       });
       print(preferences.getString("uid2").toString());
 
-      Navigator.pushNamed(context, AppRoutes.sevenChooseServiceScreen); //permanent
+      Navigator.pushNamed(context, AppRoutes.eightUploadIDScreen); //permanent
       //  Navigator.pushNamed(
       //         context, AppRoutes.FourteenScreenBottomNavigationscr);  // Temperory for testing use only
     } else {
@@ -397,9 +405,10 @@ class _ThreeSigninScreenState extends State<ThreeSigninScreen> {
                               borderRadius: BorderRadius.circular(10),
                               width: double.maxFinite,
                               backgroundColor: Colors.transparent,
-                              child: const Text(
+                              child:  Text(
                                 'Sign In',
                                 style: TextStyle(
+                                  color: Colors.white,
                                     fontFamily: 'Roboto',
                                     fontWeight: FontWeight.w700,
                                     fontSize: 18),

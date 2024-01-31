@@ -295,6 +295,11 @@ class _FiveOtpEnteringScreenState extends State<FiveOtpEnteringScreen> {
                         isOtpEmpty: isOtpEmpty,
                         child: const Text(
                           'Validate',
+                           style: TextStyle(
+                                  color: Colors.white,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18),
                         )),
 
                     const Padding(

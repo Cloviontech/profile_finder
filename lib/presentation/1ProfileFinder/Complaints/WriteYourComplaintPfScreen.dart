@@ -3,10 +3,13 @@
 
 
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/core/utils/size_utils.dart';
+import 'package:profile_finder/model_final/complaints/all_pm_data_list_model.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/HighlightProfile/HighlightProfileFourtySixScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/WhereIsTheSanFourtyThreeScreen.dart';
@@ -15,16 +18,16 @@ import 'package:profile_finder/widgets/CustomWidgetsCl/CustomWidgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class WriteYourQuestionFourtyFiveScreen extends StatefulWidget {
-  const WriteYourQuestionFourtyFiveScreen({super.key, required this.private_investicator_id_ques});
+class WriteYourComplaintPfScreen extends StatefulWidget {
+  const WriteYourComplaintPfScreen({super.key, required this.private_investicator_id_ques});
 
   final String private_investicator_id_ques;
 
   @override
-  State<WriteYourQuestionFourtyFiveScreen> createState() => _WriteYourQuestionFourtyFiveScreenState();
+  State<WriteYourComplaintPfScreen> createState() => _WriteYourComplaintPfScreenState();
 }
 
-class _WriteYourQuestionFourtyFiveScreenState extends State<WriteYourQuestionFourtyFiveScreen> {
+class _WriteYourComplaintPfScreenState extends State<WriteYourComplaintPfScreen> {
  
 String profile_finder_id = '';
 
@@ -32,7 +35,7 @@ String profile_finder_id = '';
 // String questionn = '';
 
      // Asking Questions to Private Investigator
-ask_question_to_private_investigator( String questionn) async{
+complaint( String complaint) async{
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
     profile_finder_id = preferences.getString("uid2").toString();
@@ -41,10 +44,9 @@ ask_question_to_private_investigator( String questionn) async{
   final body;
   // const profile_finder_id = "VHNK85TM5TV";
   // const my_private_investicator_id = "Y9M0YCN82YA";
-  final url = Uri.parse("http://${ApiService.ipAddress}/my_question_and_answer/$profile_finder_id");
+  final url = Uri.parse("http://${ApiService.ipAddress}/my_complaints/$profile_finder_id");
   var request = http.MultipartRequest('POST', url);
-  request.fields['my_investigator'] = widget.private_investicator_id_ques;
-  request.fields['Questin'] = questionn; // TextEditingController()
+  request.fields['my_manager'] = complaint; // TextEditingController()
   try {
     final response = await request.send();
     statusCode = response.statusCode;
@@ -52,7 +54,6 @@ ask_question_to_private_investigator( String questionn) async{
     print("Prof finder id : $profile_finder_id");
     print("Priv inv id: ${widget.private_investicator_id_ques}");
     print("Status Code : $statusCode");
-    print("Question : $questionn");
     print("Body : $body");
     
     
@@ -70,8 +71,73 @@ ask_question_to_private_investigator( String questionn) async{
   }
 }
 
+  static List<AllPmDataList> model =[];
 
-TextEditingController questionControllerScreen = TextEditingController();
+  Future<List<AllPmDataList>?> _fetchallPmDataList() async {
+    debugPrint('entering getUsers function');
+    try {
+      // var url = Uri.parse("http://$ipAddress/alluserdata");
+       var url = Uri.parse("http://${ApiService.ipAddress}/all_pm_data");
+      //  var url = Uri.parse("http://127.0.0.1:3000/alluserdata");
+       
+
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        List<AllPmDataList> model = allPmDataListFromJson(response.body);
+        return model;
+      }
+      
+      debugPrint('error code');
+      print(response.statusCode);
+    } catch (e) {
+      // log(e.toString());
+      print("error $e");
+    }
+    return model;
+  }
+
+  List _allPmUidList = [];
+
+
+_allPmDataListLooping (){
+
+  for (var i = 0; i < model.length; i++) {
+
+_allPmUidList.add(model[i].uid);
+    
+  }
+
+
+  for (var j = 0; j < _allPmUidList.length; j++) {
+    
+    
+  }
+}
+
+
+
+
+
+
+
+
+  
+
+
+
+
+TextEditingController _complaintController = TextEditingController();
+
+
+
+
+@override
+  void initState() {
+   _fetchallPmDataList();
+    super.initState();
+  }
+
+
  
  
  
@@ -89,7 +155,7 @@ TextEditingController questionControllerScreen = TextEditingController();
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Text(
-                'Question',
+                'Complaints',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               SizedBox(
@@ -97,7 +163,7 @@ TextEditingController questionControllerScreen = TextEditingController();
               ),
              
               Text(
-                'write your question here',
+                'write your Complaint here',
                 style: TextStyle(
                   // fontWeight: FontWeight.bold,
                  fontSize: DeviceSize.itemHeight/15),
@@ -112,7 +178,7 @@ TextEditingController questionControllerScreen = TextEditingController();
 
               TextFormField(
 
-      controller: questionControllerScreen ,
+      controller: _complaintController ,
      
       // expands: true,
       maxLines: 5,
@@ -187,7 +253,7 @@ TextEditingController questionControllerScreen = TextEditingController();
               flex: 10,
               child: MyElevatedButton(
                   onPressed: () {
-                    ask_question_to_private_investigator(questionControllerScreen.text);
+                    complaint(_complaintController.text);
                   },
                   borderRadius: BorderRadius.circular(10),
                   width: double.maxFinite,

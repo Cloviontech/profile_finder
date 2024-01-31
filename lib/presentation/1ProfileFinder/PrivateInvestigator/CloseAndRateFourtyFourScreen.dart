@@ -11,10 +11,15 @@ class CloseAndRateFourtyFourScreen extends StatelessWidget {
 
   final String private_investicator_id;
 
+  TextEditingController _controller = TextEditingController();
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const ClAppbarLeadGridSuffHeart(testingNextPage:  WriteYourQuestionFourtyFiveScreen()),
+      appBar: const ClAppbarLeadGridSuffHeart(
+        testingNextPage:  WriteYourQuestionFourtyFiveScreen(private_investicator_id_ques: '',)),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
@@ -50,7 +55,7 @@ class CloseAndRateFourtyFourScreen extends StatelessWidget {
               SizedBox(
                 height: DeviceSize.itemHeight / 10,
               ),
-              const CustomClTextformfieldWithSuffixIconWidget(),
+               CustomClTextformfieldWithSuffixIconWidget( questionController: _controller,),
             ],
           ),
         ),

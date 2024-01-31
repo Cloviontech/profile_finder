@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:profile_finder/core/utils/color_constant.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/Registeration/9screenThisProfileForWhom.dart';
 import 'package:profile_finder/routes/app_routes.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomClAll.dart';
@@ -156,7 +157,7 @@ class _EightUploadTheIDScreenState extends State<EightUploadTheIDScreen> {
 
     String uidUser = preferences.getString("uid2").toString();
 
-    final url = Uri.parse("http://54.159.186.219:8000/profileidcard/$uidUser");
+    final url = Uri.parse("http://${ApiService.ipAddress}/profileidcard/$uidUser");
     // final file = File("/home/abijith/Pictures/cat.jpg");
 
     // final file2 = File("/home/abijith/Pictures/flower.jpeg");

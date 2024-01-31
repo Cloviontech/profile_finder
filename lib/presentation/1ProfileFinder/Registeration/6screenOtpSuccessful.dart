@@ -50,7 +50,7 @@ class _SixOtpSuccessfulScreenState extends State<SixOtpSuccessfulScreen> {
             Container(
               // child: Lottie.network(
               //     'https://assets4.lottiefiles.com/packages/lf20_jbrw3hcz.json')
-              child: Lottie.asset('assets/79952-successful.json'),
+              child: Lottie.asset('assets/images/79952-successful.json'),
             ),
             const SizedBox(
               height: 20,

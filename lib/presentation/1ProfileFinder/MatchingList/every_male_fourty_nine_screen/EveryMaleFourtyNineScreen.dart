@@ -134,11 +134,17 @@ class _EveryMaleFourtyNineScreenState extends State<EveryMaleFourtyNineScreen> {
     debugPrint('getblockedProfilesByMe end');
   }
 
+
+   late String profile_finder_id;
+
   getDataMatList() async {
     debugPrint('_getDataMatList start');
+     SharedPreferences preferences = await SharedPreferences.getInstance();
+      profile_finder_id = preferences.getString("uid2").toString();
+
 
     final response = await http.get(Uri.parse(
-        "http://${ApiService.ipAddress}/all_male_user_data/${ThreeSigninScreen.userUidAccess}"));
+        "http://${ApiService.ipAddress}/all_male_user_data/$profile_finder_id"));
     var json = jsonDecode(response.body);
 
     print("statusCodeIs${response.statusCode}");
@@ -296,14 +302,6 @@ class _EveryMaleFourtyNineScreenState extends State<EveryMaleFourtyNineScreen> {
     //  allUserUidsa();
     getDataMatList();
     _getblockedProfilesByMe();
-
-// Future<AllMaletest1> test1 =
-    // DataImport.allMaleUsers_import();
-    // _maleUsersm();
-
-    // debugPrint('test1');
-    // debugPrint(test1.toString());
-
     super.initState();
   }
 
@@ -317,8 +315,8 @@ class _EveryMaleFourtyNineScreenState extends State<EveryMaleFourtyNineScreen> {
           : SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -416,7 +414,7 @@ class _EveryMaleFourtyNineScreenState extends State<EveryMaleFourtyNineScreen> {
                       height: DeviceSize.itemHeight / 10,
                     ),
                     Container(
-                        height: DeviceSize.itemHeight * 0.70,
+                        // height: DeviceSize.itemHeight * 0.70,
                         decoration: BoxDecoration(
                             image: const DecorationImage(
                                 image: AssetImage(
@@ -813,7 +811,7 @@ class _EveryMaleFourtyNineScreenState extends State<EveryMaleFourtyNineScreen> {
                             style: TextStyle(
                               fontSize: 13,
                             )),
-                            // Text('${EveryMaleFourtyNineScreen.blockedUsersByMe.myProf.length.toString()}')
+                        // Text('${EveryMaleFourtyNineScreen.blockedUsersByMe.myProf.length.toString()}')
                         //     :
 
                         // Text('You have been blocked ${EveryMaleFourtyNineScreen
@@ -834,221 +832,213 @@ class _EveryMaleFourtyNineScreenState extends State<EveryMaleFourtyNineScreen> {
                     //         semanticsLabel: 'Loading',
                     //       ))
                     //     :
-                         EveryMaleFourtyNineScreen.blockedUsersByMe.myProf.length == 1
-                          // && MatchingListImageHorizontalListView.bugNullBlock != 0
-                            ? SizedBox()
-                            : SizedBox(
-                                height: 200,
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: PageScrollPhysics(),
-                                    itemCount: EveryMaleFourtyNineScreen
-                                        .blockedUsersByMe.myProf.length,
-                                    // itemCount: DataImport.allMaleUsers.curUsers!.length,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Center(
-                                        child: Stack(children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 15),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: GestureDetector(
+                    EveryMaleFourtyNineScreen.blockedUsersByMe.myProf.length ==
+                            1
+                        // && MatchingListImageHorizontalListView.bugNullBlock != 0
+                        ? SizedBox()
+                        : SizedBox(
+                            height: 200,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: PageScrollPhysics(),
+                                itemCount: EveryMaleFourtyNineScreen
+                                    .blockedUsersByMe.myProf.length,
+                                // itemCount: DataImport.allMaleUsers.curUsers!.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Center(
+                                    child: Stack(children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) {
+                                                return Id123456FiftyScreen(
+                                                  userUidMaLi: index,
+                                                );
+                                              }));
+                                            },
+                                            child: CachedNetworkImage(
+                                              height: 200,
+                                              width: 150,
+                                              fit: BoxFit.cover,
+                                              // imageUrl: MatchingListImageHorizontalListView.imageAddress,
+
+                                              // imageUrl: MatchingListImageHorizontalListView.allMaletest1.curUsers![index].selfie,
+                                              imageUrl:
+                                                  EveryMaleFourtyNineScreen
+                                                      .blockedUsersByMe
+                                                      .myProf[index]
+                                                      .selfie
+                                                      .toString(),
+
+                                              // progressIndicatorBuilder:
+                                              //     (context, url, downloadProgress) =>
+                                              //         Container(
+                                              //   margin: EdgeInsets.only(
+                                              //     top: 5,
+                                              //     bottom: 5,
+                                              //   ),
+                                              //   child: CircularProgressIndicator(
+                                              //       value: downloadProgress.progress,
+                                              //       color: Colors.blue),
+                                              // ),
+                                              // errorWidget: (context, url, error) => Icon(Icons
+                                              //     .error),
+                                              //// replace with your own error widget
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: 10,
+                                        top: 10,
+                                        child: GestureDetector(
+                                          onTap: () {},
+                                          child: const Icon(
+                                            Icons.crop_square_outlined,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                          right: 20,
+                                          top: 10,
+                                          child: Column(
+                                            children: [
+                                              GestureDetector(
                                                 onTap: () {
-                                                  Navigator.push(context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) {
-                                                    return Id123456FiftyScreen(
-                                                      userUidMaLi: index,
-                                                    );
-                                                  }));
-                                                },
-                                                child: CachedNetworkImage(
-                                                  height: 200,
-                                                  width: 150,
-                                                  fit: BoxFit.cover,
-                                                  // imageUrl: MatchingListImageHorizontalListView.imageAddress,
-
-                                                  // imageUrl: MatchingListImageHorizontalListView.allMaletest1.curUsers![index].selfie,
-                                                  imageUrl:
-                                                      EveryMaleFourtyNineScreen
-                                                          .blockedUsersByMe
-                                                          .myProf[index]
-                                                          .selfie
-                                                          .toString(),
-
-                                                  // progressIndicatorBuilder:
-                                                  //     (context, url, downloadProgress) =>
-                                                  //         Container(
-                                                  //   margin: EdgeInsets.only(
-                                                  //     top: 5,
-                                                  //     bottom: 5,
-                                                  //   ),
-                                                  //   child: CircularProgressIndicator(
-                                                  //       value: downloadProgress.progress,
-                                                  //       color: Colors.blue),
-                                                  // ),
-                                                  // errorWidget: (context, url, error) => Icon(Icons
-                                                  //     .error),
-                                                  //// replace with your own error widget
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Positioned(
-                                            left: 10,
-                                            top: 10,
-                                            child: GestureDetector(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.crop_square_outlined,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                          Positioned(
-                                              right: 20,
-                                              top: 10,
-                                              child: Column(
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      MatchingListImageHorizontalListView
-                                                          .profMore(
-                                                              context,
-                                                              // _allMaleUserData4.the0Ppqmbpewtl![index].uid
-                                                              //     .toString(),
-                                                              EveryMaleFourtyNineScreen
-                                                                  .blockedUsersByMe
-                                                                  .myProf![
-                                                                      index]
-                                                                  .uid
-                                                                  .toString(),
-                                                              ThreeSigninScreen
-                                                                  .userUidAccess,
-                                                              'block');
-                                                    },
-                                                    child: Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4),
-                                                            color:
-                                                                Colors.black38),
-                                                        child: const Icon(
-                                                            Icons.more_vert,
-                                                            color:
-                                                                Colors.white)),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Container(
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(4),
-                                                          color:
-                                                              Colors.black38),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(6.5),
-                                                        child: SvgPicture.asset(
-                                                            "assets/images/imageIcon.svg"),
-                                                      )),
-                                                ],
-                                              )),
-                                          Positioned(
-                                            bottom: 10,
-                                            left: 10,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  // widget.imageWord1,
-                                                  EveryMaleFourtyNineScreen
-                                                      .blockedUsersByMe
-                                                      .myProf![index]
-                                                      .uid
-                                                      .toString(),
-
-                                                  style: const TextStyle(
-                                                      fontSize: 10,
-                                                      color: Colors.white),
-                                                ),
-                                                Text(
-                                                  // widget.imageWord2,
-                                                  EveryMaleFourtyNineScreen
-                                                      .blockedUsersByMe
-                                                      .myProf![index]
-                                                      .address
-                                                      .toString(),
-                                                  style: const TextStyle(
-                                                      fontSize: 10,
-                                                      color: Colors.white),
-                                                ),
-                                                Text(
-                                                  // widget.imageWord3,
-                                                  EveryMaleFourtyNineScreen
-                                                      .blockedUsersByMe
-                                                      .myProf![index]
-                                                      .yourIntrest
-                                                      .toString(),
-                                                  style: const TextStyle(
-                                                      fontSize: 10,
-                                                      color: Colors.white),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Positioned(
-                                              right: 20,
-                                              bottom: 10,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  // debugPrint('ontap');
-
-                                                  // favourites(MatchingListImageHorizontalListView.allMaletest1.curUsers![index].uid);
+                                                  MatchingListImageHorizontalListView
+                                                      .profMore(
+                                                          context,
+                                                          // _allMaleUserData4.the0Ppqmbpewtl![index].uid
+                                                          //     .toString(),
+                                                          EveryMaleFourtyNineScreen
+                                                              .blockedUsersByMe
+                                                              .myProf![index]
+                                                              .uid
+                                                              .toString(),
+                                                          ThreeSigninScreen
+                                                              .userUidAccess,
+                                                          'block');
                                                 },
                                                 child: Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4),
+                                                        color: Colors.black38),
+                                                    child: const Icon(
+                                                        Icons.more_vert,
+                                                        color: Colors.white)),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Container(
                                                   decoration: BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                      begin: const Alignment(
-                                                          -0.8, 1),
-                                                      end: const Alignment(
-                                                          -0.5, -1),
-                                                      colors: [
-                                                        ColorConstant.indigo500,
-                                                        ColorConstant
-                                                            .purpleA100,
-                                                      ],
-                                                      // transform: GradientRotation(0.15)
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4),
+                                                      color: Colors.black38),
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
-                                                            8.0),
+                                                            6.5),
                                                     child: SvgPicture.asset(
-                                                      "assets/images/handicon.svg",
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
+                                                        "assets/images/imageIcon.svg"),
+                                                  )),
+                                            ],
+                                          )),
+                                      Positioned(
+                                        bottom: 10,
+                                        left: 10,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              // widget.imageWord1,
+                                              EveryMaleFourtyNineScreen
+                                                  .blockedUsersByMe
+                                                  .myProf![index]
+                                                  .uid
+                                                  .toString(),
+
+                                              style: const TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.white),
+                                            ),
+                                            Text(
+                                              // widget.imageWord2,
+                                              EveryMaleFourtyNineScreen
+                                                  .blockedUsersByMe
+                                                  .myProf![index]
+                                                  .address
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.white),
+                                            ),
+                                            Text(
+                                              // widget.imageWord3,
+                                              EveryMaleFourtyNineScreen
+                                                  .blockedUsersByMe
+                                                  .myProf![index]
+                                                  .yourIntrest
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Positioned(
+                                          right: 20,
+                                          bottom: 10,
+                                          child: InkWell(
+                                            onTap: () {
+                                              // debugPrint('ontap');
+
+                                              // favourites(MatchingListImageHorizontalListView.allMaletest1.curUsers![index].uid);
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  begin:
+                                                      const Alignment(-0.8, 1),
+                                                  end:
+                                                      const Alignment(-0.5, -1),
+                                                  colors: [
+                                                    ColorConstant.indigo500,
+                                                    ColorConstant.purpleA100,
+                                                  ],
+                                                  // transform: GradientRotation(0.15)
                                                 ),
-                                              )),
-                                        ]),
-                                      );
-                                    }),
-                              ),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: SvgPicture.asset(
+                                                  "assets/images/handicon.svg",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          )),
+                                    ]),
+                                  );
+                                }),
+                          ),
                   ],
                 ),
               ),

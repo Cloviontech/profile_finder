@@ -22,6 +22,10 @@ Color? borderColor;
 
 class ThirteenScreen extends StatefulWidget {
 
+  final String registerForWhom;
+
+  const ThirteenScreen({super.key, required this.registerForWhom});
+
 
   @override
   State<ThirteenScreen> createState() => _ThirteenScreenState();

@@ -72,7 +72,7 @@ class _NineThisProfileForWhomScreenState
     7,
   ];
 
-  void _onSelected(bool selected, String dataName) {
+   _onSelected(bool selected, String dataName) {
     if (selected == true) {
       setState(() {
         userChecked.clear();
@@ -84,6 +84,14 @@ class _NineThisProfileForWhomScreenState
         userChecked.clear();
       });
     }
+  }
+
+  String selectedForWhom = '';
+
+  _onSelected1 () {
+    setState(() {
+      
+    });
   }
 
   Map<String, bool> values = {
@@ -143,10 +151,20 @@ class _NineThisProfileForWhomScreenState
                     return Column(
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: 
+                          (){
+                            // setState(() {
+                            //   selectedForWhom = relation[i];
+                            //   print(selectedForWhom);
+                            // });
+                          },
                           child: CheckboxListTile(
                             value: userChecked.contains(relation[i]),
                             onChanged: (value) {
+                               setState(() {
+                              selectedForWhom = relation[i];
+                              print(selectedForWhom);
+                            });
                               _onSelected(value!, relation[i]);
                             },
                             title: Text(
@@ -202,6 +220,37 @@ class _NineThisProfileForWhomScreenState
               ),
               MyElevatedButton(
                   onPressed: () {
+                    print(selectedForWhom);
+
+                    if (selectedForWhom == "Myself") {
+                       Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ThirteenScreen(registerForWhom: selectedForWhom,); 
+                      }));
+
+                    }
+
+                    else{
+                      print(selectedForWhom);
+
+                      
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return TenFillTheFormScreen(registerForWhomm: selectedForWhom,);
+                      }));
+
+                    }
+
+
+
+
+
+
+
+
+
+
+                    /*
                     if (userChecked[0].toString() == "Myself") {
                       // if(userChecked.) {
                       print(userChecked[0].toString() == "Myself");
@@ -251,6 +300,8 @@ class _NineThisProfileForWhomScreenState
 
                     print("userChecked");
                     print(userChecked[0]);
+
+                    */
 
                     //                 'Myself',
                     // 'Son',

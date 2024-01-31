@@ -102,8 +102,10 @@ class _FifteenAboutMeState extends State<FifteenAboutMe> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ColorConstant.whiteA700,
-        appBar: ClAppbarLeadGridSuffHeart(
-            testingNextPage: WhereIsTheSanFourtyThreeScreen()),
+        appBar: ClAppbarLeadArrowBackSuffNo(
+          title: '',
+            // testingNextPage: WhereIsTheSanFourtyThreeScreen(private_investicator_id: '',)
+            ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -181,6 +183,7 @@ class _FifteenAboutMeState extends State<FifteenAboutMe> {
             backgroundColor: Colors.transparent,
             child: Text(
               buttomClicked ? "Update" : "Edit",
+              style: TextStyle(color: Colors.white),
             ),
           ),
         ));

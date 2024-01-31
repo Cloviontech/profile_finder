@@ -138,7 +138,8 @@ class ClAppbarLeadArrowBackSuffNo extends StatelessWidget
             Navigator.pop(context);
           },
           icon: Icon(
-            Icons.arrow_back,
+            // Icons.arrow_back,
+            Icons.arrow_back_ios,
             color: ColorConstant.black900,
             size: 16,
           )),
@@ -229,21 +230,21 @@ class _CustomClCheckboxtileState extends State<CustomClCheckboxtile> {
   }
 }
 
-class ClProfilePictureWithCover extends StatelessWidget {
+class ClProfilePictureWithCover extends StatefulWidget {
   const ClProfilePictureWithCover({
     super.key,
     required this.itemHeight,
     required this.profilePicturepath,
     required this.coverPicturepath,
     required this.name,
-    required this.place, 
-    required this.onPressed, 
-    required this.hire, required this.elevatedButtonText, 
+    required this.place,
+    required this.onPressed,
+    required this.hire,
+    required this.elevatedButtonText,
 
-    // required this.onPressed, 
-    // required this.buttonData, 
+    // required this.onPressed,
+    // required this.buttonData,
     // required this.onTapHirePi,
-    
   });
 
   final double itemHeight;
@@ -254,13 +255,14 @@ class ClProfilePictureWithCover extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool hire;
   final String elevatedButtonText;
+
+  @override
+  State<ClProfilePictureWithCover> createState() =>
+      _ClProfilePictureWithCoverState();
+}
+
+class _ClProfilePictureWithCoverState extends State<ClProfilePictureWithCover> {
   //  final Future<void> Function() onPressed; // Async callback
-
-    
-  // final  onTapHirePi;
-  // final Function(String) onPressed; // Callback that takes a String parameter
-  // final String buttonData;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -269,7 +271,7 @@ class ClProfilePictureWithCover extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.grey.shade300)),
-        height: itemHeight * 2.5,
+        height: widget.itemHeight * 2.5,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -278,15 +280,22 @@ class ClProfilePictureWithCover extends StatelessWidget {
                 Container(
                   // cover pic
                   height: 200,
+                  width: double.maxFinite,
 
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.orange,
-                  ),
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.orange,
+                      image: DecorationImage(
+                          image: NetworkImage(
+                              widget.profilePicturepath.toString(),
+                              
+                              ),
+                              fit: BoxFit.cover
+                              )),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      coverPicturepath,
+                    child: Image.network(
+                      widget.coverPicturepath,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -299,11 +308,19 @@ class ClProfilePictureWithCover extends StatelessWidget {
                 height: 100,
                 width: 100,
                 decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.green,
-                    image: DecorationImage(
-                      image: AssetImage(profilePicturepath),
-                    )),
+                  shape: BoxShape.circle,
+                  color: Colors.green,
+                  // image: DecorationImage(
+                  //   image: NetworkImage(profilePicturepath),
+                  // )
+                ),
+                child: SizedBox(
+                  // height: 100,
+                  width: 100,
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(widget.profilePicturepath),
+                  ),
+                ),
               ),
             ),
             Positioned(
@@ -314,45 +331,42 @@ class ClProfilePictureWithCover extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    name,
+                    widget.name,
                     style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
                   ),
-                  Text(place),
+                  Text(widget.place),
                   SvgPicture.asset(
                     'assets/images/img_ticket.svg',
                     height: 25,
                   ),
                   MyElevatedButton(
-                    onPressed: onPressed,
+                    onPressed: widget.onPressed,
                     // onPressed: onTapHirePi,
-      //               onPressed: () {
-      //   onPressed(buttonData); // Pass the buttonData to the onPressed callback
-      // },
-        //              onPressed: () async {
-        // await onPressed(); // Await the async function call
-      // },
-      //  onPressed: onPressed, // Directly assign the async function to onPressed
-                   
-                    
-                    
+                    //               onPressed: () {
+                    //   onPressed(buttonData); // Pass the buttonData to the onPressed callback
+                    // },
+                    //              onPressed: () async {
+                    // await onPressed(); // Await the async function call
+                    // },
+                    //  onPressed: onPressed, // Directly assign the async function to onPressed
+
                     borderRadius: BorderRadius.circular(10),
                     backgroundColor: Colors.transparent,
                     height: 40,
-                    child: 
-                    
-                    // hire ? Text( "Hired",
-                    //  style: TextStyle(
-                    //             color: ColorConstant.clWhite),
-                         
-                    // ): 
-                    
-                    Text( elevatedButtonText,
-                     style: TextStyle(
-                                color: ColorConstant.clWhite),
-                         
+                    child:
+
+                        // hire ? Text( "Hired",
+                        //  style: TextStyle(
+                        //             color: ColorConstant.clWhite),
+
+                        // ):
+
+                        Text(
+                      widget.elevatedButtonText,
+                      style: TextStyle(color: ColorConstant.clWhite),
                     ),
                   )
                 ],
@@ -366,7 +380,7 @@ class ClProfilePictureWithCover extends StatelessWidget {
 }
 
 class ClProfilePictureWithCoverWithLinearPercentIndicator
-    extends StatelessWidget {
+    extends StatefulWidget {
   final double itemHeight;
   final String profilePicturepath;
   final String coverPicturepath;
@@ -387,6 +401,13 @@ class ClProfilePictureWithCoverWithLinearPercentIndicator
   });
 
   @override
+  State<ClProfilePictureWithCoverWithLinearPercentIndicator> createState() =>
+      _ClProfilePictureWithCoverWithLinearPercentIndicatorState();
+}
+
+class _ClProfilePictureWithCoverWithLinearPercentIndicatorState
+    extends State<ClProfilePictureWithCoverWithLinearPercentIndicator> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -394,7 +415,7 @@ class ClProfilePictureWithCoverWithLinearPercentIndicator
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.grey.shade300)),
-        height: itemHeight * 2.5,
+        height: widget.itemHeight * 2.5,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -403,6 +424,7 @@ class ClProfilePictureWithCoverWithLinearPercentIndicator
                 Container(
                   // cover pic
                   height: 200,
+                  width: double.maxFinite,
 
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -410,8 +432,8 @@ class ClProfilePictureWithCoverWithLinearPercentIndicator
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      coverPicturepath,
+                    child: Image.network(
+                      widget.coverPicturepath,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -427,8 +449,8 @@ class ClProfilePictureWithCoverWithLinearPercentIndicator
                     shape: BoxShape.circle,
                     color: Colors.green,
                     image: DecorationImage(
-                      image: AssetImage(profilePicturepath),
-                    )),
+                        image: NetworkImage(widget.profilePicturepath),
+                        fit: BoxFit.cover)),
               ),
             ),
             Positioned(
@@ -439,21 +461,21 @@ class ClProfilePictureWithCoverWithLinearPercentIndicator
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    name,
+                    widget.name,
                     style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
                   ),
-                  Text(place),
+                  Text(widget.place),
                   LinearPercentIndicator(
                     backgroundColor: ColorConstant.clgreyfillColor,
                     width: MediaQuery.of(context).size.width - 50,
                     animation: true,
                     lineHeight: 20.0,
                     animationDuration: 2500,
-                    percent: percentage * 0.01,
-                    center: Text("$percentage%"),
+                    percent: widget.percentage * 0.01,
+                    // center: Text("${widget.percentage}%"),
                     barRadius: const Radius.circular(10),
                     progressColor: Colors.green,
                   ),
@@ -463,7 +485,7 @@ class ClProfilePictureWithCoverWithLinearPercentIndicator
                         "Task Complete ",
                       ),
                       Text(
-                        '$percentage%',
+                        '${widget.percentage}%',
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],
@@ -535,7 +557,7 @@ class CustomClListtileWidget extends StatelessWidget {
   }
 }
 
-class CustomClCheckboxWithQuestionWidget extends StatelessWidget {
+class CustomClCheckboxWithQuestionWidget extends StatefulWidget {
   const CustomClCheckboxWithQuestionWidget({
     super.key,
     required this.question,
@@ -545,6 +567,11 @@ class CustomClCheckboxWithQuestionWidget extends StatelessWidget {
   final String question;
   final bool completed;
 
+  @override
+  State<CustomClCheckboxWithQuestionWidget> createState() => _CustomClCheckboxWithQuestionWidgetState();
+}
+
+class _CustomClCheckboxWithQuestionWidgetState extends State<CustomClCheckboxWithQuestionWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -566,7 +593,7 @@ class CustomClCheckboxWithQuestionWidget extends StatelessWidget {
               child: Checkbox(
                 // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
 
-                value: completed,
+                value: widget.completed,
                 onChanged: (value) {},
                 //  side: BorderSide.none,
                 shape: const CircleBorder(side: BorderSide.none),
@@ -580,7 +607,7 @@ class CustomClCheckboxWithQuestionWidget extends StatelessWidget {
             ),
             Expanded(
                 child: Text(
-              question,
+              widget.question,
               style: const TextStyle(
                 // color: ColorConstant.clPurple6,
                 fontWeight: FontWeight.bold,
@@ -904,13 +931,18 @@ class _CustomClRectangleCheckboxWithQuestionWidget2State
 }
 
 class CustomClTextformfieldWithSuffixIconWidget extends StatelessWidget {
-  const CustomClTextformfieldWithSuffixIconWidget({
+  CustomClTextformfieldWithSuffixIconWidget({
     super.key,
+    required this.questionController,
   });
+
+  final TextEditingController questionController;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: questionController,
+
       // expands: true,
       maxLines: 5,
       minLines: null,
@@ -1468,27 +1500,26 @@ class MatchingListImageHorizontalListView extends StatefulWidget {
   final String imageAddress;
   final String listType;
 
-  MatchingListImageHorizontalListView({
-    super.key,
-    this.leftTitle,
-    this.leftSubTitle,
-    this.rightTitle = "",
-    this.leftBigTitle,
-    this.imageWord1,
-    this.imageWord2,
-    this.imageWord3,
-    required this.imageWord4,
-    required this.listLength,
-    required this.imageAddress, required this.listType
-  });
-
+  MatchingListImageHorizontalListView(
+      {super.key,
+      this.leftTitle,
+      this.leftSubTitle,
+      this.rightTitle = "",
+      this.leftBigTitle,
+      this.imageWord1,
+      this.imageWord2,
+      this.imageWord3,
+      required this.imageWord4,
+      required this.listLength,
+      required this.imageAddress,
+      required this.listType});
 
   BlockedUsersByMe _blockedUsersByMe = BlockedUsersByMe();
- static  AllMaletest1 allMaletest1 = AllMaletest1();
- static int bugNullBlock =0;
+  static AllMaletest1 allMaletest1 = AllMaletest1();
+  static int bugNullBlock = 0;
 
-    
-  static profMore(context, String requestingUserid, String userUid, String listType) async {
+  static profMore(
+      context, String requestingUserid, String userUid, String listType) async {
     showDialog(
       context: context,
       builder: (context) => Center(
@@ -1501,16 +1532,17 @@ class MatchingListImageHorizontalListView extends StatefulWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextButton(
-                child:   listType =='block' ? 
-                
-                 Text( "Unblock this Profile" ,)
-                 :
-                 Text( "Block this Profile" ,) ,
+                child: listType == 'block'
+                    ? Text(
+                        "Unblock this Profile",
+                      )
+                    : Text(
+                        "Block this Profile",
+                      ),
                 onPressed: () async {
-                  await 
-                   listType =='block' ? 
-                  unBlock(requestingUserid, userUid) :
-                  block('Not Interested', requestingUserid, userUid);
+                  await listType == 'block'
+                      ? unBlock(requestingUserid, userUid)
+                      : block('Not Interested', requestingUserid, userUid);
                 },
               ),
               TextButton(
@@ -1566,67 +1598,53 @@ class MatchingListImageHorizontalListView extends StatefulWidget {
       print(json);
 
       debugPrint("Blocked succesfully");
-      
+
       // MatchingListImageHorizontalListView.allMaletest1.curUsers[]
-      
     } else {
       print("error");
       print(response1.statusCode);
     }
   }
 
-
-  
-
   //
 
-   
-
-  
-  static unBlock( String unBlockedId, String userUid1) async {
+  static unBlock(String unBlockedId, String userUid1) async {
     debugPrint('UnBlock Start');
 
     debugPrint(userUid1);
 
-  
     print('unBlock Processing');
 
-   
     try {
-        var requestBody = {
-      
-      'unblock': unBlockedId,
-    };
-       var responseUnb = await http.post(
-      Uri.parse("http://10.0.2.2:8000/block/$userUid1"),
-      // headers: headers,
-      body: requestBody,
-    );
+      var requestBody = {
+        'unblock': unBlockedId,
+      };
+      var responseUnb = await http.post(
+        Uri.parse("http://10.0.2.2:8000/block/$userUid1"),
+        // headers: headers,
+        body: requestBody,
+      );
 
-    print('unBlock Request Processing');
+      print('unBlock Request Processing');
       // var bson = jsonDecode(response1.body);
 
-    debugPrint("statusCodeIs${responseUnb.statusCode}");
+      debugPrint("statusCodeIs${responseUnb.statusCode}");
 
-    if (responseUnb.statusCode == 200) {
-      print(responseUnb.body);
-      // print(bson);
+      if (responseUnb.statusCode == 200) {
+        print(responseUnb.body);
+        // print(bson);
 
-      debugPrint("unBlocked succesfully");
-    } else {
-      print("error");
-      print(responseUnb.statusCode);
-    }
-      
+        debugPrint("unBlocked succesfully");
+      } else {
+        print("error");
+        print(responseUnb.statusCode);
+      }
     } catch (e) {
       debugPrint(e.toString());
-      
     }
-
-    
   }
 
-  // 
+  //
 
   static showAlert(BuildContext context, String requestingUserId) {
     bool _phone = false;
@@ -1800,7 +1818,7 @@ class MatchingListImageHorizontalListView extends StatefulWidget {
       }
     }
   }
-  
+
   @override
   State<MatchingListImageHorizontalListView> createState() =>
       _MatchingListImageHorizontalListViewState();
@@ -1820,19 +1838,26 @@ class _MatchingListImageHorizontalListViewState
 
   // late List<UserModel>? _userModel = [];
 
- 
-
   // void _getDataMatList() async {
   //   _userModel = (await ApiService1().getUsers1());
   //   Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   // }
 
+  late String userUid;
+
   _getDataMatList() async {
     debugPrint('_getDataMatList start');
-    
-    final responseMatList = await http.get(
-        Uri.parse("http://${ApiService.ipAddress}/all_male_user_data/${ThreeSigninScreen.userUidAccess}"
-             ));
+
+     SharedPreferences preferences = await SharedPreferences.getInstance();
+    userUid = preferences.getString("uid2").toString();
+
+    final responseMatList = await http.get(Uri.parse(
+
+        
+
+
+
+        "http://${ApiService.ipAddress}/all_male_user_data/$userUid"));
     var json = jsonDecode(responseMatList.body);
 
     print("statusCodeIs${responseMatList.statusCode}");
@@ -1840,11 +1865,12 @@ class _MatchingListImageHorizontalListViewState
     if (responseMatList.statusCode == 200) {
       print(responseMatList.body);
 
-      setState(()  {
+      setState(() {
         isLoading = false;
-       MatchingListImageHorizontalListView.allMaletest1 = AllMaletest1.fromJson(json,  ThreeSigninScreen.userUidAccess );
+        MatchingListImageHorizontalListView.allMaletest1 =
+            AllMaletest1.fromJson(json, userUid);
       });
-        } else {
+    } else {
       print("error");
       print(responseMatList.statusCode);
     }
@@ -1854,14 +1880,11 @@ class _MatchingListImageHorizontalListViewState
 
   //  BlockedUsersByMe _blockedUsersByMe = BlockedUsersByMe();
 
-  
-
   _getblockedProfilesByMe() async {
     debugPrint('getblockedProfilesByMe start');
-    
-    final responseMatList = await http.get(
-        Uri.parse("http://${ApiService.ipAddress}/block/${ThreeSigninScreen.userUidAccess}"
-             ));
+
+    final responseMatList = await http.get(Uri.parse(
+        "http://${ApiService.ipAddress}/block/${ThreeSigninScreen.userUidAccess}"));
     var json = jsonDecode(responseMatList.body);
 
     print("statusCodeIs${responseMatList.statusCode}");
@@ -1869,12 +1892,14 @@ class _MatchingListImageHorizontalListViewState
     if (responseMatList.statusCode == 200) {
       print(responseMatList.body);
 
-      setState(()  {
-       MatchingListImageHorizontalListView.bugNullBlock =1;
+      setState(() {
+        MatchingListImageHorizontalListView.bugNullBlock = 1;
         isLoading = false;
-        EveryMaleFourtyNineScreen.blockedUsersByMe = BlockedProfilesByMe1.fromJson(json,  ThreeSigninScreen.userUidAccess );
+        EveryMaleFourtyNineScreen.blockedUsersByMe =
+            BlockedProfilesByMe1.fromJson(
+                json, ThreeSigninScreen.userUidAccess);
       });
-        } else {
+    } else {
       print("error");
       print(responseMatList.statusCode);
     }
@@ -1882,13 +1907,9 @@ class _MatchingListImageHorizontalListViewState
     debugPrint('getblockedProfilesByMe end');
   }
 
-
-
-
-
-   Future<void> addsavedSearch(
-    int index, 
-   ) async {
+  Future<void> addsavedSearch(
+    int index,
+  ) async {
     debugPrint('add saved search start');
     try {
       // Replace the URL with your API endpoint
@@ -1898,13 +1919,20 @@ class _MatchingListImageHorizontalListViewState
       Map<String, dynamic> requestBody = {
         // 'data': data,
         'add new': {
-          'tag': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].profileTag,
-          'country': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].rCountry,
-          'city': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].fatherCity,
-          'age': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].age,
-          'complexion': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].complexion,
-          'gender': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].gender,
-          'denomination': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].denomination,
+          'tag': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].profileTag,
+          'country': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].rCountry,
+          'city': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].fatherCity,
+          'age': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].age,
+          'complexion': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].complexion,
+          'gender': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].gender,
+          'denomination': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].denomination,
         }
         // Add other fields as needed for your API request
       };
@@ -1916,8 +1944,6 @@ class _MatchingListImageHorizontalListViewState
         //   // Add any other headers if required by your API
         // },
         body: jsonEncode(requestBody),
-
-        
       );
 
       if (response.statusCode == 200) {
@@ -1935,10 +1961,11 @@ class _MatchingListImageHorizontalListViewState
     }
     debugPrint('add saved search end');
   }
-  // 
+
+  //
   Future<void> editSavedSearch(
-    int index, 
-   ) async {
+    int index,
+  ) async {
     debugPrint('edit saved search start');
     try {
       // Replace the URL with your API endpoint
@@ -1948,15 +1975,22 @@ class _MatchingListImageHorizontalListViewState
       Map<String, dynamic> requestBody = {
         // 'data': data,
         'edit': {
-          'tag_edit': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].profileTag,
-          'country': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].rCountry,
-          'city': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].fatherCity,
-          'age': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].age,
-          'complexion': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].complexion,
-          'gender': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].gender,
-          'denomination': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].denomination,
-          'id': MatchingListImageHorizontalListView.allMaletest1.curUsers![index].id,
-          
+          'tag_edit': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].profileTag,
+          'country': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].rCountry,
+          'city': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].fatherCity,
+          'age': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].age,
+          'complexion': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].complexion,
+          'gender': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].gender,
+          'denomination': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].denomination,
+          'id': MatchingListImageHorizontalListView
+              .allMaletest1.curUsers![index].id,
         }
         // Add other fields as needed for your API request
       };
@@ -1968,8 +2002,6 @@ class _MatchingListImageHorizontalListViewState
           // Add any other headers if required by your API
         },
         body: jsonEncode(requestBody),
-
-        
       );
 
       if (response.statusCode == 200) {
@@ -1987,10 +2019,11 @@ class _MatchingListImageHorizontalListViewState
     }
     debugPrint('Edit saved search end');
   }
-  // 
+
+  //
   Future<void> removesavedSearch(
-    int index, 
-   ) async {
+    int index,
+  ) async {
     debugPrint('remove saved search start');
     try {
       // Replace the URL with your API endpoint
@@ -2001,7 +2034,6 @@ class _MatchingListImageHorizontalListViewState
         // 'data': data,
         'remove': {
           'remove': ['remove']
-          
         }
         // Add other fields as needed for your API request
       };
@@ -2013,8 +2045,6 @@ class _MatchingListImageHorizontalListViewState
           // Add any other headers if required by your API
         },
         body: jsonEncode(requestBody),
-
-        
       );
 
       if (response.statusCode == 200) {
@@ -2032,7 +2062,6 @@ class _MatchingListImageHorizontalListViewState
     }
     debugPrint('remove saved search end');
   }
-
 
   //
 
@@ -2087,59 +2116,49 @@ class _MatchingListImageHorizontalListViewState
   //   }
   // }
 
-
-
-  static favourites(String favId, ) async {
+  static favourites(
+    String favId,
+  ) async {
     debugPrint(ThreeSigninScreen.userUidAccess);
     debugPrint('fav Start + $favId');
-
-    
 
     var requestBody = {
       'myfavorite_id': favId,
     };
     print('fav Processing');
 
-
     try {
-       var responsefav = await http.post(
-      Uri.parse("http://10.0.2.2:8000/favorites/${ThreeSigninScreen.userUidAccess}"),
-      // headers: headers,
-      body: requestBody,
-    );
+      var responsefav = await http.post(
+        Uri.parse(
+            "http://10.0.2.2:8000/favorites/${ThreeSigninScreen.userUidAccess}"),
+        // headers: headers,
+        body: requestBody,
+      );
 
-    print('fav Processing');
+      print('fav Processing');
 
-    // var json = jsonDecode(responsefav.body);
+      // var json = jsonDecode(responsefav.body);
 
-    debugPrint("statusCodeIs${responsefav.statusCode}");
+      debugPrint("statusCodeIs${responsefav.statusCode}");
 
-     if (responsefav.statusCode == 200) {
-      print(responsefav.body);
-      print(json);
+      if (responsefav.statusCode == 200) {
+        print(responsefav.body);
+        print(json);
 
-      debugPrint("Fav succesfully");
-    } else {
-      print("error");
-      print(responsefav.statusCode);
-    }
-
-      
+        debugPrint("Fav succesfully");
+      } else {
+        print("error");
+        print(responsefav.statusCode);
+      }
     } catch (e) {
-
       debugPrint(e.toString());
-      
     }
-
-   
-   
   }
 
   @override
   void initState() {
     _getDataMatList();
     // getblockedProfilesByMe();
-    
 
     // DataImport.allMaleUsers_import();
     super.initState();
@@ -2163,8 +2182,8 @@ class _MatchingListImageHorizontalListViewState
 
     print("uid for Update ${ThreeSigninScreen.userUidAccess}");
 
-    final url =
-        Uri.parse("http://${ApiService.ipAddress}/about_candidate/${ThreeSigninScreen.userUidAccess}");
+    final url = Uri.parse(
+        "http://${ApiService.ipAddress}/about_candidate/${ThreeSigninScreen.userUidAccess}");
     final request = http.MultipartRequest('POST', url);
 
 //     List<String> sibling_nameedit = ['xx', 'yy', 'zz'];
@@ -2304,7 +2323,9 @@ class _MatchingListImageHorizontalListViewState
                               style: const TextStyle(fontSize: 13)),
                     ],
                   )
-                : Text(
+                : 
+                
+                Text(
                     widget.leftBigTitle.toString(),
                     style: TextStyle(
                         color: ColorConstant.clFontDarkBlueColor,
@@ -2323,19 +2344,16 @@ class _MatchingListImageHorizontalListViewState
         // Text(_userModel!.length.toString(),),
 
         isLoading == true
-        // DataImport.isLoading_all_male_users == true
-            ? Center(child: CircularProgressIndicator(
-              semanticsLabel: 'Loading',
-            ))
-            :
-            
-             SizedBox(
+            // DataImport.isLoading_all_male_users == true
+            ? Center(
+                child: CircularProgressIndicator(
+                semanticsLabel: 'Loading',
+              ))
+            : SizedBox(
                 height: 200,
-                child: 
-                ListView.builder(
+                child: ListView.builder(
                     shrinkWrap: true,
                     physics: PageScrollPhysics(),
-                    
                     itemCount: widget.listLength,
                     // itemCount: DataImport.allMaleUsers.curUsers!.length,
                     scrollDirection: Axis.horizontal,
@@ -2362,12 +2380,9 @@ class _MatchingListImageHorizontalListViewState
                                   fit: BoxFit.cover,
                                   // imageUrl: MatchingListImageHorizontalListView.imageAddress,
 
-                                  imageUrl: MatchingListImageHorizontalListView.allMaletest1.curUsers![index].selfie,
+                                  imageUrl: MatchingListImageHorizontalListView
+                                      .allMaletest1.curUsers![index].selfie,
                                   // imageUrl: EveryMaleFourtyNineScreen.blockedUsersByMe.myProf![index].selfie.toString(),
-                                  
-
-
-                                  
 
                                   // progressIndicatorBuilder:
                                   //     (context, url, downloadProgress) =>
@@ -2381,10 +2396,9 @@ class _MatchingListImageHorizontalListViewState
                                   //       color: Colors.blue),
                                   // ),
                                   // errorWidget: (context, url, error) => Icon(Icons
-                                  //     .error), 
+                                  //     .error),
                                   //// replace with your own error widget
                                 ),
-
                               ),
                             ),
                           ),
@@ -2406,14 +2420,17 @@ class _MatchingListImageHorizontalListViewState
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                     MatchingListImageHorizontalListView.profMore(
-                                        context,
-                                        // _allMaleUserData4.the0Ppqmbpewtl![index].uid
-                                        //     .toString(),
-                                        MatchingListImageHorizontalListView.allMaletest1.curUsers![index].uid,
-                                        ThreeSigninScreen.userUidAccess,
-                                        'New Reg'
-                                      );
+                                      MatchingListImageHorizontalListView
+                                          .profMore(
+                                              context,
+                                              // _allMaleUserData4.the0Ppqmbpewtl![index].uid
+                                              //     .toString(),
+                                              MatchingListImageHorizontalListView
+                                                  .allMaletest1
+                                                  .curUsers![index]
+                                                  .uid,
+                                              ThreeSigninScreen.userUidAccess,
+                                              'New Reg');
                                     },
                                     child: Container(
                                         decoration: BoxDecoration(
@@ -2446,7 +2463,8 @@ class _MatchingListImageHorizontalListViewState
                               children: [
                                 Text(
                                   // widget.imageWord1,
-                                  MatchingListImageHorizontalListView.allMaletest1.curUsers![index].uid
+                                  MatchingListImageHorizontalListView
+                                      .allMaletest1.curUsers![index].uid
                                       .toString(),
 
                                   style: const TextStyle(
@@ -2454,16 +2472,16 @@ class _MatchingListImageHorizontalListViewState
                                 ),
                                 Text(
                                   // widget.imageWord2,
-                                  MatchingListImageHorizontalListView.allMaletest1
-                                      .curUsers![index].address
+                                  MatchingListImageHorizontalListView
+                                      .allMaletest1.curUsers![index].address
                                       .toString(),
                                   style: const TextStyle(
                                       fontSize: 10, color: Colors.white),
                                 ),
                                 Text(
                                   // widget.imageWord3,
-                                  MatchingListImageHorizontalListView.allMaletest1
-                                      .curUsers![index].yourIntrest
+                                  MatchingListImageHorizontalListView
+                                      .allMaletest1.curUsers![index].yourIntrest
                                       .toString(),
                                   style: const TextStyle(
                                       fontSize: 10, color: Colors.white),
@@ -2483,11 +2501,10 @@ class _MatchingListImageHorizontalListViewState
                                 onTap: () {
                                   debugPrint('ontap');
 
-
-                                  favourites(MatchingListImageHorizontalListView.allMaletest1.curUsers![index].uid);
+                                  favourites(MatchingListImageHorizontalListView
+                                      .allMaletest1.curUsers![index].uid);
                                 },
                                 child: Container(
-                                 
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       begin: const Alignment(-0.8, 1),
@@ -2500,7 +2517,6 @@ class _MatchingListImageHorizontalListViewState
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                              
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: SvgPicture.asset(

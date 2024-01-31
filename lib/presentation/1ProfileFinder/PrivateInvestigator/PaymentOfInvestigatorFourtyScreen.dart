@@ -125,7 +125,7 @@ class _PaymentOfInvestigatorFourtyScreenState extends State<PaymentOfInvestigato
  Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return CloseDealFourtyOneScreen(private_investicator_id: private_investigator_id,);
+                    return CloseDealFourtyOneScreen(private_investicator_id_close_deal: private_investigator_id);
                   }),
                 );
 
@@ -150,7 +150,7 @@ class _PaymentOfInvestigatorFourtyScreenState extends State<PaymentOfInvestigato
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  ClAppbarLeadGridSuffHeart(testingNextPage:  CloseDealFourtyOneScreen(private_investicator_id: '',)),
+      appBar:  ClAppbarLeadGridSuffHeart(testingNextPage:  CloseDealFourtyOneScreen(private_investicator_id_close_deal: '',)),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(

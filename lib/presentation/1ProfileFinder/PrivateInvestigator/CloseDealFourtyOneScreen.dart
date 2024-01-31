@@ -7,41 +7,38 @@ import 'package:profile_finder/core/utils/size_utils.dart';
 import 'package:profile_finder/model_final/private_inv/pi_my_data.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/AnswerFourtyTwoScreen.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/WhereIsTheSanFourtyThreeScreen.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/WriteYourQuestionFourtyFiveScreen.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomClAll.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomWidgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class CloseDealFourtyOneScreen extends StatefulWidget {
-   CloseDealFourtyOneScreen({super.key, required this.private_investicator_id});
+  CloseDealFourtyOneScreen({super.key, required this.private_investicator_id_close_deal});
 
- final String private_investicator_id;
+  final String private_investicator_id_close_deal;
 
   @override
-  State<CloseDealFourtyOneScreen> createState() => _CloseDealFourtyOneScreenState();
+  State<CloseDealFourtyOneScreen> createState() =>
+      _CloseDealFourtyOneScreenState();
 }
 
 class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
-  
+  static List<PiMyData> userList = [];
 
-    static  List<PiMyData> userList = [];
+  Future<void> fetchData() async {
+    // late String private_investicator_id;
+    //  SharedPreferences preferences = await SharedPreferences.getInstance();
+    //   private_investicator_id = preferences.getString("uid2").toString();
 
-
-   Future<void> fetchData() async {
-
-    
-      // late String private_investicator_id;
-  //  SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   private_investicator_id = preferences.getString("uid2").toString();
-  
-    final response = await http.get(Uri.parse("http://${ApiService.ipAddress}/pi_my_data/${widget.private_investicator_id}"));
+    final response = await http.get(Uri.parse(
+        "http://${ApiService.ipAddress}/pi_my_data/${widget.private_investicator_id_close_deal}"));
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = jsonDecode(response.body);
       setState(() {
         userList = jsonResponse.map((data) => PiMyData.fromJson(data)).toList();
-      
       });
 
       debugPrint(userList[0].profilePicture);
@@ -52,102 +49,98 @@ class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
 
   String profile_finder_id = '';
 
-   my_investigator(String private_investigator_id,) async{
-  final statusCode;
-  final statusCode1;
-  final body;
-  final body1;
-  // await Future.delayed(Duration(seconds: 2));
-  // debugPrint("My investigator start");
-      
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  setState(() {
-     profile_finder_id = preferences.getString("uid2").toString();
-  });
-   
-  
-  final url = Uri.parse("http://${ApiService.ipAddress}/my_investigator/$profile_finder_id");
-  final pi_client = Uri.parse("http://${ApiService.ipAddress}/pi_my_clients/$private_investigator_id");
-   print("private_inv_id : $private_investigator_id");
-  
-  // var request =  http.MultipartRequest('POST', url);
-  var request1 = http.MultipartRequest('POST', pi_client);
-  // request.fields['pf_id'] = profile_finder_id;
-  // request.fields['pi_id'] = private_investigator_id;
+  my_investigator(
+    String private_investigator_id,
+  ) async {
+    final statusCode;
+    final statusCode1;
+    final body;
+    final body1;
+    // await Future.delayed(Duration(seconds: 2));
+    // debugPrint("My investigator start");
 
-  request1.fields['pf_id'] = profile_finder_id;
-  request1.fields['pi_id'] = private_investigator_id;
-  try {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      profile_finder_id = preferences.getString("uid2").toString();
+    });
 
-    // if (_users.myInvestigator.toString().contains(private_investigator_id))
-    // {
+    final url = Uri.parse(
+        "http://${ApiService.ipAddress}/my_investigator/$profile_finder_id");
+    final pi_client = Uri.parse(
+        "http://${ApiService.ipAddress}/pi_my_clients/$private_investigator_id");
+    print("private_inv_id : $private_investigator_id");
 
-    // }
+    // var request =  http.MultipartRequest('POST', url);
+    var request1 = http.MultipartRequest('POST', pi_client);
+    // request.fields['pf_id'] = profile_finder_id;
+    // request.fields['pi_id'] = private_investigator_id;
 
+    request1.fields['pf_id'] = profile_finder_id;
+    request1.fields['pi_id'] = private_investigator_id;
+    try {
+      // if (_users.myInvestigator.toString().contains(private_investigator_id))
+      // {
 
-    // else{
-       var request =  http.MultipartRequest('POST', url);
-       request.fields['pf_id'] = profile_finder_id;
-  request.fields['pi_id'] = private_investigator_id;
-      
+      // }
 
-    final response = await request.send();
-    statusCode = response.statusCode;
-    body = await response.stream.bytesToString();
-    print("Status Code : $statusCode");
-    print("UID : $body");
+      // else{
+      var request = http.MultipartRequest('POST', url);
+      request.fields['pf_id'] = profile_finder_id;
+      request.fields['pi_id'] = private_investigator_id;
 
+      final response = await request.send();
+      statusCode = response.statusCode;
+      body = await response.stream.bytesToString();
+      print("Status Code : $statusCode");
+      print("UID : $body");
 
-    // }
+      // }
 
-    final response1 = await request1.send();
-    statusCode1 = response1.statusCode;
-    body1 = await response1.stream.bytesToString();
+      final response1 = await request1.send();
+      statusCode1 = response1.statusCode;
+      body1 = await response1.stream.bytesToString();
 
+      print("Status Code1 : $statusCode1");
+      print("UID1 : $body1");
+      print(
+          "Private Investigator selected succesfully, Uid : $private_investigator_id");
 
-   
-    print("Status Code1 : $statusCode1");
-    print("UID1 : $body1");
-    print("Private Investigator selected succesfully, Uid : $private_investigator_id");
-    
-    if (response.statusCode == 200) {
-      // setState(() {
-      //   hire[hiree] = true;
-      // });
+      if (response.statusCode == 200) {
+        // setState(() {
+        //   hire[hiree] = true;
+        // });
 
-      // Navigator.pushNamed(context, AppRoutes.paymentOfInvestigatorFourtyScreen);
-     
- Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return CloseDealFourtyOneScreen(private_investicator_id: private_investigator_id,);
-                  }),
-                );
+        // Navigator.pushNamed(context, AppRoutes.paymentOfInvestigatorFourtyScreen);
 
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return CloseDealFourtyOneScreen(
+              private_investicator_id_close_deal: private_investigator_id,
+            );
+          }),
+        );
+      }
+    } catch (e) {
+      print("Do Something When Error Occurs");
     }
-  } catch (e) {
-    print("Do Something When Error Occurs");
   }
-}
 
-
-@override
+  @override
   void initState() {
     // TODO: implement initState
 
     fetchData();
+
+     MyQuestionAndAnswer.callApi();
     super.initState();
   }
 
-  
-  
-  
-  
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: const ClAppbarLeadGridSuffHeart(testingNextPage:  AnswerFourtyTwoScreen()),
+      appBar: const ClAppbarLeadGridSuffHeart(
+          testingNextPage: AnswerFourtyTwoScreen()),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
@@ -156,19 +149,18 @@ class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClProfilePictureWithCover(
-                  itemHeight: DeviceSize.itemHeight,
-                  profilePicturepath: 'assets/images/img_ellipse76.png',
-                  coverPicturepath: 'assets/images/img_rectangle690.png',
-                  name:  userList[0].firstName ??  'Ariene McCoy',
+                itemHeight: DeviceSize.itemHeight,
+                profilePicturepath: userList[0].profilePicture,
+                coverPicturepath: userList[0].profilePicture,
+                name: userList[0].firstName ?? 'Ariene McCoy',
 
+                place:
+                    "${userList[0].officeCity}${',  '}${userList[0].officeCountry}",
 
-
-                  place:"${userList[0].officeCity}${',  '}${userList[0].officeCountry}",
-                                
-                                onPressed: () async{  }, 
-                                hire: false, elevatedButtonText: 'Close Deal & Rate', 
-                  //  onTapHirePi: () {  },
-                   ),
+                onPressed: () async {},
+                hire: false, elevatedButtonText: 'Close Deal & Rate',
+                //  onTapHirePi: () {  },
+              ),
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -217,25 +209,31 @@ class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
                   ],
                 ),
               ),
-              const CustomClCheckboxWithQuestionWidget(
+
+
+              ListView.builder(
+                    controller: ScrollController(),
+                    //  debugPrint(_myInvestigators.qkokamx1Qqf![0].firstName.toString());
+                    // itemCount: MyQuestionAndAnswer.privateInvestigatorCollection.length,
+                    itemCount: 10,          
+                    shrinkWrap: true,
+                    itemBuilder: ((context, index) {
+                      return 
+                         CustomClCheckboxWithQuestionWidget(
                 question:
-                    'where is the San Sebastian home? and she completed here graduation?',
+                       MyQuestionAndAnswer.privateInvestigatorCollection[index].question.toString(),
+                    // 'where is the San Sebastian home? and she completed here graduation?',
                 completed: true,
+              );
+                    }
+                    ),
               ),
-              const CustomClCheckboxWithQuestionWidget(
-                  question: "Any other relation she having?", completed: true),
-              const CustomClCheckboxWithQuestionWidget(
-                  question: 'Who is her best friend?', completed: true),
-              const CustomClCheckboxWithQuestionWidget(
-                  question: 'Where she studied her higher secondary school?',
-                  completed: true),
-              const CustomClCheckboxWithQuestionWidget(
-                  question:
-                      'where is the San Sebastian home? and she completed here graduation?',
-                  completed: true),
-              const CustomClCheckboxWithQuestionWidget(
-                  question: 'What the neighbours assessment on here?',
-                  completed: false),
+                                  
+
+
+
+              
+              
               SizedBox(
                 height: DeviceSize.itemHeight / 2,
               ),
@@ -246,14 +244,26 @@ class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(20),
         child: MyElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return WriteYourQuestionFourtyFiveScreen(private_investicator_id_ques: widget.private_investicator_id_close_deal,
+                  
+                  );
+                }),
+              );
+            },
             borderRadius: BorderRadius.circular(10),
             backgroundColor: Colors.transparent,
             // gradient: LinearGradient(
             //     begin: Alignment(0, 0.56),
             //     end: Alignment(1, 0.56),
             //     colors: [ColorConstant.indigo500, ColorConstant.purpleA100]),
-            child: const Text('\u002b Add New Question')),
+            child: const Text(
+              '\u002b Add New Question',
+              style: TextStyle(color: Colors.white),
+            )),
       ),
     );
   }
