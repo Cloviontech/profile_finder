@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/core/utils/size_utils.dart';
+import 'package:profile_finder/model_final/private_inv/my_ques_ans.dart';
 import 'package:profile_finder/model_final/private_inv/pi_my_data.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/AnswerFourtyTwoScreen.dart';
@@ -125,6 +126,19 @@ class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
       print("Do Something When Error Occurs");
     }
   }
+late String _profile_finder_id;
+
+  callApi() async {
+       SharedPreferences preferences = await SharedPreferences.getInstance();
+    _profile_finder_id = preferences.getString("uid2").toString();
+    final response = await http.get(Uri.parse(
+        "http://${ApiService.ipAddress}/my_question_and_answer/$_profile_finder_id"));
+    final data = jsonDecode(response.body) as Map;
+    final id = data.keys.first;
+    for (final pi in data[id]) {
+    MyQuestionAndAnswer.privateInvestigatorCollection.add(MyQuesAndAns1.fromJson(pi));
+    }
+  }
 
   @override
   void initState() {
@@ -132,12 +146,13 @@ class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
 
     fetchData();
 
-     MyQuestionAndAnswer.callApi();
+     callApi();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: const ClAppbarLeadGridSuffHeart(
           testingNextPage: AnswerFourtyTwoScreen()),
@@ -150,8 +165,8 @@ class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
             children: [
               ClProfilePictureWithCover(
                 itemHeight: DeviceSize.itemHeight,
-                profilePicturepath: userList[0].profilePicture,
-                coverPicturepath: userList[0].profilePicture,
+                profilePicturepath: userList[0].profilePicture.toString(),
+                coverPicturepath: userList[0].profilePicture.toString(),
                 name: userList[0].firstName ?? 'Ariene McCoy',
 
                 place:
@@ -211,11 +226,12 @@ class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
               ),
 
 
+           
               ListView.builder(
                     controller: ScrollController(),
                     //  debugPrint(_myInvestigators.qkokamx1Qqf![0].firstName.toString());
                     // itemCount: MyQuestionAndAnswer.privateInvestigatorCollection.length,
-                    itemCount: 10,          
+                    itemCount: MyQuestionAndAnswer.privateInvestigatorCollection.length,          
                     shrinkWrap: true,
                     itemBuilder: ((context, index) {
                       return 
@@ -228,6 +244,7 @@ class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
                     }
                     ),
               ),
+              
                                   
 
 

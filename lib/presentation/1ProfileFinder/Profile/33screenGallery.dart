@@ -123,12 +123,12 @@ class _GalleryThirtyThreeScreenState extends State<GalleryThirtyThreeScreen> {
 
     return Scaffold(
       backgroundColor: ColorConstant.whiteA700,
-      appBar: ClAppbarLeadArrowBackSuffHeart(
-        // -----Navigate to -----------
-        //----Private Investigator Page for Testing in Client Meeting-------
-        testingNextPage: AllInvestigatorThirtyEightScreen(),
+      // appBar: ClAppbarLeadArrowBackSuffHeart(
+      //   // -----Navigate to -----------
+      //   //----Private Investigator Page for Testing in Client Meeting-------
+      //   testingNextPage: AllInvestigatorThirtyEightScreen(),
         //
-      ),
+      // ),
       body: isLoading
           ? CircularProgressIndicator()
           : Padding(

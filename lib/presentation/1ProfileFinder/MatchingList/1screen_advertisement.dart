@@ -4,7 +4,18 @@ import 'package:profile_finder/model_final/modelAllUser.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomClAll.dart';
 
 class ApiService {
-  static const String ipAddress = "10.0.2.2:8000";
+
+  static const String ipAddress = "192.168.43.53:8000";
+
+  // static const String ipAddress = "192.168.1.4:8000";
+
+   
+  
+  // static const String ipAddress = "10.0.2.2:8000";
+
+
+
+  
 
   // http://10.0.2.2:8000/signup/
   // static const String ipAddress = "localhost:8000/";

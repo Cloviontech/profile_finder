@@ -14,27 +14,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 
-class MyQuestionAndAnswer  {
+ class  MyQuestionAndAnswer  {
 
   
 
   static List<MyQuesAndAns1> privateInvestigatorCollection = [];
+String profile_finder_id = ' ';
 
-
-  void MyQuestAndAnswerFetchData () async {
+   MyQuestAndAnswerFetchData () async {
    SharedPreferences preferences = await SharedPreferences.getInstance();
     profile_finder_id = preferences.getString("uid2").toString();
   }
 
-   static callApi() async {
-    final response = await http.get(Uri.parse(
-        "http://${ApiService.ipAddress}/my_question_and_answer/QKOKAMX1QQF"));
-    final _data = jsonDecode(response.body) as Map;
-    final id = _data.keys.first;
-    for (final pi in _data[id]) {
-      privateInvestigatorCollection.add(MyQuesAndAns1.fromJson(pi));
-    }
-  }
+  //  static callApi() async {
+  //      SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   profile_finder_id = preferences.getString("uid2").toString();
+  //   final response = await http.get(Uri.parse(
+  //       "http://${ApiService.ipAddress}/my_question_and_answer/$profile_finder_id"));
+  //   final data = jsonDecode(response.body) as Map;
+  //   final id = data.keys.first;
+  //   for (final pi in data[id]) {
+  //     privateInvestigatorCollection.add(MyQuesAndAns1.fromJson(pi));
+  //   }
+  // }
 }
 
 class WhereIsTheSanFourtyThreeScreen extends StatefulWidget {
@@ -48,7 +50,7 @@ class WhereIsTheSanFourtyThreeScreen extends StatefulWidget {
 
 
 // MyQuesAndAns1 _myQuesAndAns = MyQuesAndAns1();
- late String profile_finder_id;
+ late String _profile_finder_id;
 
 class _WhereIsTheSanFourtyThreeScreenState extends State<WhereIsTheSanFourtyThreeScreen> {
   
@@ -56,7 +58,7 @@ class _WhereIsTheSanFourtyThreeScreenState extends State<WhereIsTheSanFourtyThre
   void get_answer_from_private_investigator () async{
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    profile_finder_id = preferences.getString("uid2").toString();
+    _profile_finder_id = preferences.getString("uid2").toString();
  
 
   // var headers = {
@@ -75,7 +77,7 @@ class _WhereIsTheSanFourtyThreeScreenState extends State<WhereIsTheSanFourtyThre
   //   };
   final response = await http
         .get(
-          Uri.parse("http://${ApiService.ipAddress}/my_question_and_answer/$profile_finder_id"));
+          Uri.parse("http://${ApiService.ipAddress}/my_question_and_answer/$_profile_finder_id"));
     var json = jsonDecode(response.body);
 
      print("statusCodeIs${response.statusCode}");
@@ -122,11 +124,24 @@ class _WhereIsTheSanFourtyThreeScreenState extends State<WhereIsTheSanFourtyThre
   // }
 
 
+    callApi() async {
+       SharedPreferences preferences = await SharedPreferences.getInstance();
+    _profile_finder_id = preferences.getString("uid2").toString();
+    final response = await http.get(Uri.parse(
+        "http://${ApiService.ipAddress}/my_question_and_answer/$_profile_finder_id"));
+    final data = jsonDecode(response.body) as Map;
+    final id = data.keys.first;
+    for (final pi in data[id]) {
+    MyQuestionAndAnswer.privateInvestigatorCollection.add(MyQuesAndAns1.fromJson(pi));
+    }
+  }
+
+
 
   @override
   void initState() {
-    // TODO: implement initState
-    MyQuestionAndAnswer.callApi();
+   callApi();
+    // MyQuestionAndAnswer.callApi();
 
     super.initState();
   }
@@ -163,15 +178,15 @@ class _WhereIsTheSanFourtyThreeScreenState extends State<WhereIsTheSanFourtyThre
               SizedBox(
                 height: DeviceSize.itemHeight / 10,
               ),
-               Text(
-                MyQuestionAndAnswer.privateInvestigatorCollection[4].question.toString(),
+              //  Text(
+              //   MyQuestionAndAnswer.privateInvestigatorCollection[4].question.toString(),
 
-                //  _myQuesAndAns.pfId![0].question.toString() ??
-                  // 'who is her best friend?',
-                // 'who is her best friend?',
+              //   //  _myQuesAndAns.pfId![0].question.toString() ??
+              //     // 'who is her best friend?',
+              //   // 'who is her best friend?',
                
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-              ),
+              //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+              // ),
               SizedBox(
                 height: DeviceSize.itemHeight / 10,
               ),
@@ -184,17 +199,34 @@ class _WhereIsTheSanFourtyThreeScreenState extends State<WhereIsTheSanFourtyThre
               SizedBox(
                 height: DeviceSize.itemHeight / 10,
               ),
-               Text(
-                // 'Yes sir, she completed here graduation last year and her home is same place as her mentioned in her profile.',
-                 MyQuestionAndAnswer.privateInvestigatorCollection[1].answer.toString(),
+              //  Text(
+              //   // 'Yes sir, she completed here graduation last year and her home is same place as her mentioned in her profile.',
+              //    MyQuestionAndAnswer.privateInvestigatorCollection[1].answer.toString(),
                 
-                style: TextStyle(
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 18),
-              ),
+              //   style: TextStyle(
+              //       // fontWeight: FontWeight.bold,
+              //       fontSize: 18),
+              // ),
               SizedBox(
                 height: DeviceSize.itemHeight / 10,
               ),
+
+
+              // 
+              ListView.builder(
+                controller: ScrollController(),
+                shrinkWrap: true,
+                itemCount: MyQuestionAndAnswer.privateInvestigatorCollection.length,
+                itemBuilder: (context, index){
+                return Text("${ MyQuestionAndAnswer.privateInvestigatorCollection[index].question.toString()}");
+              })
+
+
+
+
+
+
+
               // const Text(
               //   'Answer',
               //   style: TextStyle(

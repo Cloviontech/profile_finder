@@ -9,52 +9,52 @@ List<PiMyData> piMyDataFromJson(String str) => List<PiMyData>.from(json.decode(s
 String piMyDataToJson(List<PiMyData> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class PiMyData {
-    String uid;
-    String email;
-    String mobile;
-    String password;
-    int otp;
-    int userOtp;
-    String createdDate;
-    dynamic profilePicture;
-    dynamic officeName;
-    dynamic officeCountry;
-    dynamic officeCity;
-    dynamic officeAddress;
-    dynamic firstName;
-    dynamic lastName;
-    dynamic personalCountry;
-    dynamic personalCity;
-    dynamic personalAddress;
-    dynamic hiringManager;
-    dynamic idCard;
-    dynamic tagline;
-    dynamic myClient;
-    dynamic totalRatings;
+    String? uid;
+    String? email;
+    String? mobile;
+    String? password;
+    int? otp;
+    int? userOtp;
+    String? createdDate;
+    String? profilePicture;
+    String? officeName;
+    String? officeCountry;
+    String? officeCity;
+    String? officeAddress;
+    String? firstName;
+    String? lastName;
+    String? personalCountry;
+    String? personalCity;
+    String? personalAddress;
+    String? hiringManager;
+    String? idCard;
+    String? tagline;
+    String? myClient;
+    int? totalRatings;
 
     PiMyData({
-        required this.uid,
-        required this.email,
-        required this.mobile,
-        required this.password,
-        required this.otp,
-        required this.userOtp,
-        required this.createdDate,
-        required this.profilePicture,
-        required this.officeName,
-        required this.officeCountry,
-        required this.officeCity,
-        required this.officeAddress,
-        required this.firstName,
-        required this.lastName,
-        required this.personalCountry,
-        required this.personalCity,
-        required this.personalAddress,
-        required this.hiringManager,
-        required this.idCard,
-        required this.tagline,
-        required this.myClient,
-        required this.totalRatings,
+         this.uid,
+         this.email,
+         this.mobile,
+         this.password,
+         this.otp,
+         this.userOtp,
+         this.createdDate,
+         this.profilePicture,
+         this.officeName,
+         this.officeCountry,
+         this.officeCity,
+         this.officeAddress,
+         this.firstName,
+         this.lastName,
+         this.personalCountry,
+         this.personalCity,
+         this.personalAddress,
+         this.hiringManager,
+         this.idCard,
+         this.tagline,
+         this.myClient,
+         this.totalRatings,
     });
 
     factory PiMyData.fromJson(Map<String, dynamic> json) => PiMyData(

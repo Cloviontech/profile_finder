@@ -7,6 +7,7 @@ import 'package:profile_finder/presentation/1ProfileFinder/Complaints/WriteYourC
 import 'package:profile_finder/presentation/1ProfileFinder/HappyCouplesUI/HappyCouplesPackagesThirtySixScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/every_male_fourty_nine_screen/EveryMaleFourtyNineScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/AllInvestigatorThirtyEightScreen.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/TestAllInvestigator.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/Profile/12screenProfile_complete.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -313,7 +314,10 @@ class _ProfileBottomNavigationScreenState
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) {
-                            return  AllInvestigatorThirtyEightScreen();
+                            return  
+                            // AllInvestigatorThirtyEightScreen();
+
+                            AllInvestigatorThirtyEightScreen();
                           }),
                         );
                       },

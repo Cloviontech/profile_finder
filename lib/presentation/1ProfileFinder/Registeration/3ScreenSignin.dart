@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/core/utils/size_utils.dart';
 import 'package:profile_finder/routes/app_routes.dart';
-import '../../../core/app_export.dart';
+// import '../../../core/app_export.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../model_final/modelAllUser.dart';
 import '../../../widgets/CustomWidgetsCl/CustomClAll.dart';
@@ -80,10 +80,16 @@ class _ThreeSigninScreenState extends State<ThreeSigninScreen> {
     print('Login Processing');
 
     var response = await http.post(
-      Uri.parse("http://10.0.2.2:8000/signin/"),
+      // Uri.parse("http://10.0.2.2:8000/signin/"),
+      Uri.parse("http://${ApiService.ipAddress}/signin/"),
+      
+
       // headers: headers,
       body: requestBody,
     );
+
+    print(response.statusCode);
+    print(response.body);
 
     if (response.statusCode == 200) {
       print(response.statusCode);
@@ -382,7 +388,7 @@ class _ThreeSigninScreenState extends State<ThreeSigninScreen> {
                                   // login("http://3.86.99.140:8000/signin/");
                                   // login("http://54.211.84.169:8000/signin/");
                                   // login("http://${ApiService.ipAddress}/signin/");
-                                  login("http://10.0.2.2:8000/signin/");
+                                  login("http://${ApiService.ipAddress}/signin/");
                                   Fluttertoast.showToast(
                                     backgroundColor: Colors.green,
                                     textColor: Colors.white,

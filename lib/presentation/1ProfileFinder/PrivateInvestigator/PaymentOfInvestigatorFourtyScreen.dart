@@ -33,7 +33,9 @@ class _PaymentOfInvestigatorFourtyScreenState extends State<PaymentOfInvestigato
    static  List<PiMyData> userList = [];
 
 
-   Future<void> fetchData() async {
+   Future<void> _fetchData() async {
+
+    print('test pi my data start');
 
     
       // late String private_investicator_id;
@@ -42,17 +44,23 @@ class _PaymentOfInvestigatorFourtyScreenState extends State<PaymentOfInvestigato
   
     final response = await http.get(Uri.parse("http://${ApiService.ipAddress}/pi_my_data/${widget.private_investicator_id}"));
 
-    if (response.statusCode == 200) {
+    // if (response.statusCode == 200) {
       List<dynamic> jsonResponse = jsonDecode(response.body);
       setState(() {
         userList = jsonResponse.map((data) => PiMyData.fromJson(data)).toList();
       
       });
+      print(response.statusCode);
+      print(response.body);
+
+      print(userList);
 
       debugPrint(userList[0].profilePicture);
-    } else {
-      throw Exception('Failed to load data');
-    }
+    // } 
+    
+    // else {
+    //   throw Exception('Failed to load data');
+    // }
   }
 
   String profile_finder_id = '';
@@ -140,7 +148,7 @@ class _PaymentOfInvestigatorFourtyScreenState extends State<PaymentOfInvestigato
   void initState() {
     // TODO: implement initState
 
-    fetchData();
+    _fetchData();
     super.initState();
   }
 
@@ -149,6 +157,7 @@ class _PaymentOfInvestigatorFourtyScreenState extends State<PaymentOfInvestigato
  
   @override
   Widget build(BuildContext context) {
+    // return Scaffold();
     return Scaffold(
       appBar:  ClAppbarLeadGridSuffHeart(testingNextPage:  CloseDealFourtyOneScreen(private_investicator_id_close_deal: '',)),
       body: SingleChildScrollView(
@@ -195,12 +204,16 @@ class _PaymentOfInvestigatorFourtyScreenState extends State<PaymentOfInvestigato
                         child: Container(
                           height: 100,
                           width: 100,
-                          decoration: const BoxDecoration(
+                          decoration:  BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.green,
                               image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/img_ellipse76.png'), // profile pic
+                                image: 
+                                // AssetImage(
+                                //     'assets/images/img_ellipse76.png'), 
+                                NetworkImage("${userList[0].profilePicture}")
+                                //
+                                //// profile pic
                               )),
                         ),
                       ),
@@ -220,9 +233,9 @@ class _PaymentOfInvestigatorFourtyScreenState extends State<PaymentOfInvestigato
                             ),
                              Row(
                                children: [
-                                 Text(userList[0].officeCity),
+                                 Text("${userList[0].officeCity}"),
                                  Text(",  "),
-                                 Text(userList[0].officeCountry),
+                                 Text("${userList[0].officeCountry}"),
                                  
                                ],
                              ),
