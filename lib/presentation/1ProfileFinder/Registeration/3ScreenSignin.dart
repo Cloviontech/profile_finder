@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:profile_finder/core/services/api_services.dart';
 import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/core/utils/size_utils.dart';
 import 'package:profile_finder/routes/app_routes.dart';
@@ -14,12 +15,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../MatchingList/1screen_advertisement.dart';
 
 
-
-
-
-class ApiServices {
-  static const String ipAddress2 = "10.0.2.2:8000";
-}
 
 class ThreeSigninScreen extends StatefulWidget {
   const ThreeSigninScreen({super.key});
@@ -74,8 +69,8 @@ class _ThreeSigninScreenState extends State<ThreeSigninScreen> {
       // 'password': "12345",
 
       'email': emailController.text,
-
       'password': passwordController.text,
+
     };
     print('Login Processing');
 
@@ -183,8 +178,7 @@ class _ThreeSigninScreenState extends State<ThreeSigninScreen> {
                                   //     .height
                                   //     .toString()),
                                   Text(
-                                    "Sign In",
-                                    style: TextStyle(
+                                    "Sign In",style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18),
                                   ),
@@ -388,7 +382,7 @@ class _ThreeSigninScreenState extends State<ThreeSigninScreen> {
                                   // login("http://3.86.99.140:8000/signin/");
                                   // login("http://54.211.84.169:8000/signin/");
                                   // login("http://${ApiService.ipAddress}/signin/");
-                                  login("http://${ApiService.ipAddress}/signin/");
+                                  login("http://${ApiServices.ipAddress}/signin/");
                                   Fluttertoast.showToast(
                                     backgroundColor: Colors.green,
                                     textColor: Colors.white,

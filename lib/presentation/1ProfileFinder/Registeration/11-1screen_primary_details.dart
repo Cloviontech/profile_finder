@@ -13,6 +13,8 @@ import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/core/utils/size_utils.dart';
 import 'package:profile_finder/model_final/model_final.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/Registeration/radio_food_taste_screen.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/Registeration/radio_orphan_disabled.dart';
 import 'package:profile_finder/routes/app_routes.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomClAll.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomWidgetTextformfieldWithSuffixicon.dart';
@@ -37,6 +39,19 @@ List<String> data = [
   "Swimming",
   "Artist",
 ];
+
+String interest = '';
+String nonInterest = '';
+String complexion = '';
+String foodTste = '';
+String dietPlan = '';
+String willingToCarrying = '';
+String useTobacco = '';
+String consumeAlcohol = '';
+String illegaldrugs = '';
+String criminalAffences = '';
+String orphan = '';
+String disabled = '';
 
 List<String> Dbditems = ["Yes", "No"];
 
@@ -166,8 +181,6 @@ List<String> salaryRange = [
 class ThirteenScreenPrimaryDetails extends StatefulWidget {
   const ThirteenScreenPrimaryDetails({super.key});
 
-
-
   @override
   State<ThirteenScreenPrimaryDetails> createState() =>
       _ThirteenScreenPrimaryDetailsState();
@@ -294,7 +307,6 @@ class _ThirteenScreenPrimaryDetailsState
     }
   }
 
-
   String horoscopePath = "abc";
   File? horoscopeFile;
 
@@ -363,34 +375,31 @@ class _ThirteenScreenPrimaryDetailsState
     // final file4 = filee;
     // final file5 = filee;
 
-    
     // request.fields['marital_status'] = 'maritalStatusPrimaryDetails';
     // request.fields['physical_mental_status'] = 'physical_mental_status';
-    
-    // request.fields['primary_email'] = 'emailPrimaryDetails@gmail.com';
-       
-    // request.fields['primary_phone_number'] ='phoneNumberPrimaryDetails';
-      
 
+    // request.fields['primary_email'] = 'emailPrimaryDetails@gmail.com';
+
+    // request.fields['primary_phone_number'] ='phoneNumberPrimaryDetails';
 
     // // request.fields['dob'] = 'dateofBirthPrimary';
-       
+
     // request.fields['why_marry'] = 'whyShouldMarry';
-       
+
     // request.fields['behind_decision'] = 'exactReason';
-       
+
     // request.fields['education_school'] = 'school';
-      
+
     // request.fields['education_year'] = 'schoolYearOfCompletion';
-      
+
     // request.fields['education_course'] = 'schoolCourse';
-        
+
     // request.fields['education_major'] = 'schoolMajor';
-      
+
     // request.fields['are_you_working_now'] = 'areYouWorkingNow';
-       
+
     // request.fields['company_name'] = 'companyName';
-       
+
     // request.fields['position'] = 'Position';
     // request.fields['profession'] =
     //     'schoolYearOfCompletion';
@@ -567,18 +576,13 @@ class _ThirteenScreenPrimaryDetailsState
     request.fields['disable'] = preferences.getString("disable").toString();
     request.fields['whichorgan'] = preferences.getString("disable").toString();
 
+    for (var element in request.fields.entries) {
+      print('${element.key} : ${element.value}');
+    }
 
-
-
-
-for (var element in request.fields.entries) {
-  print('${element.key} : ${element.value}');
-}
-
-for (var element in request.files) {
-  print(element.filename);
-  
-}
+    for (var element in request.files) {
+      print(element.filename);
+    }
 // print(request.fields.entries);
 // print(request.files);
     try {
@@ -587,8 +591,6 @@ for (var element in request.files) {
       print(response.statusCode);
       print(response.body);
       print("length: ${selectedImages.length}");
-      print(response.statusCode);
-      print(response.body);
       if (response.statusCode == 200) {
         // Navigator.pushNamed(context, AppRoutes.FourteenScreenscr);
         Fluttertoast.showToast(
@@ -603,8 +605,6 @@ for (var element in request.files) {
     }
   }
 
-
-  
   String familyGroupPhotoPath = "abc";
   File? familyGroupPhotoFile;
 
@@ -801,30 +801,27 @@ for (var element in request.files) {
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.grey.shade100,
                           ),
-                          child:
-                        
-                          Padding(
+                          child: Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: IntlPhoneField(
-                                            // flagsButtonMargin: EdgeInsets.only(left: 10),
-                                            disableLengthCheck: true,
-                                            dropdownIconPosition:
-                                                IconPosition.trailing,
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none),
-                                            initialCountryCode: 'IN',
-                                            onCountryChanged: (phone) {
-                                              countryCode = phone.code.toString();
-                                            },
-                                            onChanged: (phone) {
-                                              print(phone.completeNumber);
-                                                  
-                                              setState(() {
-                                                countryCode = phone.countryCode;
-                                              });
-                                              debugPrint(countryCode);
-                                            },
-                                          ),
+                              // flagsButtonMargin: EdgeInsets.only(left: 10),
+                              disableLengthCheck: true,
+                              dropdownIconPosition: IconPosition.trailing,
+                              decoration: const InputDecoration(
+                                  border: InputBorder.none),
+                              initialCountryCode: 'IN',
+                              onCountryChanged: (phone) {
+                                countryCode = phone.code.toString();
+                              },
+                              onChanged: (phone) {
+                                print(phone.completeNumber);
+
+                                setState(() {
+                                  countryCode = phone.countryCode;
+                                });
+                                debugPrint(countryCode);
+                              },
+                            ),
                           ),
                           //  DropdownButtonFormField(
                           //   decoration: InputDecoration(
@@ -835,7 +832,7 @@ for (var element in request.files) {
                           //   // underline: SizedBox(),
                           //   isExpanded: true,
                           //   // autofocus: true,
-                        
+
                           //   dropdownColor: Colors.white,
                           //   // focusColor: Colors.white,
                           //   hint: Text(
@@ -846,20 +843,20 @@ for (var element in request.files) {
                           //   icon: const Icon(Icons.arrow_drop_down),
                           //   iconSize: 24,
                           //   // elevation: 16,
-                        
+
                           //   // onChanged: (String? newValue) {
                           //   //   setState(() {
                           //   //     dropdownValue = newValue!;
                           //   //   });
                           //   // },
-                        
+
                           //   onChanged: (value) {
                           //     setState(() {
                           //       countryCode = value.toString();
                           //       print(countryCode);
                           //     });
                           //   },
-                        
+
                           //   items: countryCodechoose
                           //       .map<DropdownMenuItem<String>>((String value) {
                           //     return DropdownMenuItem<String>(
@@ -1159,11 +1156,16 @@ for (var element in request.files) {
 
                     D10HCustomClSizedBoxWidget(),
                     CustomClChoiceChip(
-                      valuePrimary: _valueNonInterest,
+                      valuePrimary: _valueInterest,
                       dataInput: data,
                       subTitle: "Choose your closest one from the List.",
                       title: "Your Interest?",
                       sharedPreffID: 'yourInterest',
+                      onselected: () {
+                        setState(() {
+                          interest = data[_valueInterest];
+                        });
+                      },
                     ),
                     D10HCustomClSizedBoxWidget(),
                     CustomClChoiceChip(
@@ -1172,6 +1174,11 @@ for (var element in request.files) {
                       subTitle: 'Choose your closest one from the List.',
                       title: 'Not Interest?',
                       sharedPreffID: 'nonInterest',
+                      onselected: () {
+                        setState(() {
+                          nonInterest = data[_valueNonInterest];
+                        });
+                      },
                     ),
                     D10HCustomClSizedBoxWidget(),
                     CustomClChoiceChip(
@@ -1180,6 +1187,11 @@ for (var element in request.files) {
                       subTitle: 'Choose your closest one from the List.',
                       title: 'Complexion?',
                       sharedPreffID: 'complexion',
+                      onselected: () {
+                        setState(() {
+                          complexion = data_complexion[_valueComplexion];
+                        });
+                      },
                     ),
                     D10HCustomClSizedBoxWidget(),
 
@@ -1194,6 +1206,8 @@ for (var element in request.files) {
                     Text(
                         "What is the opinion of your daily diet plan after marriage."),
 
+
+                    FoodTasteRadioWidget(),
                     // Row(
                     //   children: [
                     //     Expanded(
@@ -1241,93 +1255,93 @@ for (var element in request.files) {
                     //   ],
                     // ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              Radio(
-                                  // toggleable: true,
-                                  value: "Veg",
-                                  groupValue: _valueFoodtasteVegNonVeg,
-                                  onChanged: (valueVegOrNon) {
-                                    setState(() {
-                                      _valueFoodtasteVegNonVeg =
-                                          valueVegOrNon.toString();
-                                      saveToSharedPrefferences(
-                                          "foodTasteVegOrNon",
-                                          _valueFoodtasteVegNonVeg
-                                          // _valueFoodtasteVegNonVeg == 1
-                                          //     ? "Veg"
-                                          //     : "Non-Veg"
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Container(
+                    //       child: Row(
+                    //         children: [
+                    //           Radio(
+                    //               // toggleable: true,
+                    //               value: "Veg",
+                    //               groupValue: _valueFoodtasteVegNonVeg,
+                    //               onChanged: (valueVegOrNon) {
+                    //                 setState(() {
+                    //                   _valueFoodtasteVegNonVeg =
+                    //                       valueVegOrNon.toString();
+                    //                   saveToSharedPrefferences(
+                    //                       "foodTasteVegOrNon",
+                    //                       _valueFoodtasteVegNonVeg
+                    //                       // _valueFoodtasteVegNonVeg == 1
+                    //                       //     ? "Veg"
+                    //                       //     : "Non-Veg"
 
-                                          );
-                                    });
-                                  }),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              const Text("Veg")
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Row(
-                            children: [
-                              Radio(
-                                  value: "Non Veg",
-                                  groupValue: _valueFoodtasteVegNonVeg,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _valueFoodtasteVegNonVeg =
-                                          value.toString();
-                                      saveToSharedPrefferences(
-                                          "foodTasteVegOrNon",
-                                          _valueFoodtasteVegNonVeg);
-                                    });
-                                    saveToSharedPrefferences(
-                                        "foodTasteVegOrNon",
-                                        _valueFoodtasteVegNonVeg == 2
-                                            ? "Non-Veg"
-                                            : "Both");
-                                  }),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              const Text("Non Veg")
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Row(
-                            children: [
-                              Radio(
-                                  value: "Both",
-                                  groupValue: _valueFoodtasteVegNonVeg,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _valueFoodtasteVegNonVeg =
-                                          value.toString();
-                                      saveToSharedPrefferences(
-                                          "foodTasteVegOrNon",
-                                          _valueFoodtasteVegNonVeg);
-                                    });
-                                    saveToSharedPrefferences(
-                                        "foodTasteVegOrNon",
-                                        _valueFoodtasteVegNonVeg == 3
-                                            ? "Both"
-                                            : "3");
-                                  }),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              const Text("Both")
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                    //                       );
+                    //                 });
+                    //               }),
+                    //           const SizedBox(
+                    //             width: 2,
+                    //           ),
+                    //           const Text("Veg")
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     Container(
+                    //       child: Row(
+                    //         children: [
+                    //           Radio(
+                    //               value: "Non Veg",
+                    //               groupValue: _valueFoodtasteVegNonVeg,
+                    //               onChanged: (value) {
+                    //                 setState(() {
+                    //                   _valueFoodtasteVegNonVeg =
+                    //                       value.toString();
+                    //                   saveToSharedPrefferences(
+                    //                       "foodTasteVegOrNon",
+                    //                       _valueFoodtasteVegNonVeg);
+                    //                 });
+                    //                 saveToSharedPrefferences(
+                    //                     "foodTasteVegOrNon",
+                    //                     _valueFoodtasteVegNonVeg == 2
+                    //                         ? "Non-Veg"
+                    //                         : "Both");
+                    //               }),
+                    //           const SizedBox(
+                    //             width: 2,
+                    //           ),
+                    //           const Text("Non Veg")
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     Container(
+                    //       child: Row(
+                    //         children: [
+                    //           Radio(
+                    //               value: "Both",
+                    //               groupValue: _valueFoodtasteVegNonVeg,
+                    //               onChanged: (value) {
+                    //                 setState(() {
+                    //                   _valueFoodtasteVegNonVeg =
+                    //                       value.toString();
+                    //                   saveToSharedPrefferences(
+                    //                       "foodTasteVegOrNon",
+                    //                       _valueFoodtasteVegNonVeg);
+                    //                 });
+                    //                 saveToSharedPrefferences(
+                    //                     "foodTasteVegOrNon",
+                    //                     _valueFoodtasteVegNonVeg == 3
+                    //                         ? "Both"
+                    //                         : "3");
+                    //               }),
+                    //           const SizedBox(
+                    //             width: 2,
+                    //           ),
+                    //           const Text("Both")
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     D10HCustomClSizedBoxWidget(
                       height: 50,
                     ),
@@ -1851,117 +1865,118 @@ for (var element in request.files) {
                       },
                     ),
                     D10HCustomClSizedBoxWidget(),
+                    RadioOrphanAndDisabled(),
 
                     //
                     //
                     //
 
-                    Text(
-                      "Are you an orphan?",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              Radio(
-                                  value: 1,
-                                  groupValue: _valueOrphan,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _valueOrphan = value as int;
-                                    });
-                                    saveToSharedPrefferences("orphan",
-                                        _valueOrphan == 1 ? "Yes" : "No");
-                                  }),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              const Text("Yes")
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 40,
-                        ),
-                        Container(
-                          child: Row(
-                            children: [
-                              Radio(
-                                  value: 2,
-                                  groupValue: _valueOrphan,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _valueOrphan = value as int;
-                                    });
-                                    saveToSharedPrefferences("orphan",
-                                        _valueOrphan == 2 ? "No" : "Yes");
-                                  }),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              const Text("No")
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      "Are you an disable?",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              Radio(
-                                  value: 1,
-                                  groupValue: _valueDisable,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _valueDisable = value as int;
-                                    });
-                                    saveToSharedPrefferences("disable",
-                                        _valueDisable == 1 ? "Yes" : "No");
-                                  }),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              const Text("Yes")
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 40,
-                        ),
-                        Container(
-                          child: Row(
-                            children: [
-                              Radio(
-                                  value: 2,
-                                  groupValue: _valueDisable,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _valueDisable = value as int;
-                                    });
-                                    saveToSharedPrefferences("disable",
-                                        _valueDisable == 2 ? "No" : "Yes");
-                                  }),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              const Text("No")
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Text(
+                    //   "Are you an orphan?",
+                    //   style: TextStyle(fontWeight: FontWeight.bold),
+                    // ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.start,
+                    //   children: [
+                    //     Container(
+                    //       child: Row(
+                    //         children: [
+                    //           Radio(
+                    //               value: 1,
+                    //               groupValue: _valueOrphan,
+                    //               onChanged: (value) {
+                    //                 setState(() {
+                    //                   _valueOrphan = value as int;
+                    //                 });
+                    //                 saveToSharedPrefferences("orphan",
+                    //                     _valueOrphan == 1 ? "Yes" : "No");
+                    //               }),
+                    //           const SizedBox(
+                    //             width: 2,
+                    //           ),
+                    //           const Text("Yes")
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 40,
+                    //     ),
+                    //     Container(
+                    //       child: Row(
+                    //         children: [
+                    //           Radio(
+                    //               value: 2,
+                    //               groupValue: _valueOrphan,
+                    //               onChanged: (value) {
+                    //                 setState(() {
+                    //                   _valueOrphan = value as int;
+                    //                 });
+                    //                 saveToSharedPrefferences("orphan",
+                    //                     _valueOrphan == 2 ? "No" : "Yes");
+                    //               }),
+                    //           const SizedBox(
+                    //             width: 2,
+                    //           ),
+                    //           const Text("No")
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    // Text(
+                    //   "Are you an disable?",
+                    //   style: TextStyle(fontWeight: FontWeight.bold),
+                    // ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.start,
+                    //   children: [
+                    //     Container(
+                    //       child: Row(
+                    //         children: [
+                    //           Radio(
+                    //               value: 1,
+                    //               groupValue: _valueDisable,
+                    //               onChanged: (value) {
+                    //                 setState(() {
+                    //                   _valueDisable = value as int;
+                    //                 });
+                    //                 saveToSharedPrefferences("disable",
+                    //                     _valueDisable == 1 ? "Yes" : "No");
+                    //               }),
+                    //           const SizedBox(
+                    //             width: 2,
+                    //           ),
+                    //           const Text("Yes")
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 40,
+                    //     ),
+                    //     Container(
+                    //       child: Row(
+                    //         children: [
+                    //           Radio(
+                    //               value: 2,
+                    //               groupValue: _valueDisable,
+                    //               onChanged: (value) {
+                    //                 setState(() {
+                    //                   _valueDisable = value as int;
+                    //                 });
+                    //                 saveToSharedPrefferences("disable",
+                    //                     _valueDisable == 2 ? "No" : "Yes");
+                    //               }),
+                    //           const SizedBox(
+                    //             width: 2,
+                    //           ),
+                    //           const Text("No")
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
 
-                    D10HCustomClSizedBoxWidget(),
+                    // D10HCustomClSizedBoxWidget(),
 
                     // MyElevatedButtonWithBorderColor(
                     //     // onPressed: uploadData,

@@ -558,13 +558,15 @@ class CustomClListtileWidget extends StatelessWidget {
 }
 
 class CustomClCheckboxWithQuestionWidget extends StatefulWidget {
-  const CustomClCheckboxWithQuestionWidget({
+   CustomClCheckboxWithQuestionWidget({
     super.key,
     required this.question,
-    required this.completed,
+    required this.completed, required this.answer,
   });
 
   final String question;
+  final String answer;
+  
   final bool completed;
 
   @override
@@ -628,7 +630,7 @@ class _CustomClCheckboxWithQuestionWidgetState extends State<CustomClCheckboxWit
                   color: ColorConstant.clPurpleBorderColor, width: 2)),
           child: Center(
               child: Text(
-            "View Answer",
+            widget.answer,
             style: TextStyle(
               color: ColorConstant.clPurpleFontColor,
               // fontWeight: FontWeight.bold,

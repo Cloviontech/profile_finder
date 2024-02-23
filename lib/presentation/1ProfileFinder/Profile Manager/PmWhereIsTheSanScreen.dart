@@ -5,55 +5,53 @@ import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/core/utils/size_utils.dart';
 import 'package:profile_finder/model_final/private_inv/my_ques_and_ans.dart';
 import 'package:profile_finder/model_final/private_inv/my_ques_ans.dart';
+import 'package:profile_finder/model_final/profile_manager/complaints_model.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/CloseAndRateFourtyFourScreen.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/CloseDealFourtyOneScreen.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomClAll.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomWidgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MyQuestionAndAnswer {
-  static List<MyQuesAndAns1> privateInvestigatorCollection = []; 
-  String profile_finder_id = ' ';
+// class MyQuestionAndAnswer {
+//   static List<MyQuesAndAns1> privateInvestigatorCollection = [];
+//   String profile_finder_id = ' ';
 
-  
+//   MyQuestAndAnswerFetchData() async {
+//     SharedPreferences preferences = await SharedPreferences.getInstance();
+//     profile_finder_id = preferences.getString("uid2").toString();
+//   }
 
-  //  static callApi() async {
-  //      SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   profile_finder_id = preferences.getString("uid2").toString();
-  //   final response = await http.get(Uri.parse(
-  //       "http://${ApiService.ipAddress}/my_question_and_answer/$profile_finder_id"));
-  //   final data = jsonDecode(response.body) as Map;
-  //   final id = data.keys.first;
-  //   for (final pi in data[id]) {
-  //     privateInvestigatorCollection.add(MyQuesAndAns1.fromJson(pi));
-  //   }
-  // }
-}
+//   //  static callApi() async {
+//   //      SharedPreferences preferences = await SharedPreferences.getInstance();
+//   //   profile_finder_id = preferences.getString("uid2").toString();
+//   //   final response = await http.get(Uri.parse(
+//   //       "http://${ApiService.ipAddress}/my_question_and_answer/$profile_finder_id"));
+//   //   final data = jsonDecode(response.body) as Map;
+//   //   final id = data.keys.first;
+//   //   for (final pi in data[id]) {
+//   //     privateInvestigatorCollection.add(MyQuesAndAns1.fromJson(pi));
+//   //   }
+//   // }
+// }
 
-class WhereIsTheSanFourtyThreeScreen extends StatefulWidget {
-  const WhereIsTheSanFourtyThreeScreen(
+class PmWhereIsTheSanScreen extends StatefulWidget {
+  const PmWhereIsTheSanScreen(
       {super.key, required this.private_investicator_id});
 
   final String private_investicator_id;
 
   @override
-  State<WhereIsTheSanFourtyThreeScreen> createState() =>
-      _WhereIsTheSanFourtyThreeScreenState();
+  State<PmWhereIsTheSanScreen> createState() =>
+      _PmWhereIsTheSanScreenState();
 }
 
 // MyQuesAndAns1 _myQuesAndAns = MyQuesAndAns1();
 late String _profile_finder_id;
 
-class _WhereIsTheSanFourtyThreeScreenState
-    extends State<WhereIsTheSanFourtyThreeScreen> {
-
-
-      
-  bool LoadingGet_answer_from_private_investigator = true;
-  bool LoadingCallApi = true;
-  
-
+class _PmWhereIsTheSanScreenState
+    extends State<PmWhereIsTheSanScreen> {
   void get_answer_from_private_investigator() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     _profile_finder_id = preferences.getString("uid2").toString();
@@ -111,51 +109,28 @@ class _WhereIsTheSanFourtyThreeScreenState
   //   print("Do Something When Error Occurs");
   // }
 
-static List<MyQuesAndAns1> privateInvestigatorCollection = []; 
+  List<MyComplaintsAndReplies> privateInvestigatorCollection = [];
+
   callApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     _profile_finder_id = preferences.getString("uid2").toString();
     final response = await http.get(Uri.parse(
-        "http://${ApiService.ipAddress}/my_question_and_answer/$_profile_finder_id"));
-
-        if (response.statusCode == 200) {
-
-            final data = jsonDecode(response.body) as Map;
+        "http://${ApiService.ipAddress}/complaints_reply/$_profile_finder_id"));
+    final data = jsonDecode(response.body) as Map;
     final id = data.keys.first;
     for (final pi in data[id]) {
       privateInvestigatorCollection
-          .add(MyQuesAndAns1.fromJson(pi));
+          .add(MyComplaintsAndReplies.fromJson(pi));
     }
-setState(() {
-  LoadingCallApi = false;
-});
-
-          
-        }
-  
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    setState(() {
-      privateInvestigatorCollection=[];
-    });
-    super.dispose();
   }
 
   @override
   void initState() {
-    setState(() {
-      privateInvestigatorCollection=[];
-    });
     callApi();
     // MyQuestionAndAnswer.callApi();
 
     super.initState();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -181,8 +156,6 @@ setState(() {
               ),
 
               //
-
-              LoadingCallApi ? CircularProgressIndicator() :
               ListView.builder(
                   controller: ScrollController(),
                   shrinkWrap: true,
@@ -198,7 +171,7 @@ setState(() {
                          ),
                         
                         Text(
-                           privateInvestigatorCollection[index].question
+                           privateInvestigatorCollection[index].complaint
                             .toString(),
                              style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20
@@ -211,7 +184,7 @@ setState(() {
                           
                         ),
                         Text(
-                           privateInvestigatorCollection[index].answer
+                            privateInvestigatorCollection[index].reply
                             .toString(),style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),),
                             SizedBox(
@@ -259,13 +232,13 @@ setState(() {
         padding: const EdgeInsets.all(20),
         child: MyElevatedButton(
             onPressed: () {
-              //  Navigator.push(
-              //     context,
-              //     MaterialPageRoute(builder: (context) {
-              //       return WhereIsTheSanFourtyThreeScreen(private_investicator_id: widget.private_investicator_id,);
-              //     }),
-              //   );
-              Navigator.pop(context);
+               Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return CloseDealFourtyOneScreen(private_investicator_id_close_deal: widget.private_investicator_id,);
+                  }
+                  ),
+                );
             },
             borderRadius: BorderRadius.circular(10),
             backgroundColor: Colors.transparent,

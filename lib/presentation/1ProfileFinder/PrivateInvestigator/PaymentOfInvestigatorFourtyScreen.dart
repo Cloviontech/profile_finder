@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:profile_finder/core/services/api_services.dart';
 import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/core/utils/size_utils.dart';
+import 'package:profile_finder/model_final/private_inv/my_investigators.dart';
 import 'package:profile_finder/model_final/private_inv/pi_my_data.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/CloseAndRateFourtyFourScreen.dart';
@@ -144,11 +146,45 @@ class _PaymentOfInvestigatorFourtyScreenState extends State<PaymentOfInvestigato
 }
 
 
+  static List<PrivateInvestigatorModel> privateInvestigatorCollection = [];
+
+ Future<String?>  callApi() async {
+
+   SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      profile_finder_id = preferences.getString("uid2").toString();
+    });
+
+   
+    final response = await http.get(Uri.parse(
+        "http://${ApiServices.ipAddress}/my_investigator/$profile_finder_id"));
+    final _data = jsonDecode(response.body) as Map;
+    final idd = _data.keys.first;
+    for (final pi in _data[idd]) {
+      privateInvestigatorCollection.add(PrivateInvestigatorModel.fromJson(pi));
+    }
+  }
+
+// 
+
+  List <String>? MyInvestigatorsUidList = [];
+
+  getMyInvestigatorsUid() {
+    for (var i = 0; i < privateInvestigatorCollection.length; i++) {
+      MyInvestigatorsUidList!.add(privateInvestigatorCollection[i].uid.toString());
+    }
+  }
+  // 
+
+
 @override
   void initState() {
     // TODO: implement initState
 
     _fetchData();
+     callApi().whenComplete(() => getMyInvestigatorsUid());
+   
+
     super.initState();
   }
 
@@ -167,8 +203,10 @@ class _PaymentOfInvestigatorFourtyScreenState extends State<PaymentOfInvestigato
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(profile_finder_id),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
+                
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -250,11 +288,25 @@ class _PaymentOfInvestigatorFourtyScreenState extends State<PaymentOfInvestigato
                             const Text('For one month'),
                             MyElevatedButton(
                               onPressed: () {
+                                MyInvestigatorsUidList!.contains(widget.private_investicator_id) ? 
+                                 
+ Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return CloseDealFourtyOneScreen(private_investicator_id_close_deal: widget.private_investicator_id);
+                  }),
+                )
+                                 :
                                 my_investigator(widget.private_investicator_id);
                               },
                               borderRadius: BorderRadius.circular(10),
                               backgroundColor: Colors.transparent,
-                              child: const Text("Hire Investigator",
+                              child: MyInvestigatorsUidList!.contains(widget.private_investicator_id) ? 
+                              Text("Hired",
+                               style: TextStyle(
+                      color: Colors.white,)
+                              ):
+                              Text("Hire Investigator",
                                style: TextStyle(
                       color: Colors.white,)
                               ),
@@ -275,6 +327,7 @@ class _PaymentOfInvestigatorFourtyScreenState extends State<PaymentOfInvestigato
                     color: ColorConstant.clgreenAmountColor),
               ),
               SizedBox(height: DeviceSize.itemHeight / 15),
+               Text(MyInvestigatorsUidList.toString()),
               Row(
                 children: [
                   SvgPicture.asset(

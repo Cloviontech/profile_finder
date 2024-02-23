@@ -1,8 +1,3 @@
-
-
-
-
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -13,80 +8,84 @@ import 'package:profile_finder/model_final/complaints/all_pm_data_list_model.dar
 import 'package:profile_finder/presentation/1ProfileFinder/HighlightProfile/HighlightProfileFourtySixScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/WhereIsTheSanFourtyThreeScreen.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/Profile%20Manager/PmCloseDealScreen.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomClAll.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomWidgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WriteYourComplaintPfScreen extends StatefulWidget {
-  const WriteYourComplaintPfScreen({super.key, required this.private_investicator_id_ques});
+  const WriteYourComplaintPfScreen(
+      {super.key, required this.profile_manager_id_ques});
 
-  final String private_investicator_id_ques;
+  final String profile_manager_id_ques;
 
   @override
-  State<WriteYourComplaintPfScreen> createState() => _WriteYourComplaintPfScreenState();
+  State<WriteYourComplaintPfScreen> createState() =>
+      _WriteYourComplaintPfScreenState();
 }
 
-class _WriteYourComplaintPfScreenState extends State<WriteYourComplaintPfScreen> {
- 
-String profile_finder_id = '';
-
+class _WriteYourComplaintPfScreenState
+    extends State<WriteYourComplaintPfScreen> {
+  String profile_finder_id = '';
 
 // String questionn = '';
 
-     // Asking Questions to Private Investigator
-complaint( String complaint) async{
-
+  // Asking Questions to Private Investigator
+  complaint(String complaint) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     profile_finder_id = preferences.getString("uid2").toString();
-  
-  final statusCode;
-  final body;
-  // const profile_finder_id = "VHNK85TM5TV";
-  // const my_private_investicator_id = "Y9M0YCN82YA";
-  final url = Uri.parse("http://${ApiService.ipAddress}/my_complaints/$profile_finder_id");
-  var request = http.MultipartRequest('POST', url);
-  request.fields['my_manager'] = complaint; // TextEditingController()
-  try {
-    final response = await request.send();
-    statusCode = response.statusCode;
-    body = await response.stream.bytesToString();
-    print("Prof finder id : $profile_finder_id");
-    print("Priv inv id: ${widget.private_investicator_id_ques}");
-    print("Status Code : $statusCode");
-    print("Body : $body");
-    
-    
 
-    if (response.statusCode == 200) {
-       Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return WhereIsTheSanFourtyThreeScreen(private_investicator_id: widget.private_investicator_id_ques,);
-                  }),
-                );
+    final statusCode;
+    final body;
+    // const profile_finder_id = "VHNK85TM5TV";
+    // const my_private_investicator_id = "Y9M0YCN82YA";
+    final url = Uri.parse(
+        "http://${ApiService.ipAddress}/my_complaints/$profile_finder_id");
+    var request = http.MultipartRequest('POST', url);
+    request.fields['my_manager'] =
+        widget.profile_manager_id_ques; 
+    request.fields['complaints'] = complaint;
+
+    try {
+      final response = await request.send();
+      statusCode = response.statusCode;
+      body = await response.stream.bytesToString();
+      print("Prof finder id : $profile_finder_id");
+      print("Profile manager id: ${widget.profile_manager_id_ques}");
+      print("Status Code : $statusCode");
+      print("Body : $body");
+
+      if (response.statusCode == 200) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return PmCloseDealScreen(
+               profile_manager_id_close_deal: widget.profile_manager_id_ques,
+            );
+          }),
+        );
+      }
+    } catch (e) {
+      print("Do Something When Error Occurs");
     }
-  } catch (e) {
-    print("Do Something When Error Occurs");
   }
-}
 
-  static List<AllPmDataList> model =[];
+  static List<AllPmDataList> model = [];
 
   Future<List<AllPmDataList>?> _fetchallPmDataList() async {
     debugPrint('entering getUsers function');
     try {
       // var url = Uri.parse("http://$ipAddress/alluserdata");
-       var url = Uri.parse("http://${ApiService.ipAddress}/all_pm_data");
+      var url = Uri.parse("http://${ApiService.ipAddress}/all_pm_data");
       //  var url = Uri.parse("http://127.0.0.1:3000/alluserdata");
-       
 
       var response = await http.get(url);
       if (response.statusCode == 200) {
         List<AllPmDataList> model = allPmDataListFromJson(response.body);
         return model;
       }
-      
+
       debugPrint('error code');
       print(response.statusCode);
     } catch (e) {
@@ -98,54 +97,27 @@ complaint( String complaint) async{
 
   List _allPmUidList = [];
 
+  _allPmDataListLooping() {
+    for (var i = 0; i < model.length; i++) {
+      _allPmUidList.add(model[i].uid);
+    }
 
-_allPmDataListLooping (){
-
-  for (var i = 0; i < model.length; i++) {
-
-_allPmUidList.add(model[i].uid);
-    
+    for (var j = 0; j < _allPmUidList.length; j++) {}
   }
 
+  TextEditingController _complaintController = TextEditingController();
 
-  for (var j = 0; j < _allPmUidList.length; j++) {
-    
-    
-  }
-}
-
-
-
-
-
-
-
-
-  
-
-
-
-
-TextEditingController _complaintController = TextEditingController();
-
-
-
-
-@override
+  @override
   void initState() {
-   _fetchallPmDataList();
+    _fetchallPmDataList();
     super.initState();
   }
 
-
- 
- 
- 
- 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: const ClAppbarLeadGridSuffHeart(testingNextPage:  HighlightProfileFourtySixScreen()),
+      appBar: const ClAppbarLeadGridSuffHeart(
+          testingNextPage: HighlightProfileFourtySixScreen()),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
@@ -161,47 +133,46 @@ TextEditingController _complaintController = TextEditingController();
               SizedBox(
                 height: DeviceSize.itemHeight / 50,
               ),
-             
+
               Text(
                 'write your Complaint here',
                 style: TextStyle(
-                  // fontWeight: FontWeight.bold,
-                 fontSize: DeviceSize.itemHeight/15),
+                    // fontWeight: FontWeight.bold,
+                    fontSize: DeviceSize.itemHeight / 15),
               ),
               SizedBox(
                 height: DeviceSize.itemHeight / 10,
               ),
               //  CustomClTextformfieldWithSuffixIconWidget(
               //   questionController: questionControllerScreen,
-               
+
               //  ),
 
               TextFormField(
+                controller: _complaintController,
 
-      controller: _complaintController ,
-     
-      // expands: true,
-      maxLines: 5,
-      minLines: null,
+                // expands: true,
+                maxLines: 5,
+                minLines: null,
 
-      decoration: InputDecoration(
-          suffixIcon: Padding(
-            padding: const EdgeInsets.only(top: 150, bottom: 0),
-            child: SvgPicture.asset(
-              'assets/images/img_menu.svg',
-              alignment: Alignment.bottomLeft,
-            ),
-          ),
-          suffixIconConstraints:
-              const BoxConstraints(minWidth: 20, minHeight: 20),
-          // contentPadding: EdgeInsets.only(left: 10,top: 30,right: 10, bottom: -10),
-          border: OutlineInputBorder(
-              borderSide: const BorderSide(),
-              // gapPadding: 10,
+                decoration: InputDecoration(
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(top: 150, bottom: 0),
+                      child: SvgPicture.asset(
+                        'assets/images/img_menu.svg',
+                        alignment: Alignment.bottomLeft,
+                      ),
+                    ),
+                    suffixIconConstraints:
+                        const BoxConstraints(minWidth: 20, minHeight: 20),
+                    // contentPadding: EdgeInsets.only(left: 10,top: 30,right: 10, bottom: -10),
+                    border: OutlineInputBorder(
+                        borderSide: const BorderSide(),
+                        // gapPadding: 10,
 
-              borderRadius: BorderRadius.circular(10))),
-    ),
-               SizedBox(
+                        borderRadius: BorderRadius.circular(10))),
+              ),
+              SizedBox(
                 height: DeviceSize.itemHeight / 10,
               ),
               // Text(
@@ -215,7 +186,6 @@ TextEditingController _complaintController = TextEditingController();
               // const CustomClRectangleCheckboxWithQuestionWidget(question: 'Image', completed: false,),
               // const CustomClRectangleCheckboxWithQuestionWidget(question: 'Voice', completed: false,),
               // const CustomClRectangleCheckboxWithQuestionWidget(question: 'Text', completed: false,),
-              
             ],
           ),
         ),
@@ -237,17 +207,18 @@ TextEditingController _complaintController = TextEditingController();
                   //     end: Alignment(1, 0.56),
                   //     colors: [ColorConstant.indigo500, ColorConstant.purpleA100]),
                   child: Text(
-                    'Cancel', style: TextStyle(
-                      color: ColorConstant.clPurple5,
-                  // fontWeight: FontWeight.bold,
-                 fontSize: DeviceSize.itemHeight/15),
+                    'Cancel',
+                    style: TextStyle(
+                        color: ColorConstant.clPurple5,
+                        // fontWeight: FontWeight.bold,
+                        fontSize: DeviceSize.itemHeight / 15),
                   )),
             ),
             Expanded(
               flex: 1,
               child: SizedBox(
-                  height: DeviceSize.itemHeight / 10,
-                ),
+                height: DeviceSize.itemHeight / 10,
+              ),
             ),
             Expanded(
               flex: 10,
@@ -273,5 +244,3 @@ TextEditingController _complaintController = TextEditingController();
     );
   }
 }
-
-                                                                          

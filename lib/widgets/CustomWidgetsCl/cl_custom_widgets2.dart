@@ -1,4 +1,3 @@
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -461,8 +460,7 @@ class ClListTileInsideCardWidget extends StatelessWidget {
   }
 }
 
-class ClListviewBuilderTableWidget extends
- StatelessWidget {
+class ClListviewBuilderTableWidget extends StatelessWidget {
   const ClListviewBuilderTableWidget({
     super.key,
     required this.officeDetailsQus,
@@ -1113,34 +1111,35 @@ class drop_down_cl extends StatelessWidget {
 
 class CustomClChoiceChip extends StatefulWidget {
   CustomClChoiceChip(
-      {super.key, required this.valuePrimary, this.dataInput, this.title, this.subTitle, this.sharedPreffID});
+      {super.key,
+      required this.valuePrimary,
+      this.dataInput,
+      this.title,
+      this.subTitle,
+      this.sharedPreffID,
+      this.onselected, this.name});
 
   int valuePrimary;
   final List? dataInput;
   final String? title;
   final String? subTitle;
   final String? sharedPreffID;
-  
+  final VoidCallback? onselected;
+   String? name;
 
   @override
   State<CustomClChoiceChip> createState() => _CustomClChoiceChipState();
 }
 
 class _CustomClChoiceChipState extends State<CustomClChoiceChip> {
- 
   saveToSharedPrefferences(String? nameOfID, String valueToSave) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     preferences.setString(nameOfID!, valueToSave);
   }
 
-  
-
   // int selectedBackup = widget.valuePrimary;
- 
- 
- 
- 
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -1167,7 +1166,9 @@ class _CustomClChoiceChipState extends State<CustomClChoiceChip> {
                     widget.subTitle!,
                     style: const TextStyle(fontWeight: FontWeight.w400),
                   ),
-                  D10HCustomClSizedBoxWidget(height: 20,),
+                  D10HCustomClSizedBoxWidget(
+                    height: 20,
+                  ),
                 ],
               ),
         widget.title == null ? SizedBox() : SizedBox(height: 1),
@@ -1204,10 +1205,15 @@ class _CustomClChoiceChipState extends State<CustomClChoiceChip> {
                 // onselected method
                 onSelected: (bool selected) {
                   setState(() {
+
+                    // widget.name = 
+
+
+
                     widget.valuePrimary = (selected ? indexx : null)!;
 
-                    saveToSharedPrefferences(
-                                  widget.sharedPreffID, widget.dataInput![widget.valuePrimary]);
+                    saveToSharedPrefferences(widget.sharedPreffID,
+                        widget.dataInput![widget.valuePrimary]);
                   });
                 },
               );

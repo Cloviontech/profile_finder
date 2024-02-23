@@ -16,7 +16,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CloseDealFourtyOneScreen extends StatefulWidget {
-  CloseDealFourtyOneScreen({super.key, required this.private_investicator_id_close_deal});
+  CloseDealFourtyOneScreen(
+      {super.key, required this.private_investicator_id_close_deal});
 
   final String private_investicator_id_close_deal;
 
@@ -27,6 +28,11 @@ class CloseDealFourtyOneScreen extends StatefulWidget {
 
 class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
   static List<PiMyData> userList = [];
+
+  bool LoadingFetchData = true;
+  bool LoadingCallApi = true;
+  
+
 
   Future<void> fetchData() async {
     // late String private_investicator_id;
@@ -43,6 +49,10 @@ class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
       });
 
       debugPrint(userList[0].profilePicture);
+
+      setState(() {
+        LoadingFetchData = false;
+      });
     } else {
       throw Exception('Failed to load data');
     }
@@ -126,33 +136,53 @@ class _CloseDealFourtyOneScreenState extends State<CloseDealFourtyOneScreen> {
       print("Do Something When Error Occurs");
     }
   }
-late String _profile_finder_id;
+
+  late String _profile_finder_id;
+
+   static List<MyQuesAndAns1> privateInvestigatorCollection = []; 
+
+  Future<String?> initialiseData () async{
+ setState(() {
+      privateInvestigatorCollection=[];
+    });
+   }
 
   callApi() async {
-       SharedPreferences preferences = await SharedPreferences.getInstance();
+    
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     _profile_finder_id = preferences.getString("uid2").toString();
     final response = await http.get(Uri.parse(
         "http://${ApiService.ipAddress}/my_question_and_answer/$_profile_finder_id"));
-    final data = jsonDecode(response.body) as Map;
+
+      if (response.statusCode == 200) {
+         final data = jsonDecode(response.body) as Map;
     final id = data.keys.first;
     for (final pi in data[id]) {
-    MyQuestionAndAnswer.privateInvestigatorCollection.add(MyQuesAndAns1.fromJson(pi));
+      privateInvestigatorCollection
+          .add(MyQuesAndAns1.fromJson(pi));
     }
+    
+    setState(() {
+      LoadingCallApi = false;
+    });
+      }  
+   
   }
 
   @override
   void initState() {
     // TODO: implement initState
 
+  initialiseData().whenComplete(() => callApi(),);
+
     fetchData();
 
-     callApi();
+   
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: const ClAppbarLeadGridSuffHeart(
           testingNextPage: AnswerFourtyTwoScreen()),
@@ -161,99 +191,117 @@ late String _profile_finder_id;
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClProfilePictureWithCover(
-                itemHeight: DeviceSize.itemHeight,
-                profilePicturepath: userList[0].profilePicture.toString(),
-                coverPicturepath: userList[0].profilePicture.toString(),
-                name: userList[0].firstName ?? 'Ariene McCoy',
+              Text('Title'),
+              Text(privateInvestigatorCollection.length.toString()),
 
-                place:
-                    "${userList[0].officeCity}${',  '}${userList[0].officeCountry}",
-
-                onPressed: () async {},
-                hire: false, elevatedButtonText: 'Close Deal & Rate',
-                //  onTapHirePi: () {  },
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: ColorConstant.clgreyborderColor)),
-                height: DeviceSize.itemHeight * 1.5,
-                width: double.maxFinite,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text("Overall Task Stats"),
-                    // SizedBox(
-                    //   height: DeviceSize.itemHeight / 10,
-                    // ),
-                    CircularPercentIndicator(
-                      radius: 70,
-                      progressColor: Colors.green,
-                      lineWidth: 7,
-                      percent: 70 / 100,
-                      center: const Text(
-                        '70%',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      footer: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 25),
-                        child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: ColorConstant.clPurpleBorderColor,
-                                    width: 2)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Notify To Complete",
-                                style: TextStyle(
-                                  color: ColorConstant.clPurple6,
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 17,
-                                ),
-                              ),
-                            )),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-
-
-           
-              ListView.builder(
+              (LoadingFetchData == true || LoadingCallApi == true) ?
+              CircularProgressIndicator() :
+              
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+              
+                  // Text(privateInvestigatorCollection[0].question![0].toString()),
+                  ClProfilePictureWithCover(
+                    itemHeight: DeviceSize.itemHeight,
+                    profilePicturepath: userList[0].profilePicture.toString(),
+                    coverPicturepath: userList[0].profilePicture.toString(),
+                    name: userList[0].firstName ?? 'Ariene McCoy',
+              
+                    place:
+                        "${userList[0].officeCity}${',  '}${userList[0].officeCountry}",
+              
+                    onPressed: () async {},
+                    hire: false, elevatedButtonText: 'Close Deal & Rate',
+                    //  onTapHirePi: () {  },
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: ColorConstant.clgreyborderColor)),
+                    height: DeviceSize.itemHeight * 1.5,
+                    width: double.maxFinite,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text("Overall Task Stats"),
+                        // SizedBox(
+                        //   height: DeviceSize.itemHeight / 10,
+                        // ),
+                        CircularPercentIndicator(
+                          radius: 70,
+                          progressColor: Colors.green,
+                          lineWidth: 7,
+                          percent: 70 / 100,
+                          center: const Text(
+                            '70%',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          footer: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 25),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: ColorConstant.clPurpleBorderColor,
+                                        width: 2)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Notify To Complete",
+                                    style: TextStyle(
+                                      color: ColorConstant.clPurple6,
+                                      // fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                )),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  ListView.builder(
                     controller: ScrollController(),
                     //  debugPrint(_myInvestigators.qkokamx1Qqf![0].firstName.toString());
                     // itemCount: MyQuestionAndAnswer.privateInvestigatorCollection.length,
-                    itemCount: MyQuestionAndAnswer.privateInvestigatorCollection.length,          
+                    itemCount:
+                        privateInvestigatorCollection.length,
                     shrinkWrap: true,
                     itemBuilder: ((context, index) {
-                      return 
-                         CustomClCheckboxWithQuestionWidget(
-                question:
-                       MyQuestionAndAnswer.privateInvestigatorCollection[index].question.toString(),
-                    // 'where is the San Sebastian home? and she completed here graduation?',
-                completed: true,
-              );
-                    }
-                    ),
+                      return GestureDetector(
+                        onTap: () {
+                           Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return WhereIsTheSanFourtyThreeScreen(private_investicator_id: widget.private_investicator_id_close_deal,
+                      
+                      );
+                    }),
+                  );
+                        },
+                        child: CustomClCheckboxWithQuestionWidget(
+                          question: 
+                             privateInvestigatorCollection[index].question
+                              .toString(),
+                          // 'where is the San Sebastian home? and she completed here graduation?',
+                          completed: true,
+                          answer: 
+                              privateInvestigatorCollection[index].answer
+                              .toString(),
+                        ),
+                      );
+                    }),
+                  ),
+                  SizedBox(
+                    height: DeviceSize.itemHeight / 2,
+                  ),
+                ],
               ),
               
-                                  
-
-
-
-              
-              
-              SizedBox(
-                height: DeviceSize.itemHeight / 2,
-              ),
             ],
           ),
         ),
@@ -265,8 +313,9 @@ late String _profile_finder_id;
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return WriteYourQuestionFourtyFiveScreen(private_investicator_id_ques: widget.private_investicator_id_close_deal,
-                  
+                  return WriteYourQuestionFourtyFiveScreen(
+                    private_investicator_id_ques:
+                        widget.private_investicator_id_close_deal,
                   );
                 }),
               );

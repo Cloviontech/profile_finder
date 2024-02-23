@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:profile_finder/core/utils/image_constant.dart';
-import 'package:profile_finder/presentation/1ProfileFinder/Complaints/WriteYourComplaintPfScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/HappyCouplesUI/HappyCouplesPackagesThirtySixScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/every_male_fourty_nine_screen/EveryMaleFourtyNineScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/AllInvestigatorThirtyEightScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/TestAllInvestigator.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/Profile%20Manager/AllProfileManagerScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/Profile/12screenProfile_complete.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,11 +33,11 @@ class _ProfileBottomNavigationScreenState
     extends State<ProfileBottomNavigationScreen> {
   static final List<Widget> _pagesProfile = [
     const FourteenProfileCompleteness(),
-   
+
     EveryMaleFourtyNineScreen(),
     // MatchingListNavigationFourtyEightScreen(),
-    
-     ProfilesLoading(),
+
+    ProfilesLoading(),
     // const ImagesHappyCouples(),
     // const ChatFiftyThreeScreen(),
   ];
@@ -180,21 +180,19 @@ class _ProfileBottomNavigationScreenState
                   child: Row(
                     children: [
                       ClipOval(
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.yellow),
-                        )
+                          child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.yellow),
+                      )
 
-                        
-                        
-                        
-                        // Image.network(
-                        //   _users.profilePicture.toString(),
-                        //   width: 70,
-                        //   height: 70,
-                        //   fit: BoxFit.cover,
-                        // ),
-                      ),
+                          // Image.network(
+                          //   _users.profilePicture.toString(),
+                          //   width: 70,
+                          //   height: 70,
+                          //   fit: BoxFit.cover,
+                          // ),
+                          ),
                       const SizedBox(
                         width: 20,
                       ),
@@ -314,10 +312,30 @@ class _ProfileBottomNavigationScreenState
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) {
-                            return  
-                            // AllInvestigatorThirtyEightScreen();
+                            return
+                                // AllInvestigatorThirtyEightScreen();
 
-                            AllInvestigatorThirtyEightScreen();
+                                AllProfileManagerScreen();
+                          }),
+                        );
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "Profile Manager",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return
+                                // AllInvestigatorThirtyEightScreen();
+
+                                AllInvestigatorThirtyEightScreen();
                           }),
                         );
                       },
@@ -337,15 +355,13 @@ class _ProfileBottomNavigationScreenState
                       ),
                     ),
                     GestureDetector(
-
                       onTap: () {
-                         Navigator.push(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) {
-                            return  WriteYourComplaintPfScreen(private_investicator_id_ques: userUid,);
+                            return AllProfileManagerScreen();
                           }),
                         );
-                        
                       },
                       child: const Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),

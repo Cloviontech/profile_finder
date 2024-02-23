@@ -21,7 +21,8 @@ import '../1screen_advertisement.dart';
 import '../Id123456FiftyScreen.dart';
 
 class ApiService1 {
-  static const String ipAddress1 = "10.0.2.2:8000";
+  // static const String ipAddress1 = "10.0.2.2:8000";
+  static const String ipAddress = "192.168.18.53:8000";
 
   // http://10.0.2.2:8000/signup/
   // static const String ipAddress = "localhost:8000/";
