@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:profile_finder/core/services/api_services.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
 import 'package:profile_finder/routes/app_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -577,7 +578,7 @@ class _FourSignUpScreenState extends State<FourSignUpScreen> {
                                         confirmPasswordController.text) {
                                     
 
-                                      signup("http://10.0.2.2:8000/signup/");
+                                      signup("${ApiService.ipAddress}/signup/");
 
                                     } else {
                                       Fluttertoast.showToast(
