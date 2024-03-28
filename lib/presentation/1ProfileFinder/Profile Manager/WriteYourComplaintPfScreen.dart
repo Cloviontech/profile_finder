@@ -61,7 +61,7 @@ class _WriteYourComplaintPfScreenState
           context,
           MaterialPageRoute(builder: (context) {
             return PmCloseDealScreen(
-               profile_manager_id_close_deal: widget.profile_manager_id_ques,
+               profile_manager_id_close_deal: widget.profile_manager_id_ques, 
             );
           }),
         );

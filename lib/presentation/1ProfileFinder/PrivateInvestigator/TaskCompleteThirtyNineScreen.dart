@@ -26,11 +26,11 @@ class _TaskCompleteThirtyNineScreenState extends State<TaskCompleteThirtyNineScr
 
         ClProfilePictureWithCoverWithLinearPercentIndicator(itemHeight: DeviceSize.itemHeight,  percentage: 65,
         profilePicturepath: 'assets/images/img_ellipse77.png', 
-                coverPicturepath: 'assets/images/img_rectangle692.png', 
+                coverPicturepath: 'assets/images/img_rectangle692.png', name: '', place: '', 
         ),
         ClProfilePictureWithCoverWithLinearPercentIndicator(itemHeight: DeviceSize.itemHeight,  percentage: 90,
         profilePicturepath: 'assets/images/img_ellipse78.png', 
-                coverPicturepath: 'assets/images/img_rectangle694.png', 
+                coverPicturepath: 'assets/images/img_rectangle694.png', name: '', place: '', 
         ),
         
 

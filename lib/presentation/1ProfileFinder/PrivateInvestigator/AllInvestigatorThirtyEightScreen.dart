@@ -717,7 +717,7 @@ class _AllInvestigatorThirtyEightScreenState
                                             //     .toString(),
                                             // place:
                                             //     '${PrivateInvestigator.privateInvestigatorCollection[index].office_city.toString()} , ${PrivateInvestigator.privateInvestigatorCollection[index].office_country}',
-                                            percentage: 55,
+                                            percentage: 55, name: '', place: '',
                                           ),
                                         ),
                                 ],

@@ -1,18 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:profile_finder/core/services/api_services.dart';
 import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/core/utils/size_utils.dart';
-import 'package:profile_finder/model_final/model_final.dart';
-import 'package:profile_finder/model_final/private_inv/my_ques_ans.dart';
-import 'package:profile_finder/model_final/private_inv/pi_my_data.dart';
-import 'package:profile_finder/model_final/profile_manager/complaints_model.dart';
-import 'package:profile_finder/model_final/profile_manager/pm_my_clients.dart';
+import 'package:profile_finder/model_final/profile_manager/pm_my_clients_1_model.dart';
+import 'package:profile_finder/model_final/profile_manager/pm_my_clients_model.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/AnswerFourtyTwoScreen.dart';
-import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/WhereIsTheSanFourtyThreeScreen.dart';
-import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/WriteYourQuestionFourtyFiveScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/Profile%20Manager/PaymentOfManagerScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/Profile%20Manager/WriteYourComplaintPfScreen.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomClAll.dart';
@@ -21,7 +18,10 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PmCloseDealScreen extends StatefulWidget {
-  PmCloseDealScreen({super.key, required this.profile_manager_id_close_deal});
+  PmCloseDealScreen({
+    super.key,
+    required this.profile_manager_id_close_deal,
+  });
 
   final String profile_manager_id_close_deal;
 
@@ -186,39 +186,79 @@ class _PmCloseDealScreenState extends State<PmCloseDealScreen> {
 
   bool _isLoading = true;
 
-  static List<PmMyClientsModel> _pmMyClientsList = [];
+  PmMyClients clients = PmMyClients();
+
+  PmMyClients _pmMyClientsList = PmMyClients();
 
   _fetchPmMyClients() async {
     print('_fetchPmMyClients function start');
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    profile_finder_id = preferences.getString("uid2").toString();
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    // profile_finder_id = preferences.getString("uid2").toString();
     print(widget.profile_manager_id_close_deal);
     final response = await http.get(Uri.parse(
         "http://${ApiService.ipAddress}/pm_my_clients/${widget.profile_manager_id_close_deal}"));
     if (response.statusCode == 200) {
+      // final data = jsonDecode(response.body) as Map;
+      // print('data : ${data.length}');
+      // print(_pmMyClientsList.length);
 
-      final data = jsonDecode(response.body) as Map;
-      final id = data.keys.first;
-      for (final pm in data[id]) {
+      final jsonResponse = jsonDecode(response.body);
 
-        for (var i = 0; i <_pmMyClientsList.length; i++) {
-          if (_pmMyClientsList[i].uid == PmMyClientsModel.fromJson(pm).uid.toString()) {
-            null;
-          }
-          else{
-            _pmMyClientsList.add(PmMyClientsModel.fromJson(pm));
+      //  clients = pmMyClientsFromJson(jsonResponse);
 
-          }
-        }
-        
-      }
+      print(jsonResponse);
+      var json = pmMyClientsFromJson(jsonResponse);
+
+      // for (The42284Ohjsh7 client in clients.the42284Ohjsh7!) {
+      //   print('Client ID: ${client.id}');
+      //   print('Name: ${client.name}');
+      // }
+      //     setState(() {
+      //   _pmMyClientsList =
+      //       jsonResponse.map((data) => PmMyClientsModel.fromJson(data)).toList();
+
+      // });
+
+      // print(_pmMyClientsList[0].complaints);
+
+      // _pmMyClientsList = pmMyClientsFromJson(jsonResponse);
+
+      print('Answer');
+
+      // print(_pmMyClientsList.the42284Ohjsh7![0].uid);
+
+      // _pmMyClientsList = pmMyClientsModelFromJson(json);
+      // print('answer');
+
+      // print(_pmMyClientsList[0].complaints);
+
+      // print(data);
+      // final id = data.keys.first;
+      // for (final pm in data[id]) {
+
+      // for (var i = 0; i <data.length; i++) {
+      //   if (_pmMyClientsList[i].uid == PmMyClientsModel.fromJson(pm).uid.toString()) {
+      //     null;
+      //   }
+      //   else{
+      // _pmMyClientsList.add(PmMyClientsModel.fromJson(pm));
+
+      // }
+
+      //  print('_pmMyClientsList : ${_pmMyClientsList.length}');
+
+      // }
+
+      //     print('_pmMyClientsList : ${_pmMyClientsList.length}');
+
+      // }
       setState(() {
         _isLoading = false;
       });
-      print('_pmMyClientsList ${_pmMyClientsList[0]}');
-      print(_pmMyClientsList[0].email);
-      print(_pmMyClientsList[0].complaints);
-      print(_pmMyClientsList[0].complaintsReplay);
+      // print('_pmMyClientsList ${_pmMyClientsList[0].complaints}');
+      // print(_pmMyClientsList[0].email);
+      // print(_pmMyClientsList[0].complaints);
+      // print(_pmMyClientsList[0].complaintsReplay);
 
       // final jsonoutput = jsonDecode(response.body);
       // print(jsonoutput);
@@ -240,23 +280,40 @@ class _PmCloseDealScreenState extends State<PmCloseDealScreen> {
   }
   //
 
+  List<Map<String, dynamic>> dataList = [];
+
+  fetchData() async {
+    final response = await http.get(Uri.parse(
+        "http://${ApiServices.ipAddress}/pm_my_clients/${widget.profile_manager_id_close_deal}"));
+    print(
+        "http://${ApiServices.ipAddress}/pm_my_clients/${widget.profile_manager_id_close_deal}");
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final jsonoutput = jsonDecode(response.body);
+      String key = jsonoutput.keys.first;
+      dataList = List<Map<String, dynamic>>.from(jsonoutput[key]);
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      //   print(dataList.first['uid']);
+    } else {
+      throw Exception('Unexpected Error Occured!');
+    }
+  }
+
   @override
   void initState() {
     _pm_my_data_fetchData();
     // _fetchComplaints();
-    _fetchPmMyClients();
+    // _fetchPmMyClients();
+    fetchData();
+    // _fetchPmMyClients1();
     super.initState();
   }
-
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   setState(() {
-      
-  //   _pmMyClientsList = [];
-  //   });
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -268,150 +325,186 @@ class _PmCloseDealScreenState extends State<PmCloseDealScreen> {
         physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: 
+          child:
 
-          // _isLoading ? Center(child: CircularProgressIndicator())
-          // :
-          
-          
-          
-          Column(
+              // _isLoading ? Center(child: CircularProgressIndicator())
+              // :
+
+              Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClProfilePictureWithCover(
-                itemHeight: DeviceSize.itemHeight,
-                profilePicturepath: userList[0].profilePicture.toString(),
-                coverPicturepath: userList[0].profilePicture.toString(),
-                name: userList[0].firstName ?? 'Ariene McCoy',
-
-                place:
-                    "${userList[0].officeCity}${',  '}${userList[0].officeCountry}",
-
-                onPressed: () async {},
-                hire: false, elevatedButtonText: 'Close Deal & Rate',
-                //  onTapHirePi: () {  },
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: ColorConstant.clgreyborderColor)),
-                height: DeviceSize.itemHeight * 1.5,
-                width: double.maxFinite,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text("Overall Task Stats"),
-                    // SizedBox(
-                    //   height: DeviceSize.itemHeight / 10,
-                    // ),
-                    CircularPercentIndicator(
-                      radius: 70,
-                      progressColor: Colors.green,
-                      lineWidth: 7,
-                      percent: 70 / 100,
-                      center: const Text(
-                        '70%',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      footer: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 25),
-                        child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: ColorConstant.clPurpleBorderColor,
-                                    width: 2)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Notify To Complete",
-                                style: TextStyle(
-                                  color: ColorConstant.clPurple6,
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 17,
-                                ),
-                              ),
-                            )),
-                      ),
-                    )
-                  ],
+              const Center(
+                child: Text(
+                  'View Complaints',
+                  style: TextStyle(
+                    // fontFamily: "Inter",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 ),
               ),
-              // Text(_pmMyClientsList.length.toString()),
-              // Text(_pmMyClientsList[0].email.toString()),
-              // Text(_pmMyClientsList[1].email.toString()),
-              // Text(_pmMyClientsList[2].email.toString()),
-              // Text(_pmMyClientsList[3].email.toString()),
-              Text('Complaints'),
+              const D10HCustomClSizedBoxWidget(),
+              Column(
+                children: [
+                  ClProfilePictureWithCover(
+                    itemHeight: DeviceSize.itemHeight,
+                    profilePicturepath: userList[0].profilePicture.toString(),
+                    coverPicturepath: userList[0].profilePicture.toString(),
+                    name: userList[0].firstName ?? 'Ariene McCoy',
 
-              ListView.builder(
-                controller: ScrollController(),
-                //  debugPrint(_myInvestigators.qkokamx1Qqf![0].firstName.toString());
-                // itemCount: MyQuestionAndAnswer.privateInvestigatorCollection.length,
-                itemCount: _pmMyClientsList.length,
-                shrinkWrap: true,
-                itemBuilder: ((context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return WhereIsTheSanFourtyThreeScreen(
-                            private_investicator_id:
-                                widget.profile_manager_id_close_deal,
-                          );
-                        }),
-                      );
-                    },
-                    child: ListTile(
-                      leading: Text(index.toString()),
-                      title: Text(_pmMyClientsList[index].complaints.toString(),),
-                      subtitle: Text(_pmMyClientsList[index].complaintsReplay .toString(),
-                       style: TextStyle(
-              color: ColorConstant.clPurpleFontColor,
-              // fontWeight: FontWeight.bold,
-              fontSize: 13,
-            ),
-                      ),
-                      trailing:  Container(
-              decoration: BoxDecoration(
-                  border: const Border.fromBorderSide(BorderSide.none),
-                  color: ColorConstant.whiteA700,
-                  shape: BoxShape.circle),
-              height: 20,
-              width: 20,
-              child: Checkbox(
-                // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    place:
+                        "${userList[0].officeCity}${',  '}${userList[0].officeCountry}",
 
-                value: _pmMyClientsList[index].complaintsReplay == 'Empty' ? false : true,
-                onChanged: (value) {},
-                //  side: BorderSide.none,
-                shape: const CircleBorder(side: BorderSide.none),
-                side: const BorderSide(color: Colors.green),
-                activeColor: Colors.green,
-                // checkColor: Colors.black,
-              ),
-            ),
-                      
-                      
-                      
-                      
-                      
-                      //  CustomClCheckboxWithQuestionWidget(
-                      //   question: _pmMyClientsList[index].complaints.toString(),
-                      //   // 'where is the San Sebastian home? and she completed here graduation?',
-                      //   completed: true,
-                      //   answer:
-                      //       _pmMyClientsList[index].complaintsReplay.toString(),
-                      // ),
+                    onPressed: () async {},
+                    hire: false, elevatedButtonText: 'Close Deal & Rate',
+                    //  onTapHirePi: () {  },
+                  ),
+
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border:
+                            Border.all(color: ColorConstant.clgreyborderColor)),
+                    height: DeviceSize.itemHeight * 1.5,
+                    width: double.maxFinite,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text("Overall Task Stats"),
+                        // SizedBox(
+                        //   height: DeviceSize.itemHeight / 10,
+                        // ),
+                        CircularPercentIndicator(
+                          radius: 70,
+                          progressColor: Colors.green,
+                          lineWidth: 7,
+                          percent: 70 / 100,
+                          center: const Text(
+                            '70%',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          footer: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 25),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color:
+                                            ColorConstant.clPurpleBorderColor,
+                                        width: 2)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Notify To Complete",
+                                    style: TextStyle(
+                                      color: ColorConstant.clPurple6,
+                                      // fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                )),
+                          ),
+                        )
+                      ],
                     ),
-                  );
-                }),
-              ),
-              SizedBox(
-                height: DeviceSize.itemHeight / 2,
+                  ),
+                  // Text(_pmMyClientsList.length.toString()),
+                  // Text(_pmMyClientsList[0].email.toString()),
+                  // Text(_pmMyClientsList[1].email.toString()),
+                  // Text(_pmMyClientsList[2].email.toString()),
+                  // Text(_pmMyClientsList[3].email.toString()),
+                  const Text(
+                    'Complaints',
+                    style: TextStyle(
+                      // fontFamily: "Inter",
+                      fontWeight: FontWeight.bold,
+                      // fontSize: 14,
+                    ),
+                  ),
+
+                  // Text(dataList[0]['complaints']),
+                  // Text(dataList[0]['complaints_replay']),
+                  // Text(dataList[1]['complaints']),
+                  // Text(dataList[1]['complaints_replay']),
+
+                  // Text(_pmMyClientsList.length.toString()),
+
+                  // Text(_pmMyClientsList1[0].uid.toString()),
+
+                  // Text(widget. profile_manager_id_close_deal),
+
+                  // Text(_pmMyClientsList_1.the42284Ohjsh7![0].complaints.toString()),
+
+                  _isLoading
+                      ? const Center(child: SpinKitWave(color: Colors.blue))
+                      : ListView.builder(
+                          controller: ScrollController(),
+                          //  debugPrint(_myInvestigators.qkokamx1Qqf![0].firstName.toString());
+                          // itemCount: MyQuestionAndAnswer.privateInvestigatorCollection.length,
+                          // itemCount: _pmMyClientsList.length,
+                          itemCount: dataList.length,
+                          shrinkWrap: true,
+                          itemBuilder: ((context, index) {
+                            return ListTile(
+                              leading: Text('${index + 1}'),
+                              title: Text(
+                                dataList[index]['complaints'].toString(),
+                              ),
+                              subtitle: Text(
+                                dataList[index]['complaintsReplay']
+                                            .toString() ==
+                                        'null'
+                                    ? 'Not Replied'
+                                    : dataList[index]['complaintsReplay']
+                                        .toString(),
+                                style: TextStyle(
+                                  color: ColorConstant.clPurpleFontColor,
+                                  // fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              trailing: Container(
+                                decoration: BoxDecoration(
+                                    border: const Border.fromBorderSide(
+                                        BorderSide.none),
+                                    color: ColorConstant.whiteA700,
+                                    shape: BoxShape.circle),
+                                height: 20,
+                                width: 20,
+                                child: Checkbox(
+                                  // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+
+                                  value: dataList[index]['complaintsReplay'] ==
+                                          'Empty'
+                                      ? false
+                                      : true,
+                                  onChanged: (value) {},
+                                  //  side: BorderSide.none,
+                                  shape:
+                                      const CircleBorder(side: BorderSide.none),
+                                  side: const BorderSide(color: Colors.green),
+                                  activeColor: Colors.green,
+                                  // checkColor: Colors.black,
+                                ),
+                              ),
+
+                              //  CustomClCheckboxWithQuestionWidget(
+                              //   question: _pmMyClientsList[index].complaints.toString(),
+                              //   // 'where is the San Sebastian home? and she completed here graduation?',
+                              //   completed: true,
+                              //   answer:
+                              //       _pmMyClientsList[index].complaintsReplay.toString(),
+                              // ),
+                            );
+                          }),
+                        ),
+
+                  SizedBox(
+                    height: DeviceSize.itemHeight / 2,
+                  ),
+                ],
               ),
             ],
           ),

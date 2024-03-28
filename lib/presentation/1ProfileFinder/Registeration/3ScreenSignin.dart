@@ -108,7 +108,10 @@ class _ThreeSigninScreenState extends State<ThreeSigninScreen> {
       });
       print(preferences.getString("uid2").toString());
 
-      Navigator.pushNamed(context, AppRoutes.eightUploadIDScreen); //permanent
+
+      
+
+      Navigator.pushNamed(context, AppRoutes.FourteenScreenBottomNavigationscr); //permanent
       //  Navigator.pushNamed(
       //         context, AppRoutes.FourteenScreenBottomNavigationscr);  // Temperory for testing use only
     } else {

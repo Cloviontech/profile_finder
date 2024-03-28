@@ -73,6 +73,7 @@ dependencies:
   otp_fields: ^0.0.4
   page_transition: ^2.1.0
   csc_picker: ^0.2.7
+  flutter_spinkit: ^5.2.1
 
 dev_dependencies:
   flutter_test:

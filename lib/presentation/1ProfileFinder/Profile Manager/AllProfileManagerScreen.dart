@@ -718,6 +718,9 @@ class _AllProfileManagerScreenState extends State<AllProfileManagerScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+
+
+                // Text("Complaintsss"),
                 TextField(
                   decoration: InputDecoration(
                       prefixIcon: Padding(
@@ -738,8 +741,8 @@ class _AllProfileManagerScreenState extends State<AllProfileManagerScreen> {
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(10))),
                 ),
-                Text(_AllpmData[0].email.toString()),
-                Text(myManagerList.length.toString()),
+                // Text(_AllpmData[0].email.toString()),
+                // Text(myManagerList.length.toString()),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
@@ -934,9 +937,8 @@ class _AllProfileManagerScreenState extends State<AllProfileManagerScreen> {
                                             Navigator.push(context,
                                                 MaterialPageRoute(
                                                     builder: (context) {
-                                              return CloseDealFourtyOneScreen(
-                                                private_investicator_id_close_deal:
-                                                    private_investigator_id_my_inv,
+                                              return PmCloseDealScreen(
+                                                 profile_manager_id_close_deal: private_investigator_id_my_inv,
                                               );
                                             }));
                                           },
@@ -952,12 +954,16 @@ class _AllProfileManagerScreenState extends State<AllProfileManagerScreen> {
                                                 myManagerList[index]
                                                     .profilePicture
                                                     .toString(),
-                                            // name: PrivateInvestigator
-                                            //     .privateInvestigatorCollection[index]
-                                            //     .first_name
-                                            //     .toString(),
+                                            name:myManagerList[index]
+                                                .firstName
+                                                .toString(),
                                             // place:
-                                            //     '${PrivateInvestigator.privateInvestigatorCollection[index].office_city.toString()} , ${PrivateInvestigator.privateInvestigatorCollection[index].office_country}',
+                                            //     '${myManagerList[index].officeCity} ${myManagerList[index].officeCountry}',
+                                             place:
+                                                myManagerList[index].uid .toString(),
+                                           
+                                            
+                                            
                                             percentage: 55,
                                           ),
                                         ),

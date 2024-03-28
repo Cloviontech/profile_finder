@@ -190,8 +190,11 @@ class _PaymentOfManagerScreenState extends State<PaymentOfManagerScreen> {
       profile_finder_id = preferences.getString("uid2").toString();
     });
 
-    final url = Uri.parse(
-        "http://${ApiService.ipAddress}/my_manager/$profile_finder_id");
+    // final url = Uri.parse(
+    //     "http://${ApiService.ipAddress}/my_manager/$profile_finder_id");
+
+        final url = Uri.parse(
+        "http://${ApiService.ipAddress}/my_manager/$profile_manager_id");
     final pm_client = Uri.parse(
         "http://${ApiService.ipAddress}/pm_my_clients/$profile_manager_id");
     print("profile_manager_id : $profile_manager_id");
@@ -228,9 +231,10 @@ class _PaymentOfManagerScreenState extends State<PaymentOfManagerScreen> {
 
       print("Status Code1 : $statusCode1");
       print("UID1 : $body1");
-      print("Profile Manager selected succesfully, Uid : $profile_manager_id");
-
+     
       if (response.statusCode == 200) {
+         print("Profile Manager selected succesfully, Uid : $profile_manager_id");
+
         // setState(() {
         //   hire[hiree] = true;
         // });
@@ -249,6 +253,8 @@ class _PaymentOfManagerScreenState extends State<PaymentOfManagerScreen> {
       print("Do Something When Error Occurs");
     }
   }
+
+  
 
   late String _profile_finder_id;
   static List<PmMyClientsModel> _pmMyClientsList = [];
@@ -335,7 +341,7 @@ class _PaymentOfManagerScreenState extends State<PaymentOfManagerScreen> {
     print("myManagerList function start");
     print(_profile_finder_id);
     final response = await http.get(Uri.parse(
-        "http://${ApiService.ipAddress}/my_manager/$_profile_finder_id"));
+        "http://${ApiServices.ipAddress}/my_manager/$_profile_finder_id"));
     print(response.body);
     final _data = jsonDecode(response.body) as Map;
     final idd = _data.keys.first;
@@ -519,17 +525,16 @@ class _PaymentOfManagerScreenState extends State<PaymentOfManagerScreen> {
                                                   widget.profile_manager_id);
                                         }),
                                       )
-                                    : 
+                                    :
                                     // _fetchMyManagerList().whenComplete(() {
                                     //     print('_fetchMyManagerList complete');
                                     //     _allPiInvListfilter();
                                     //     myInvestigatorFilter();
                                     //     allIvestigatorExceptMyFilter();
                                     //     findLengthOfExceptMyInvest();
-                                       
+
                                     //   });
-                                       _hire_manager(
-                                            widget.profile_manager_id);
+                                    _hire_manager(widget.profile_manager_id);
                               },
                               borderRadius: BorderRadius.circular(10),
                               backgroundColor: Colors.transparent,

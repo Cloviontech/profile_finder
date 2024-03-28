@@ -393,10 +393,10 @@ class ClProfilePictureWithCoverWithLinearPercentIndicator
     // super.key,
     // Key? key,
     required this.itemHeight,
-    this.profilePicturepath = 'assets/images/img_ellipse76.png',
-    this.coverPicturepath = 'assets/images/img_rectangle690.png',
-    this.name = 'Ariene McCoy',
-    this.place = 'Dubai, United Arab Emirates',
+    required this.profilePicturepath ,
+    required this.coverPicturepath,
+    required this.name ,
+    required this.place ,
     required this.percentage,
   });
 
