@@ -281,9 +281,21 @@ class _PmCloseDealScreenState extends State<PmCloseDealScreen> {
   //
 
   List<Map<String, dynamic>> dataList = [];
+  List<Map<String, dynamic>> dataListSeperated = [];
+  
 
   fetchData() async {
+
+     SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      profile_finder_id = preferences.getString("uid2").toString();
+    });
+
     final response = await http.get(Uri.parse(
+
+      
+
+
         "http://${ApiServices.ipAddress}/pm_my_clients/${widget.profile_manager_id_close_deal}"));
     print(
         "http://${ApiServices.ipAddress}/pm_my_clients/${widget.profile_manager_id_close_deal}");
@@ -293,7 +305,23 @@ class _PmCloseDealScreenState extends State<PmCloseDealScreen> {
     if (response.statusCode == 200) {
       final jsonoutput = jsonDecode(response.body);
       String key = jsonoutput.keys.first;
+
       dataList = List<Map<String, dynamic>>.from(jsonoutput[key]);
+
+
+      //  seperating data based on uid
+      for (var i = 0; i < jsonoutput[key].length; i++) {
+
+        if (jsonoutput[key][i]['uid'] == profile_finder_id) {
+
+          dataListSeperated.add(jsonoutput[key][i]);
+          
+        }
+        
+      }
+
+      // 
+
 
       setState(() {
         _isLoading = false;
@@ -346,11 +374,13 @@ class _PmCloseDealScreenState extends State<PmCloseDealScreen> {
               const D10HCustomClSizedBoxWidget(),
               Column(
                 children: [
+
+                  // Text(dataListSeperated[0]['uid']),
                   ClProfilePictureWithCover(
                     itemHeight: DeviceSize.itemHeight,
                     profilePicturepath: userList[0].profilePicture.toString(),
                     coverPicturepath: userList[0].profilePicture.toString(),
-                    name: userList[0].firstName ?? 'Ariene McCoy',
+                    name: userList[0].uid ?? 'Ariene McCoy',
 
                     place:
                         "${userList[0].officeCity}${',  '}${userList[0].officeCountry}",
@@ -410,11 +440,16 @@ class _PmCloseDealScreenState extends State<PmCloseDealScreen> {
                       ],
                     ),
                   ),
+                  const D10HCustomClSizedBoxWidget(),
                   // Text(_pmMyClientsList.length.toString()),
                   // Text(_pmMyClientsList[0].email.toString()),
                   // Text(_pmMyClientsList[1].email.toString()),
                   // Text(_pmMyClientsList[2].email.toString()),
                   // Text(_pmMyClientsList[3].email.toString()),
+
+                  //  Text(dataListSeperated[0]['complaints']),
+
+                   
                   const Text(
                     'Complaints',
                     style: TextStyle(
@@ -424,10 +459,10 @@ class _PmCloseDealScreenState extends State<PmCloseDealScreen> {
                     ),
                   ),
 
-                  // Text(dataList[0]['complaints']),
-                  // Text(dataList[0]['complaints_replay']),
-                  // Text(dataList[1]['complaints']),
-                  // Text(dataList[1]['complaints_replay']),
+                  // Text(dataListSeperated[0]['complaints']),
+                  // Text(dataListSeperated[0]['complaints_replay']),
+                  // Text(dataListSeperated[1]['complaints']),
+                  // Text(dataListSeperated[1]['complaints_replay']),
 
                   // Text(_pmMyClientsList.length.toString()),
 
@@ -444,20 +479,21 @@ class _PmCloseDealScreenState extends State<PmCloseDealScreen> {
                           //  debugPrint(_myInvestigators.qkokamx1Qqf![0].firstName.toString());
                           // itemCount: MyQuestionAndAnswer.privateInvestigatorCollection.length,
                           // itemCount: _pmMyClientsList.length,
-                          itemCount: dataList.length,
+                          // itemCount: dataListSeperated[0]['complaints'].length,
+                          itemCount: 1,
                           shrinkWrap: true,
                           itemBuilder: ((context, index) {
                             return ListTile(
                               leading: Text('${index + 1}'),
                               title: Text(
-                                dataList[index]['complaints'].toString(),
+                                dataListSeperated[0]['complaints'].toString(),
                               ),
                               subtitle: Text(
-                                dataList[index]['complaintsReplay']
+                                dataListSeperated[0]['complaints_replay']
                                             .toString() ==
-                                        'null'
+                                        'empty'
                                     ? 'Not Replied'
-                                    : dataList[index]['complaintsReplay']
+                                    : dataListSeperated[0]['complaints_replay']
                                         .toString(),
                                 style: TextStyle(
                                   color: ColorConstant.clPurpleFontColor,
@@ -476,8 +512,8 @@ class _PmCloseDealScreenState extends State<PmCloseDealScreen> {
                                 child: Checkbox(
                                   // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
 
-                                  value: dataList[index]['complaintsReplay'] ==
-                                          'Empty'
+                                  value: dataListSeperated[0]['complaints_replay'].toString() ==
+                                          'empty'
                                       ? false
                                       : true,
                                   onChanged: (value) {},

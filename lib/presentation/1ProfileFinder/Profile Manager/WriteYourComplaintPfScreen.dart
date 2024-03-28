@@ -57,6 +57,8 @@ class _WriteYourComplaintPfScreenState
       print("Body : $body");
 
       if (response.statusCode == 200) {
+
+        Navigator.pop(context);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) {
