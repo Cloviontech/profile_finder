@@ -9,7 +9,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/model_final/model_final.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
-import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/AllInvestigatorThirtyEightScreen.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/1_AllInvestigatorThirtyEightScreen.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/ClCustomWidgets2.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomClAll.dart';
 import 'package:shared_preferences/shared_preferences.dart';

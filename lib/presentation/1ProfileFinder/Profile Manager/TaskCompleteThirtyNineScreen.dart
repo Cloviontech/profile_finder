@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:profile_finder/core/utils/size_utils.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/PaymentOfInvestigatorFourtyScreen.dart';
-import 'package:profile_finder/presentation/1ProfileFinder/Profile%20Manager/PaymentOfManagerScreen.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/Profile%20Manager/HireManagerScreen.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomClAll.dart';
 
 class TaskCompleteThirtyNineScreen extends StatefulWidget {
@@ -15,7 +15,7 @@ class _TaskCompleteThirtyNineScreenState extends State<TaskCompleteThirtyNineScr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar:  ClAppbarLeadGridSuffHeart(testingNextPage:  PaymentOfManagerScreen(profile_manager_id: '',)),
+     appBar:  ClAppbarLeadGridSuffHeart(testingNextPage:  HireManagerScreen(profile_manager_id: '',)),
 
       body: SingleChildScrollView(
         child: Padding(padding: const EdgeInsets.symmetric(horizontal: 20),

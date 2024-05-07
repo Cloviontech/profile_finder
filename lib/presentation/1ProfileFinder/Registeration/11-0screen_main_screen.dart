@@ -144,6 +144,8 @@ class _ThirteenScreenState extends State<ThirteenScreen> {
     preferences.setString(nameOfID, valueToSave);
   }
 
+  List <int> currentPage = [0,1,2,3,4];
+
 
  
 
@@ -161,7 +163,15 @@ class _ThirteenScreenState extends State<ThirteenScreen> {
           PageView(
             controller: _pageController,
             children: [
-               ThirteenScreenPrimaryDetails(),
+               ThirteenScreenPrimaryDetails(changePage: () { 
+
+                 _pageController.animateToPage(2,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.bounceOut);
+
+                },
+                //  pageNo: null,
+                ),
               Thirteen_Screen_Family_DetailsScreen(),
               const ThirteenScreenContactDetails(),
             ],
@@ -180,7 +190,7 @@ class _ThirteenScreenState extends State<ThirteenScreen> {
                       dotHeight: 10, dotWidth: 10, activeDotColor: Colors.blue),
                   onDotClicked: (index) {
                     _pageController.animateToPage(index,
-                        duration: const Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.bounceOut);
                   },
                 ),

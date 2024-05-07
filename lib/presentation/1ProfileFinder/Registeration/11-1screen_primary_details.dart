@@ -179,7 +179,10 @@ List<String> salaryRange = [
 ];
 
 class ThirteenScreenPrimaryDetails extends StatefulWidget {
-  const ThirteenScreenPrimaryDetails({super.key});
+  const ThirteenScreenPrimaryDetails({super.key, required this.changePage});
+
+  final Function changePage;
+  
 
   @override
   State<ThirteenScreenPrimaryDetails> createState() =>
@@ -599,6 +602,8 @@ class _ThirteenScreenPrimaryDetailsState
           textColor: Colors.white,
           toastLength: Toast.LENGTH_SHORT,
         );
+
+        // widget.changePage;
       }
     } catch (e) {
       print("Error While Uploading File $e");
@@ -2082,7 +2087,9 @@ class _ThirteenScreenPrimaryDetailsState
                   ),
                   child: TextButton(
                       onPressed: () {
-                        uploadDataPrimaryDetails();
+                         widget.changePage;
+                        // uploadDataPrimaryDetails();
+                        
                         // Navigator.pushNamed(context, AppRoutes.FourteenScreenscr);
                         // print("Uploading Data to aws");
 

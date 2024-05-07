@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/core/utils/size_utils.dart';
-import 'package:profile_finder/model_final/private_inv/my_ques_and_ans.dart';
-import 'package:profile_finder/model_final/private_inv/my_ques_ans.dart';
+import 'package:profile_finder/model_final/private_inv_models/my_ques_and_ans.dart';
+import 'package:profile_finder/model_final/private_inv_models/my_ques_ans.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
-import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/CloseAndRateFourtyFourScreen.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/CloseDealFourtyOneScreen.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/PiCloseAndRateFourtyFourScreen.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomClAll.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomWidgets.dart';
 import 'package:http/http.dart' as http;
@@ -266,6 +267,13 @@ setState(() {
               //     }),
               //   );
               Navigator.pop(context);
+
+             
+                
+                Navigator.push(context,MaterialPageRoute(builder: (context) =>  CloseDealFourtyOneScreen(private_investicator_id_close_deal: widget.private_investicator_id,)),
+              );
+              
+            
             },
             borderRadius: BorderRadius.circular(10),
             backgroundColor: Colors.transparent,

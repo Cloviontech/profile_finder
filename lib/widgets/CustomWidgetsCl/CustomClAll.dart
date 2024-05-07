@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -239,8 +240,8 @@ class ClProfilePictureWithCover extends StatefulWidget {
     required this.name,
     required this.place,
     required this.onPressed,
-    required this.hire,
-    required this.elevatedButtonText,
+     this.hire,
+    required this.elevatedButtonText, this.rating = 1,
 
     // required this.onPressed,
     // required this.buttonData,
@@ -253,8 +254,9 @@ class ClProfilePictureWithCover extends StatefulWidget {
   final String name;
   final String place;
   final VoidCallback? onPressed;
-  final bool hire;
+  final bool? hire;
   final String elevatedButtonText;
+  final double rating ;
 
   @override
   State<ClProfilePictureWithCover> createState() =>
@@ -338,10 +340,29 @@ class _ClProfilePictureWithCoverState extends State<ClProfilePictureWithCover> {
                         fontSize: 20),
                   ),
                   Text(widget.place),
-                  SvgPicture.asset(
-                    'assets/images/img_ticket.svg',
-                    height: 25,
-                  ),
+                  // SvgPicture.asset(
+                  //   'assets/images/img_ticket.svg',
+                  //   height: 25,
+                  // ),
+
+                   RatingBar.builder(
+                initialRating: widget.rating,
+                minRating: 1,
+                direction: Axis.horizontal,
+                // allowHalfRating: true,
+                itemCount: 5,
+                itemSize: 40,
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {
+
+                  
+                 
+                },
+               ignoreGestures: true,
+              ),
                   MyElevatedButton(
                     onPressed: widget.onPressed,
                     // onPressed: onTapHirePi,
@@ -546,7 +567,7 @@ class CustomClListtileWidget extends StatelessWidget {
           Text(subTitle),
         ],
       ),
-      leading: Image.asset(
+      leading: Image.network(
         profilePic,
         height: 45,
       ),

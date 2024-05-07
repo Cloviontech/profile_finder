@@ -217,7 +217,7 @@ class _FourSignUpScreenState extends State<FourSignUpScreen> {
       // 'code': refferalCodeController.text
 
       'email': emailController.text,
-      'mobile': mobileNoController.text,
+      'mobile': '+$countryCode ${mobileNoController.text}',
       'password': passwordController.text,
       'referral_code': refferalCodeController.text
 
@@ -227,9 +227,7 @@ class _FourSignUpScreenState extends State<FourSignUpScreen> {
       // 'referral_code': '123123',
     };
 
-
     // print(mobileNoController.text.runtimeType);
-  
 
     var response = await http.post(
       Uri.parse('http://${ApiService.ipAddress}/signup/'),
@@ -243,12 +241,11 @@ class _FourSignUpScreenState extends State<FourSignUpScreen> {
     // http://10.0.2.2:8000/
 
     if (response.statusCode == 200) {
-
       setState(() {
         userUid = response.body;
         userUidclean = userUid.substring(1, userUid.length - 1);
         preferences.setString("uid2", userUidclean.toString());
-
+        preferences.setString("userEmail", emailController.text);
       });
       // Navigator.pushNamed(context, AppRoutes.iphone1313ProSixScreen);
       // ignore: use_build_context_synchronously
@@ -263,29 +260,23 @@ class _FourSignUpScreenState extends State<FourSignUpScreen> {
         }),
       );
     } else {
-    
       userUidclean =
           emailController.text.substring(2, emailController.text.length - 2);
-     
     }
-    
   }
 
   @override
   void initState() {
     countryCode = '+91';
-  
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-   
-
     /*24 is for notification bar on Android*/
     // final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
     // final double itemWidth = size.width / 2;
-
 
     return Scaffold(
       body: OrientationBuilder(
@@ -361,6 +352,8 @@ class _FourSignUpScreenState extends State<FourSignUpScreen> {
                                     )),
                               ),
                             ),
+
+                            // Text('$countryCode ${mobileNoController.text}'),
                             const Padding(
                               padding: EdgeInsets.only(top: 20),
                               child: Text("Mobile*"),
@@ -385,17 +378,21 @@ class _FourSignUpScreenState extends State<FourSignUpScreen> {
                                           decoration: const InputDecoration(
                                               border: InputBorder.none),
                                           initialCountryCode: 'IN',
-                                          onCountryChanged: (phone) {
-                                            countryCode = phone.code.toString();
-                                          },
-                                          onChanged: (phone) {
-                                            
+                                          // onCountryChanged: (phone) {
+                                          //   countryCode = phone.code.toString();
+                                          // },
 
+                                          onCountryChanged: (value) {
                                             setState(() {
-                                              countryCode = phone.countryCode;
+                                              countryCode =
+                                                  value.fullCountryCode;
                                             });
-                                            
                                           },
+                                          // onChanged: (phone) {
+                                          //   setState(() {
+                                          //     countryCode = phone.countryCode;
+                                          //   });
+                                          // },
                                         ),
                                       ),
                                     ),
@@ -569,17 +566,12 @@ class _FourSignUpScreenState extends State<FourSignUpScreen> {
                               padding: const EdgeInsets.only(top: 25),
                               child: GestureDetector(
                                 onTap: () async {
-                                
-
                                   if (passwordController.text.isNotEmpty &&
                                       confirmPasswordController
                                           .text.isNotEmpty) {
                                     if (passwordController.text ==
                                         confirmPasswordController.text) {
-                                    
-
                                       signup("${ApiService.ipAddress}/signup/");
-
                                     } else {
                                       Fluttertoast.showToast(
                                         backgroundColor: Colors.green,
@@ -669,7 +661,6 @@ class _FourSignUpScreenState extends State<FourSignUpScreen> {
                                       height: 40,
                                     ),
                                   ),
-                                  
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(

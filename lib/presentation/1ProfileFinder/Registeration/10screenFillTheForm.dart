@@ -4,9 +4,11 @@ import 'dart:typed_data';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:profile_finder/core/services/api_services.dart';
 import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/core/utils/image_constant.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
@@ -18,12 +20,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../widgets/UploadDocument.dart';
 
 class TenFillTheFormScreen extends StatefulWidget {
-
-
   final String registerForWhomm;
 
   const TenFillTheFormScreen({super.key, required this.registerForWhomm});
-
 
   @override
   State<TenFillTheFormScreen> createState() => _TenFillTheFormScreenState();
@@ -39,6 +38,12 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
   String? countryCode;
 
   List<String> maritalSts = ["Single", "Married", "Divorced", "Widow"];
+
+  List<String> genderItems = [
+    "Male",
+    "Female",
+    "Others",
+  ];
 
   List<String> physicalSts = [
     "Normal",
@@ -147,6 +152,8 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
   late String height;
   late String weight;
   late String marital;
+  late String gender;
+  
   late String physical;
   late String religion;
   late String age;
@@ -206,6 +213,14 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
     }
   }
 
+
+  TextEditingController nameOfApplController = TextEditingController();
+  TextEditingController addOfApplController = TextEditingController();
+  TextEditingController weightOfApplController = TextEditingController();
+  TextEditingController heightOfApplController = TextEditingController();
+  
+  
+
   late String uidUser;
 
   List<String> _dropdownItemList = ["Item One", "Item Two", "Item Three"];
@@ -220,15 +235,17 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
     print("uid is $uidUser ");
 
     final url =
-        Uri.parse("http://${ApiService.ipAddress}/profileform/$uidUser");
+        Uri.parse("http://${ApiServices.ipAddress}/profileform/$uidUser");
     final request = http.MultipartRequest('POST', url);
-     Navigator.pushNamed(context, AppRoutes.ThirteenScreenscr); // temperory
+    // Navigator.pushNamed(context, AppRoutes.ThirteenScreenscr); // temperory
     // final file = File('/home/abijith/Pictures/flower.jpeg');
     // request.files.add(await http.MultipartFile.fromPath('id_card_2', file.path));
     // request.fields['name'] = 'Abijith';
     // request.fields['address'] = '33/111-A';
     // request.fields['height'] = '180';
     // request.fields['weight'] = '190';
+    // request.fields['gender'] = 'Male';
+    
     // request.fields['marital'] = 'single';
     // request.fields['physical'] = 'good';
     // request.fields['religion'] = 'Hindu';
@@ -257,24 +274,30 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
     // request.fields['emergency_phone_number'] = '9898989898';
     // request.fields['emergency_email'] = 'abilash@gmail.com';
     // request.fields['emergency_marital_status'] = 'emergency single';
-    // request.fields['occupations'] = 'developer';
+    // request.fields['emergency_occupations'] = 'developer';
 
     //
 
     request.fields['name'] =
-        preferences.getString("nameOfapplicant").toString();
+        // preferences.getString("nameOfapplicant").toString();
+        nameOfApplController.text;
     request.fields['address'] =
-        preferences.getString("addressOfapplicant").toString();
-    request.fields['height'] = 
-    // height.toString();
-    "155";
-    request.fields['weight'] = 
-    // weight.toString();
-    '55';
-    request.fields['marital'] = marital.toString();
-    request.fields['physical'] = physical.toString();
-    request.fields['religion'] = religion.toString();
-    request.fields['age'] = age.toString();
+        // preferences.getString("addressOfapplicant").toString();
+        addOfApplController.text;
+    request.fields['height'] =
+        // height.toString();
+        // "155";
+        heightOfApplController.text;
+    request.fields['weight'] =
+        // weight.toString();
+        // '55';
+   
+        weightOfApplController.text;
+         request.fields['gender'] = gender;
+    request.fields['marital'] = marital;
+    request.fields['physical'] = physical;
+    request.fields['religion'] = religion;
+    request.fields['age'] = age;
     request.fields['birth_place'] = birth_place.toString();
     request.fields['birth_country'] = birth_country.toString();
     request.fields['birth_city'] = birth_city;
@@ -302,15 +325,18 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
     request.fields['emergency_email'] = emergency_email.toString();
     request.fields['emergency_marital_status'] =
         emergency_marital_status.toString();
-    request.fields['occupations'] = occupations.toString();
+    request.fields['emergency_occupations'] = occupations.toString();
 
     try {
       final send = await request.send();
       final response = await http.Response.fromStream(send);
       print(response.statusCode);
       print(response.body);
-      
+
       if (response.statusCode == 200) {
+
+        print('Form Filled Succesfully');
+        
         Navigator.pushNamed(context, AppRoutes.ThirteenScreenscr);
       }
     } catch (e) {
@@ -375,7 +401,13 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
                   onChanged: (newValue) {
                     saveToSharedPrefferences("nameOfapplicant", newValue);
                   },
+                  textFieldController: nameOfApplController,
                 ),
+
+                Text(marital.toString()),
+                Text(nameOfApplController.text),
+                Text(filee!.path.toString()),
+                Text(temple_diocese),
 
                 WidgetTitleAndTextfield(
                   textFieldHint: 'Enter',
@@ -383,6 +415,7 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
                   onChanged: (newValue) {
                     saveToSharedPrefferences("addressOfapplicant", newValue);
                   },
+                  textFieldController: addOfApplController,
                 ),
                 WidgetTitleAndTextfield(
                   textFieldHint: 'Enter',
@@ -392,10 +425,11 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
                   onChanged: (newValue) {
                     print("controller value is ${controller[0].value}");
                     setState(() {
-                      height=newValue;
+                      height = newValue;
                     });
                     saveToSharedPrefferences("height", newValue);
                   },
+                  textFieldController: heightOfApplController,
                 ),
 
                 WidgetTitleAndTextfield(
@@ -404,9 +438,21 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
                   // textFieldController: controller[1] ,
                   onChanged: (newValue) {
                     setState(() {
-                       weight=newValue;
+                      weight = newValue;
                     });
                     saveToSharedPrefferences("weight", newValue);
+                  },
+                  textFieldController: weightOfApplController,
+                ),
+                WidgetTitleAndDropdown(
+                  DdbTitle: "Gender*",
+                  DdbHint: "Select",
+                  DbdItems: genderItems,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownValue = newValue!;
+                      gender = newValue;
+                    });
                   },
                 ),
                 WidgetTitleAndDropdown(
@@ -438,7 +484,7 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
                   onChanged: (newValue) {
                     setState(() {
                       dropdownValue = newValue!;
-                      religion=newValue;
+                      religion = newValue;
                     });
 
                     saveToSharedPrefferences("religion", newValue);
@@ -450,7 +496,7 @@ class _TenFillTheFormScreenState extends State<TenFillTheFormScreen> {
                   // textFieldController: controller[2],
                   onChanged: (newValue) {
                     setState(() {
-                       age=newValue;
+                      age = newValue;
                     });
 
                     saveToSharedPrefferences("age", newValue);

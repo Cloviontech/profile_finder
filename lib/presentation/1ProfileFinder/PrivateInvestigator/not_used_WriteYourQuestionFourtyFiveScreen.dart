@@ -58,6 +58,7 @@ ask_question_to_private_investigator( String questionn) async{
     
 
     if (response.statusCode == 200) {
+      Navigator.pop(context);
        Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
@@ -162,7 +163,9 @@ TextEditingController questionControllerScreen = TextEditingController();
             Expanded(
               flex: 10,
               child: MyElevatedButtonWithBorderColor(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   borderRadius: BorderRadius.circular(10),
                   width: double.maxFinite,
                   backgroundColor: Colors.white,

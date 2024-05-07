@@ -244,9 +244,9 @@ class _FourteenProfileCompletenessState
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                            
-                                             const Text(
-                                              "ID12345",
-                                              style: TextStyle(fontSize: 8),
+                                              Text(
+                                             _users.uid.toString() ,
+                                              style: const TextStyle(fontSize: 10),
                                             ),
                                              
                                             Text(

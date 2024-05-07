@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:profile_finder/core/utils/image_constant.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/HappyCouplesUI/HappyCouplesPackagesThirtySixScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/every_male_fourty_nine_screen/EveryMaleFourtyNineScreen.dart';
-import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/AllInvestigatorThirtyEightScreen.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/1_AllInvestigatorThirtyEightScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/TestAllInvestigator.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/Profile%20Manager/AllProfileManagerScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/Profile/12screenProfile_complete.dart';
@@ -173,79 +173,104 @@ class _ProfileBottomNavigationScreenState
             padding: const EdgeInsets.all(20.0),
             child: ListView(
               children: [
-                DrawerHeader(
-                  decoration: const BoxDecoration(
-                    color: Colors.transparent,
-                  ), //BoxDecoration
-                  child: Row(
-                    children: [
-                      ClipOval(
-                          child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.yellow),
-                      )
 
-                          // Image.network(
-                          //   _users.profilePicture.toString(),
-                          //   width: 70,
-                          //   height: 70,
-                          //   fit: BoxFit.cover,
-                          // ),
-                          ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 25,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Center(
-                                child: Text(
-                                  _users.uid.toString() == "null"
-                                      ? "ID"
-                                      : _users.uid.toString(),
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 8,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            _users.name.toString() == "null"
-                                ? "Name"
-                                : _users.name.toString(),
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 10),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            _users.email.toString() == "null"
-                                ? "Email"
-                                : _users.email.toString(),
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 10),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                  UserAccountsDrawerHeader(
+                    decoration: BoxDecoration(color: Colors.transparent ),
+              accountName: Text(_users.uid.toString()),
+              accountEmail: Text(_users.email.toString()),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: AssetImage(_users.profilePicture.toString()),
+              ),
+            ),
+                // DrawerHeader(
+                //   decoration:  BoxDecoration(
+                //     color: Colors.red,
+                //     image: DecorationImage(image: 
+                          
+                          
+                //          NetworkImage(_users.profilePicture.toString())
+                          
+                //           ),
+                //   ), //BoxDecoration
+                //   child: Row(
+                //     children: [
+                //       ClipOval(
+                //           child: Container(
+                //         height: 100,
+                //         decoration:  BoxDecoration(
+                //           image: DecorationImage(image: 
+                          
+                          
+                //          NetworkImage(_users.profilePicture.toString())
+                          
+                //           ),
+                          
+                //             shape: BoxShape.circle, color: Colors.pink,
+                            
+                            
+                //             ),
+                //       )
+
+                //           // Image.network(
+                //           //   _users.profilePicture.toString(),
+                //           //   width: 70,
+                //           //   height: 70,
+                //           //   fit: BoxFit.cover,
+                //           // ),
+                //           ),
+                //       const SizedBox(
+                //         width: 20,
+                //       ),
+                //       Column(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           Container(
+                //             height: 25,
+                //             decoration: BoxDecoration(
+                //               borderRadius: BorderRadius.circular(5),
+                //               color: Colors.white,
+                //             ),
+                //             child: Padding(
+                //               padding: const EdgeInsets.all(5.0),
+                //               child: Center(
+                //                 child: Text(
+                //                   _users.uid.toString() == "null"
+                //                       ? "ID"
+                //                       : _users.uid.toString(),
+                //                   style: const TextStyle(
+                //                     color: Colors.black,
+                //                     fontSize: 8,
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //           const SizedBox(
+                //             height: 5,
+                //           ),
+                //           Text(
+                //             _users.name.toString() == "null"
+                //                 ? "Name"
+                //                 : _users.name.toString(),
+                //             style: const TextStyle(
+                //                 color: Colors.white, fontSize: 10),
+                //           ),
+                //           const SizedBox(
+                //             height: 5,
+                //           ),
+                //           Text(
+                //             _users.email.toString() == "null"
+                //                 ? "Email"
+                //                 : _users.email.toString(),
+                //             style: const TextStyle(
+                //                 color: Colors.white, fontSize: 10),
+                //           )
+                //         ],
+                //       )
+                //     ],
+                //   ),
+                // ),
 
                 // Column(children: [
                 Column(
@@ -401,15 +426,15 @@ class _ProfileBottomNavigationScreenState
                             const SizedBox(
                               width: 20,
                             ),
-                            SvgPicture.asset("assets/images/fb.svg"),
+                            SvgPicture.asset("assets/images/youtube.svg"),
                             const SizedBox(
                               width: 20,
                             ),
-                            SvgPicture.asset("assets/images/fb.svg"),
+                            SvgPicture.asset("assets/images/twitter.svg"),
                             const SizedBox(
                               width: 20,
                             ),
-                            SvgPicture.asset("assets/images/fb.svg"),
+                            SvgPicture.asset("assets/images/Vector (4).svg"),
                           ],
                         )),
                   ],
@@ -432,7 +457,7 @@ class _ProfileBottomNavigationScreenState
         selectedItemColor: Colors.black,
         onTap: _onItemTapped,
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             // icon: Icon(Icons.call),
             icon: Icon(Icons.person_outlined),
             label: 'Profile',

@@ -8,7 +8,9 @@ class ApiService {
   // static const String ipAddress = "192.168.1.4:8000";
   // static const String ipAddress = "192.168.18.53:8000";
 
-  static const String ipAddress = "192.168.1.5:8000";
+  static const String ipAddress = "192.168.1.6:8000";
+  
+  // static const String ipAddress = "127.0.0.1:3000";
 
   
   // static const String ipAddress = "10.0.2.2:8000";

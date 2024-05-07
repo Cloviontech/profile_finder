@@ -76,7 +76,7 @@ class _ThreeSigninScreenState extends State<ThreeSigninScreen> {
 
     var response = await http.post(
       // Uri.parse("http://10.0.2.2:8000/signin/"),
-      Uri.parse("http://${ApiService.ipAddress}/signin/"),
+      Uri.parse("http://${ApiServices.ipAddress}/signin/"),
       
 
       // headers: headers,
@@ -102,6 +102,8 @@ class _ThreeSigninScreenState extends State<ThreeSigninScreen> {
       });
 
       preferences.setString("uid2", _userUidSignInClean.toString());
+      preferences.setString("userEmail", emailController.text);
+      
 
       setState(() {
         ThreeSigninScreen.userUidAccess = _userUidSignInClean;

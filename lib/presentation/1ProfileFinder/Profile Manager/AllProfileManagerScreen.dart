@@ -6,8 +6,8 @@ import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/core/utils/size_utils.dart';
 import 'package:profile_finder/model_final/complaints/all_pm_data_list_model.dart';
 import 'package:profile_finder/model_final/model_final.dart';
-import 'package:profile_finder/model_final/private_inv/all_private_inv.dart';
-import 'package:profile_finder/model_final/private_inv/my_investigators.dart';
+import 'package:profile_finder/model_final/private_inv_models/all_private_inv.dart';
+import 'package:profile_finder/model_final/private_inv_models/my_investigators.dart';
 import 'package:profile_finder/model_final/profile_manager/my_manager_model.dart';
 import 'package:profile_finder/model_final/profile_manager/pm_my_clients.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
@@ -15,7 +15,7 @@ import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/C
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/PaymentOfInvestigatorFourtyScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/TaskCompleteThirtyNineScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/TestAllInvestigator.dart';
-import 'package:profile_finder/presentation/1ProfileFinder/Profile%20Manager/PaymentOfManagerScreen.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/Profile%20Manager/HireManagerScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/Profile%20Manager/PmCloseDealScreen.dart';
 import 'package:profile_finder/routes/app_routes.dart';
 import 'package:profile_finder/widgets/CustomWidgetsCl/CustomClAll.dart';
@@ -279,7 +279,7 @@ class _AllProfileManagerScreenState extends State<AllProfileManagerScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) {
-                return PaymentOfManagerScreen(
+                return HireManagerScreen(
                   profile_manager_id: private_manager_id,
                 );
               }),
@@ -625,7 +625,7 @@ class _AllProfileManagerScreenState extends State<AllProfileManagerScreen> {
   _navigateToNextScreen() {
     print('private_investigator_id_my_inv : $private_investigator_id_my_inv');
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return PaymentOfManagerScreen(
+      return HireManagerScreen(
         profile_manager_id: private_investigator_id_my_inv,
       );
     }));
@@ -719,8 +719,15 @@ class _AllProfileManagerScreenState extends State<AllProfileManagerScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
 
+                Text(myManagerList.length.toString()),
 
-                // Text("Complaintsss"),
+  Center(
+    child: const Text(
+                  'Profile Managers',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+  ),
+  D10HCustomClSizedBoxWidget(),
                 TextField(
                   decoration: InputDecoration(
                       prefixIcon: Padding(
@@ -861,8 +868,11 @@ class _AllProfileManagerScreenState extends State<AllProfileManagerScreen> {
                                           name: _AllpmData[index]
                                               .firstName
                                               .toString(),
-                                          place:
-                                              '${_AllpmData[index].officeCity.toString()},  ${_AllpmData[index].officeCountry.toString()}',
+                                              place: _AllpmData[index]
+                                              .uid
+                                              .toString(),
+                                          // place:
+                                          //     '${_AllpmData[index].officeCity.toString()},  ${_AllpmData[index].officeCountry.toString()}',
 
                                           //  onPressed: my_investigator(_AllpmData[index].uid),
                                           // onPressed: testFunction(),
@@ -874,14 +884,14 @@ class _AllProfileManagerScreenState extends State<AllProfileManagerScreen> {
                                                       .toString();
                                             });
                                             print(
-                                                private_investigator_id_my_inv);
+                                                'pri_inv_id : $private_investigator_id_my_inv');
 
                                             _navigateToNextScreen();
                                             // Navigator.push(
                                             //   context,
                                             //   MaterialPageRoute(
                                             //       builder: (context) {
-                                            //     return PaymentOfManagerScreen(
+                                            //     return HireManagerScreen(
                                             //       profile_manager_id:
                                             //           private_investigator_id_my_inv,
                                             //     );

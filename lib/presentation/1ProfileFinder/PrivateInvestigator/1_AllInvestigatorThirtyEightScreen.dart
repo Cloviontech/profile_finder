@@ -6,9 +6,11 @@ import 'package:profile_finder/core/services/api_services.dart';
 import 'package:profile_finder/core/utils/color_constant.dart';
 import 'package:profile_finder/core/utils/size_utils.dart';
 import 'package:profile_finder/model_final/model_final.dart';
-import 'package:profile_finder/model_final/private_inv/all_private_inv.dart';
-import 'package:profile_finder/model_final/private_inv/my_investigators.dart';
+import 'package:profile_finder/model_final/private_inv_models/all_private_inv.dart';
+import 'package:profile_finder/model_final/private_inv_models/my_investigator1.dart';
+import 'package:profile_finder/model_final/private_inv_models/my_investigators.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/MatchingList/1screen_advertisement.dart';
+import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/PiCloseDealScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/CloseDealFourtyOneScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/PaymentOfInvestigatorFourtyScreen.dart';
 import 'package:profile_finder/presentation/1ProfileFinder/PrivateInvestigator/TaskCompleteThirtyNineScreen.dart';
@@ -154,11 +156,10 @@ class _AllInvestigatorThirtyEightScreenState
 
           print("Status Code1 : $statusCode1");
           print("UID1 : $body1");
-         
-          if (response1.statusCode == 200) {
 
-             print(
-              "Private Investigator selected succesfully, Uid : $private_investigator_id");
+          if (response1.statusCode == 200) {
+            print(
+                "Private Investigator selected succesfully, Uid : $private_investigator_id");
 
             // setState(() {
             //   hire[hiree] = true;
@@ -174,11 +175,9 @@ class _AllInvestigatorThirtyEightScreenState
                 );
               }),
             );
-          }
-          else {
-             print(
-              "Private Investigator Not selected, Uid : $private_investigator_id");
-
+          } else {
+            print(
+                "Private Investigator Not selected, Uid : $private_investigator_id");
           }
         } catch (e) {
           print("Do Something When Error Occurs");
@@ -427,14 +426,12 @@ class _AllInvestigatorThirtyEightScreenState
 
   static List<PrivateInvestigatorModel> privateInvestigatorCollection = [];
 
- Future<String?>  callApi() async {
-
-   SharedPreferences preferences = await SharedPreferences.getInstance();
+  Future<String?> callApi() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       profile_finder_id = preferences.getString("uid2").toString();
     });
 
-   
     final response = await http.get(Uri.parse(
         "http://${ApiServices.ipAddress}/my_investigator/$profile_finder_id"));
     final _data = jsonDecode(response.body) as Map;
@@ -444,16 +441,44 @@ class _AllInvestigatorThirtyEightScreenState
     }
   }
 
-// 
+//
 
-  List <String>? MyInvestigatorsUidList = [];
+  List<String>? MyInvestigatorsUidList = [];
 
-  getMyInvestigatorsUid() {
-    for (var i = 0; i < privateInvestigatorCollection.length; i++) {
-      MyInvestigatorsUidList!.add(privateInvestigatorCollection[i].uid.toString());
+  // getMyInvestigatorsUid() {
+  //   for (var i = 0; i < privateInvestigatorCollection.length; i++) {
+  //     MyInvestigatorsUidList!
+  //         .add(privateInvestigatorCollection[i].uid.toString());
+  //   }
+  // }
+  //
+
+  List<MyInvestigator> myInvestigatorList = [];
+
+  Future<String?> _fetchMyInvList() async {
+    setState(() {
+      myInvestigatorList = [];
+    });
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    userUid = preferences.getString("uid2").toString();
+
+    print("myInvestigatorList function start");
+    print(userUid);
+    final response = await http.get(
+        Uri.parse("http://${ApiService.ipAddress}/my_investigator/$userUid"));
+    print(response.body);
+    // final _data = jsonDecode(response.body) as Map;
+    final _data = jsonDecode(response.body) ;
+    // debugPrint(     _data);
+    
+    final idd = _data.keys.first;
+    for (final pm in _data[idd]) {
+      myInvestigatorList.add(MyInvestigator.fromJson(pm));
     }
+
+    // print('myInvestigatorList ${findLengthOfExceptMyInvestlength}');
+    print("_fetchmyInvestigatorList function complete");
   }
-  // 
 
   @override
   void initState() {
@@ -471,10 +496,29 @@ class _AllInvestigatorThirtyEightScreenState
     super.initState();
 
     _fetchDataTest();
-    callApi().whenComplete(() => getMyInvestigatorsUid());
+    // callApi().whenComplete(() => getMyInvestigatorsUid());
+
+    _fetchMyInvList();
     // getMyInvestigatorsUid();
 
+    myInvestigatorList = [] ;
   }
+
+
+  
+  //  @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   // Your code here will be executed when the screen is returned to
+  //   // after navigating back from another screen
+  //    _fetchDataTest();
+   
+
+  //   _fetchMyInvList();
+
+  //   myInvestigatorList = [] ;
+
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -498,6 +542,17 @@ class _AllInvestigatorThirtyEightScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+
+                Text(myInvestigatorList.length.toString()),
+                Center(
+                  child: Text(
+                    "Private Investigators",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                ),
+
+                D10HCustomClSizedBoxWidget(),
+
                 TextField(
                   decoration: InputDecoration(
                       prefixIcon: Padding(
@@ -518,10 +573,10 @@ class _AllInvestigatorThirtyEightScreenState
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(10))),
                 ),
-                Text(privateInvestigatorCollection.length.toString()),
-                Text(MyInvestigatorsUidList.toString()),
-                Text(profile_finder_id),
-                
+                // Text(privateInvestigatorCollection.length.toString()),
+                // Text(MyInvestigatorsUidList.toString()),
+                // Text(profile_finder_id),
+
                 // Text(MyInvestigatorsUidList![0]),
 
                 Padding(
@@ -596,13 +651,25 @@ class _AllInvestigatorThirtyEightScreenState
 
                 // Text(findLengthOfExceptMyInvestlength.toString()),
 
+                // Text(_AllpiDataTest.length.toString()),
+                // Text(myInvestigatorList.length.toString()),
+
+                // Text(_AllpiDataTest[0].email.toString()),
+
+                // Text(_AllpiDataTest[1].email.toString()),
+                // Text(_AllpiDataTest[2].email.toString()),
+                // Text(_AllpiDataTest[3].email.toString()),
+                // Text(_AllpiDataTest[4].email.toString()),
+                // Text(_AllpiDataTest[5].email.toString()),
+                // Text(displayInvestigator.toString()),
+
                 ListView.builder(
                     controller: ScrollController(),
                     //  debugPrint(_myInvestigators.qkokamx1Qqf![0].firstName.toString());
                     itemCount: displayInvestigator
                         ? _AllpiDataTest.length
                         // ? findLengthOfExceptMyInvestlength
-                        : privateInvestigatorCollection.length,
+                        : myInvestigatorList.length,
                     shrinkWrap: true,
                     itemBuilder: ((context, index) {
                       return GestureDetector(
@@ -620,6 +687,8 @@ class _AllInvestigatorThirtyEightScreenState
                               borderRadius: BorderRadius.circular(8),
                               child: Column(
                                 children: [
+                                  // Text(_AllpiDataTest.length.toString()),
+                                  // Text(myInvestigatorList.length.toString()),
                                   displayInvestigator
                                       ?
 
@@ -649,33 +718,35 @@ class _AllInvestigatorThirtyEightScreenState
                                             //         _AllpiDataTest[index].uid)
                                             //     ? null
                                             //     :
-                                                 Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) {
-                return PaymentOfInvestigatorFourtyScreen(
-                  private_investicator_id: _AllpiDataTest[index].uid.toString(),
-                );
-              }),
-            );
-                                                //  my_investigator_select(
-                                                //     // _allPiData[index].uid,
-                                                //     "${_AllpiDataTest[index].uid}",
-                                                //   );
-
-                                            },
-                                          // hire: pi_my_Clients[index].contains(profile_finder_id)
-                                          hire: _AllpiDataTest[index]
-                                              .myClient
-                                              .toString()
-                                              .contains(profile_finder_id),
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                                return PaymentOfInvestigatorFourtyScreen(
+                                                  private_investicator_id:
+                                                      _AllpiDataTest[index]
+                                                          .uid
+                                                          .toString(),
+                                                );
+                                              }),
+                                            );
+                                          },
+                                          // hire: _AllpiDataTest[index]
+                                          //     .myClient!
+                                          //     // .toString()
+                                          //     .contains(profile_finder_id),
                                           elevatedButtonText:
-                                              MyInvestigatorsUidList!.contains(
-                                                      _AllpiDataTest[index].uid)
-                                                  ? 'Hired'
-                                                  : 'Hire Investigator',
+                                              // myInvestigatorList.contains(
+                                              //         _AllpiDataTest[index].uid.toString())
+                                              //     ? 'Hired'
+                                              //     : 
+                                                  'Hire Investigator',
 
                                           // onPressed: my_investigator(_AllpiDataTest[index].uid), buttonData: '',
                                           // onTapHirePi:my_investigator(_AllpiDataTest[index].uid),
+                                        rating:  _AllpiDataTest[index].totalRatings == null ? 1: _AllpiDataTest[index].totalRatings!.toDouble() ,
+                                        
+                                        
                                         )
 
                                       // : Container()
@@ -683,17 +754,18 @@ class _AllInvestigatorThirtyEightScreenState
                                           onTap: () {
                                             setState(() {
                                               private_investigator_id_my_inv =
-                                                  privateInvestigatorCollection[
-                                                          index]
+                                                  myInvestigatorList[index]
                                                       .uid
                                                       .toString();
                                             });
                                             Navigator.push(context,
                                                 MaterialPageRoute(
                                                     builder: (context) {
-                                              return CloseDealFourtyOneScreen(
+                                              return PfPiCloseDealScreen(
                                                 private_investicator_id_close_deal:
                                                     private_investigator_id_my_inv,
+                                                profile_manager_id_close_deal:
+                                                    '',
                                               );
                                             }));
                                           },
@@ -702,22 +774,19 @@ class _AllInvestigatorThirtyEightScreenState
                                             itemHeight: DeviceSize.itemHeight,
                                             // profilePicturepath: 'assets/images/img_ellipse76.png',
                                             profilePicturepath:
-                                                privateInvestigatorCollection[
-                                                        index]
-                                                    .profile_picture
+                                                myInvestigatorList[index]
+                                                    .profilePicture
                                                     .toString(),
                                             coverPicturepath:
-                                                privateInvestigatorCollection[
-                                                        index]
-                                                    .profile_picture
+                                                myInvestigatorList[index]
+                                                    .profilePicture
                                                     .toString(),
-                                            // name: PrivateInvestigator
-                                            //     .privateInvestigatorCollection[index]
-                                            //     .first_name
-                                            //     .toString(),
-                                            // place:
-                                            //     '${PrivateInvestigator.privateInvestigatorCollection[index].office_city.toString()} , ${PrivateInvestigator.privateInvestigatorCollection[index].office_country}',
-                                            percentage: 55, name: '', place: '',
+                                            name: myInvestigatorList[index]
+                                                .uid
+                                                .toString(),
+                                            place:
+                                                '${myInvestigatorList[index].officeCity.toString()} , ${myInvestigatorList[index].officeCountry}',
+                                            percentage: 55,
                                           ),
                                         ),
                                 ],

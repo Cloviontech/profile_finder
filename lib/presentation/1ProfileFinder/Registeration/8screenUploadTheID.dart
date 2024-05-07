@@ -167,12 +167,12 @@ class _EightUploadTheIDScreenState extends State<EightUploadTheIDScreen> {
         .add(await http.MultipartFile.fromPath('id_card_1', filee!.path ?? ""));
 
     // request.files.add(await http.MultipartFile.fromPath('id_card_1', file2.path));
-    request.fields['email'] = [
-      'abhijithbrindav@gmail.com',
-      'abijith@gmail.com',
-      'abi@gmail.com'
-    ].toString();
-    request.fields['phone'] = '9876543210';
+    // request.fields['email'] = [
+    //   'abhijithbrindav@gmail.com',
+    //   'abijith@gmail.com',
+    //   'abi@gmail.com'
+    // ].toString();
+    // request.fields['phone'] = '9876543210';
 
     try {
       final send = await request.send();
@@ -182,7 +182,20 @@ class _EightUploadTheIDScreenState extends State<EightUploadTheIDScreen> {
       print("CurrentUser $uidUser");
       print(response.body);
 
-      print("Succesfully Uploaded");
+      if (response.statusCode == 200) {
+
+         print("Succesfully Uploaded");
+
+          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return NineThisProfileForWhomScreen();
+                              }),
+                            );
+        
+      }
+
+     
     } catch (e) {
       print("Error While Uploading File $e");
     }
@@ -329,12 +342,7 @@ class _EightUploadTheIDScreenState extends State<EightUploadTheIDScreen> {
                             uploadSingleFile();
 //  Navigator.pushNamed(context, AppRoutes.nineThisProfileForWhomScreen);
 
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return NineThisProfileForWhomScreen();
-                              }),
-                            );
+                           
 
                             //  Navigator.pushNamed(
                             //   context, AppRoutes.ThirteenScreenscr);
